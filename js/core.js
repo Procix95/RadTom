@@ -60,7 +60,7 @@ export async function loadAuth(){
 }
 
 /* ---------- warstwa danych: tryb podglądu (pamięć) albo Firestore ---------- */
-const SEED=[
+export const SEED=[
  {id:'d1',name:'Drzwi przeciwpożarowe EI30',category:'Przeciwpożarowe',short:'Stalowe drzwi jednoskrzydłowe do klatek schodowych, korytarzy i pomieszczeń technicznych.',desc:'To przykładowy opis produktu. W panelu administratora wpiszesz tu pełny opis: zastosowanie, konstrukcję, wyposażenie i uwagi montażowe.',price:'',badge:'Przykład',visible:true,order:1,photoIds:[],thumb:'',variants:[{name:'',leafW:'900',leafH:'2000',mountW:'990',mountH:'2065'},{name:'',leafW:'1000',leafH:'2000',mountW:'1090',mountH:'2065'}],specs:[{k:'Odporność ogniowa',v:'EI30'},{k:'Kolor',v:'RAL do wyboru'}]},
  {id:'d2',name:'Drzwi techniczne stalowe',category:'Techniczne',short:'Wytrzymałe drzwi do kotłowni, rozdzielni, magazynów i pomieszczeń gospodarczych.',desc:'Przykładowy opis produktu.',price:'od 1 890 zł netto',badge:'',visible:true,order:2,photoIds:[],thumb:'',variants:[{name:'',leafW:'800',leafH:'2000',mountW:'880',mountH:'2060'}],specs:[{k:'Materiał',v:'Blacha stalowa'}]},
  {id:'d3',name:'Drzwi ewakuacyjne dwuskrzydłowe',category:'Ewakuacyjne',short:'Drzwi na drogach ewakuacyjnych, z wyposażeniem antypanicznym.',desc:'Przykładowy opis produktu.',price:'',badge:'Nowość',visible:true,order:3,photoIds:[],thumb:'',variants:[{name:'',leafW:'1400',leafH:'2100',mountW:'1500',mountH:'2165'}],specs:[{k:'Zamknięcie',v:'Antypaniczne'}]},
@@ -82,6 +82,7 @@ function MemDB(seed){
   async bump(coll,id,f){const m=coll==='stats'?st.stats:st.pstats;(m[id]=m[id]||{})[f]=(m[id][f]||0)+1},
   async stats(){return Object.entries(st.stats).map(([id,v])=>({id,...v})).sort((a,b)=>b.id.localeCompare(a.id)).slice(0,30)},
   async prodStats(){return Object.entries(st.pstats).map(([id,v])=>({id,...v}))},
+  async admins(){return[{id:'demo@gmail.com'}]},async addAdmin(){},async delAdmin(){},
   async exportAll(){return structuredClone({main:st.main,images:st.images,products:st.prods,photos:st.photos})},
   async importAll(o){st.main=o.main||{};st.images=o.images||{};st.prods=o.products||[];st.photos=o.photos||{}}
  };
@@ -102,6 +103,9 @@ function LiveDB(){
   async bump(coll,id,f){await setDoc(doc(db,coll,id),{[f]:increment(1)},{merge:true})},
   async stats(){const r=await getDocs(query(collection(db,'stats'),orderBy(documentId(),'desc'),limit(30)));return r.docs.map(d=>({id:d.id,...d.data()}))},
   async prodStats(){const r=await getDocs(collection(db,'prodStats'));return r.docs.map(d=>({id:d.id,...d.data()}))},
+  async admins(){const r=await getDocs(collection(db,'admins'));return r.docs.map(d=>({id:d.id,...d.data()}))},
+  async addAdmin(email,by){await setDoc(doc(db,'admins',email),{rola:'admin',dodal:by||'',data:Date.now()})},
+  async delAdmin(email){await deleteDoc(doc(db,'admins',email))},
   async exportAll(){const[s,pr,ph]=await Promise.all([this.settings(),this.products(true),getDocs(collection(db,'photos'))]);const photos={};ph.docs.forEach(d=>photos[d.id]=d.data().data);return{main:s.main,images:s.images,products:pr,photos}},
   async importAll(o){await setDoc(doc(db,'settings','main'),o.main||{});await setDoc(doc(db,'settings','images'),o.images||{});for(const[id,d]of Object.entries(o.photos||{}))await setDoc(doc(db,'photos',id),{data:d,t:Date.now()});for(const p of o.products||[]){const{id,...r}=p;await setDoc(doc(db,'products',id),r)}}
  };

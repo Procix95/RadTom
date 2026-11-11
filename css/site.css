@@ -27,6 +27,7 @@ img{max-width:100%;display:block}a{color:inherit}button{font:inherit;cursor:poin
 .nav{display:flex;align-items:center;gap:30px}
 .nav a{color:#d9e0ea;text-decoration:none;font-size:.9rem;letter-spacing:.04em}.nav a:hover{color:var(--brass2)}
 .nav .btn{color:var(--navy)}
+.nav .navlogin{border:1px solid rgba(255,255,255,.28);padding:7px 14px;border-radius:3px;font-size:.82rem}.nav .navlogin:hover{border-color:var(--brass2)}
 .burger{display:none;background:none;border:0;color:#fff;font-size:1.7rem}
 /* hero */
 .hero{position:relative;background:linear-gradient(135deg,#0c1829,var(--navy) 55%,var(--navy2));color:#fff;overflow:hidden}

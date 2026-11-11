@@ -132,8 +132,8 @@ def main():
         vs = p.get("variants") or []; named = any(v.get("name") for v in vs)
         dimtbl = ""
         if vs:
-            dimtbl = "<h2>Wymiary (mm)</h2><table class='t'><tr>" + ("<th>Wariant</th>" if named else "") + "<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th></tr>" + "".join(
-                "<tr>" + (f"<td>{esc(v.get('name'))}</td>" if named else "") + f"<td>{esc(v.get('leafW') or '–')}</td><td>{esc(v.get('leafH') or '–')}</td><td>{esc(v.get('mountW') or '–')}</td><td>{esc(v.get('mountH') or '–')}</td></tr>" for v in vs) + "</table>"
+            dimtbl = "<h2>Wymiary (mm)</h2><table class='t'><tr>" + ("<th>Wariant</th>" if named else "") + "<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>" + ("<th>Cena</th>" if any(v.get("price") for v in vs) else "") + "</tr>" + "".join(
+                "<tr>" + (f"<td>{esc(v.get('name'))}</td>" if named else "") + f"<td>{esc(v.get('leafW') or '–')}</td><td>{esc(v.get('leafH') or '–')}</td><td>{esc(v.get('mountW') or '–')}</td><td>{esc(v.get('mountH') or '–')}</td>" + (f"<td>{esc(v.get('price') or '–')}</td>" if any(x.get('price') for x in vs) else "") + "</tr>" for v in vs) + "</table>"
         spec = ("<h2>Parametry</h2><table class='t kv'>" + "".join(f"<tr><th>{esc(s['k'])}</th><td>{esc(s['v'])}</td></tr>" for s in p.get("specs") or []) + "</table>") if p.get("specs") else ""
         others = [q for q in prods if q is not p and q.get("category") == p.get("category")][:4]
         more = ('<h2>Inne w tej kategorii</h2><div class="filters" style="margin:10px 0 0">' + "".join(f'<a class="chip" href="{rel}produkt/{q["slug"]}/">{esc(q["name"])}</a>' for q in others) + "</div>") if others else ""
@@ -181,7 +181,7 @@ def main():
            "kategorie": [{"nazwa": c["name"], "slug": c["slug"], "opis": c["desc"], "url": f"kategoria/{c['slug']}/", "adres": f"{URL}/kategoria/{c['slug']}/"} for c in cats],
            "produkty": [{"id": p.get("id"), "slug": p["slug"], "nazwa": p["name"], "kategoria": p.get("category", ""), "opis_krotki": p.get("short", ""), "opis": p.get("desc", ""),
                          "cena": p.get("price", ""), "warianty": [{"nazwa": v.get("name", ""), "szerokosc_skrzydla_mm": v.get("leafW", ""), "wysokosc_skrzydla_mm": v.get("leafH", ""),
-                                                                   "szerokosc_montazowa_mm": v.get("mountW", ""), "wysokosc_montazowa_mm": v.get("mountH", "")} for v in p.get("variants") or []],
+                                                                   "szerokosc_montazowa_mm": v.get("mountW", ""), "wysokosc_montazowa_mm": v.get("mountH", ""), "cena": v.get("price", "")} for v in p.get("variants") or []],
                          "parametry": [{"nazwa": s["k"], "wartosc": s["v"]} for s in p.get("specs") or []], "url": f"produkt/{p['slug']}/", "adres": f"{URL}/produkt/{p['slug']}/",
                          "zdjecie": f"{URL}/{p['img']}" if p["img"] else ""} for p in prods]}
     (ROOT / "api" / "produkty.json").write_text(json.dumps(api, ensure_ascii=False, indent=1), encoding="utf-8")

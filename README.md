@@ -22,4 +22,4 @@ Strona główna działa od razu po zapisie w panelu. Osobne podstrony kategorii 
 Następnie: GitHub → Settings → Pages → Custom domain oraz Firebase → Authentication → Settings → Authorized domains (dodaj domenę).
 
 ## Dodanie administratora
-Firebase → Firestore → kolekcja `admins` → nowy dokument, ID = adres Gmail małymi literami (np. `jan@gmail.com`), dowolne pole (np. `rola` = `admin`).
+Najłatwiej w panelu: Narzędzia i SEO → Administratorzy (wpisz Gmail). Pierwszego admina zakłada się ręcznie: Firebase → Firestore → kolekcja `admins` → dokument o ID = adres Gmail małymi literami, dowolne pole (np. `rola` = `admin`).

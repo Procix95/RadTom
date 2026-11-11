@@ -52,7 +52,7 @@ export function renderSite(){
  if(S.phone)it.push(`<div><small>Telefon</small><a class="big" href="${tel(S.phone)}">${esc(S.phone)}</a>${S.phone2?`<br><a href="${tel(S.phone2)}">${esc(S.phone2)}</a>`:''}</div>`);
  if(S.email)it.push(`<div><small>E-mail</small><a href="mailto:${esc(S.email)}">${esc(S.email)}</a></div>`);
  if(S.address)it.push(`<div><small>Adres</small><span>${esc(S.address)}</span></div>`);
- if(S.hours)it.push(`<div><small>Godziny kontaktu</small><span>${esc(S.hours)}</span></div>`);
+ if(S.hours)it.push(`<div><small>Godziny otwarcia</small><span style="white-space:pre-line">${esc(S.hours)}</span></div>`);
  $('#contact').innerHTML=`<div><div class="eyebrow">Kontakt</div><h2 style="font-size:clamp(2rem,4.2vw,3.1rem)">Zadzwoń i zamów</h2><p style="color:#c3cddb;max-width:460px">Powiedz, gdzie mają być zamontowane drzwi, a my dobierzemy odpowiedni model.</p><div class="cl">${it.join('')}</div></div>
   ${S.address?`<div class="map" id="mapbox"><button class="btn gold" id="showMap">Pokaż mapę</button><p>Mapa Google ładuje się dopiero po kliknięciu. Wtedy Google może zapisać dane o Twojej wizycie.</p></div>`:`<div class="callbox"><h3>Chętnie doradzimy</h3><p>Nie wiesz, jaką klasę odporności lub jaki wymiar wybrać? Zadzwoń, to szybciej niż szukanie w katalogach.</p>${call('gold')}</div>`}`;
  const sm=$('#showMap');if(sm)sm.onclick=()=>{$('#mapbox').innerHTML=`<iframe title="Mapa" src="https://maps.google.com/maps?q=${encodeURIComponent(S.address)}&z=15&output=embed"></iframe>`};
@@ -106,7 +106,7 @@ async function openProduct(id,push=true){
   <div class="mi"><div class="cat">${esc(p.category||'')}</div><h2>${esc(p.name)}</h2>
    <div class="price">${p.price?esc(p.price):'Cena: zapytaj telefonicznie'}</div>
    <div class="desc">${esc(p.desc||p.short||'')}</div>
-   ${vs.length?`<h4>Wymiary (mm)</h4><table class="t"><tr>${named?'<th>Wariant</th>':''}<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th></tr>${vs.map(v=>`<tr>${named?`<td>${esc(v.name)}</td>`:''}<td>${esc(v.leafW||'–')}</td><td>${esc(v.leafH||'–')}</td><td>${esc(v.mountW||'–')}</td><td>${esc(v.mountH||'–')}</td></tr>`).join('')}</table>`:''}
+   ${vs.length?`<h4>Wymiary (mm)</h4><table class="t"><tr>${named?'<th>Wariant</th>':''}<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>${vs.some(v=>v.price)?'<th>Cena</th>':''}</tr>${vs.map(v=>`<tr>${named?`<td>${esc(v.name)}</td>`:''}<td>${esc(v.leafW||'–')}</td><td>${esc(v.leafH||'–')}</td><td>${esc(v.mountW||'–')}</td><td>${esc(v.mountH||'–')}</td>${vs.some(x=>x.price)?`<td>${esc(v.price||'–')}</td>`:''}</tr>`).join('')}</table>`:''}
    ${(p.specs||[]).length?`<h4>Parametry</h4><table class="t kv">${p.specs.map(s=>`<tr><th>${esc(s.k)}</th><td>${esc(s.v)}</td></tr>`).join('')}</table>`:''}
    <div class="mcta">${call('gold','Zadzwoń i zamów: '+esc(S.phone))}${S.email?`<a class="btn line" href="mailto:${esc(S.email)}?subject=${subj}">Wyślij zapytanie e-mail</a>`:''}${page?`<a class="btn line" href="${esc(page.url)}">Pełna strona produktu</a>`:''}</div></div></div>`;
  m.classList.add('on');document.body.style.overflow='hidden';

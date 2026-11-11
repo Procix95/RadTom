@@ -10,10 +10,15 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
     }
 
-    // Każdy zalogowany może sprawdzić tylko swój własny dokument (żeby panel wiedział, czy jest adminem).
+    // Zalogowany może sprawdzić swój własny dokument (żeby panel wiedział, czy jest adminem).
+    // Administrator widzi listę administratorów, dodaje nowych i usuwa innych (siebie nie może usunąć).
     match /admins/{email} {
-      allow get: if request.auth != null && request.auth.token.email == email;
-      allow list, write: if false;
+      allow get: if (request.auth != null && request.auth.token.email == email) || isAdmin();
+      allow list: if isAdmin();
+      allow create, update: if isAdmin()
+        && email == email.lower()
+        && email.matches('^[^@ ]+@[^@ ]+[.][^@ ]+$');
+      allow delete: if isAdmin() && request.auth.token.email != email;
     }
 
     // Dane firmy, teksty i zdjęcia strony (hero, o firmie) – publiczne do odczytu.
