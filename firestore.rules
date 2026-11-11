@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Administrator = konto Google, którego adres e-mail jest ID dokumentu w kolekcji "admins"
+    // (dokument zakładasz ręcznie w konsoli Firebase, małymi literami).
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    // Każdy zalogowany może sprawdzić tylko swój własny dokument (żeby panel wiedział, czy jest adminem).
+    match /admins/{email} {
+      allow get: if request.auth != null && request.auth.token.email == email;
+      allow list, write: if false;
+    }
+
+    // Dane firmy, teksty i zdjęcia strony (hero, o firmie) – publiczne do odczytu.
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Produkty: odwiedzający widzą tylko widoczne, admin widzi wszystkie.
+    match /products/{productId} {
+      allow read: if resource.data.visible == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Zdjęcia produktów i realizacji.
+    match /photos/{photoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Anonimowe liczniki dzienne (odsłony, kliknięcia w telefon i e-mail).
+    // Odwiedzający może tylko zwiększyć jeden licznik o 1. Odczyt i usuwanie: tylko admin.
+    match /stats/{day} {
+      allow read, delete: if isAdmin();
+      allow create: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.keys().hasOnly(['views', 'calls', 'mails'])
+        && request.resource.data.get('views', 0) is int
+        && request.resource.data.get('calls', 0) is int
+        && request.resource.data.get('mails', 0) is int
+        && request.resource.data.get('views', 0) + request.resource.data.get('calls', 0) + request.resource.data.get('mails', 0) == 1;
+      allow update: if day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.keys().hasOnly(['views', 'calls', 'mails'])
+        && request.resource.data.diff(resource.data).affectedKeys().size() == 1
+        && (request.resource.data.get('views', 0) == resource.data.get('views', 0) + 1
+         || request.resource.data.get('calls', 0) == resource.data.get('calls', 0) + 1
+         || request.resource.data.get('mails', 0) == resource.data.get('mails', 0) + 1);
+    }
+
+    // Liczniki produktów (odsłony karty, kliknięcia w telefon z karty produktu).
+    match /prodStats/{pid} {
+      allow read, delete: if isAdmin();
+      allow create: if pid.size() <= 60
+        && request.resource.data.keys().hasOnly(['views', 'calls'])
+        && request.resource.data.get('views', 0) is int
+        && request.resource.data.get('calls', 0) is int
+        && request.resource.data.get('views', 0) + request.resource.data.get('calls', 0) == 1;
+      allow update: if request.resource.data.keys().hasOnly(['views', 'calls'])
+        && request.resource.data.diff(resource.data).affectedKeys().size() == 1
+        && (request.resource.data.get('views', 0) == resource.data.get('views', 0) + 1
+         || request.resource.data.get('calls', 0) == resource.data.get('calls', 0) + 1);
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
