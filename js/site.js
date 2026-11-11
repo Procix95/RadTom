@@ -55,7 +55,7 @@ export function renderSite(){
  if(S.hours)it.push(`<div><small>Godziny otwarcia</small><span style="white-space:pre-line">${esc(S.hours)}</span></div>`);
  $('#contact').innerHTML=`<div><div class="eyebrow">Kontakt</div><h2 style="font-size:clamp(2rem,4.2vw,3.1rem)">Zadzwoń i zamów</h2><p style="color:#c3cddb;max-width:460px">Powiedz, gdzie mają być zamontowane drzwi, a my dobierzemy odpowiedni model.</p><div class="cl">${it.join('')}</div></div>
   ${S.address?`<div class="map" id="mapbox"><button class="btn gold" id="showMap">Pokaż mapę</button><p>Mapa Google ładuje się dopiero po kliknięciu. Wtedy Google może zapisać dane o Twojej wizycie.</p></div>`:`<div class="callbox"><h3>Chętnie doradzimy</h3><p>Nie wiesz, jaką klasę odporności lub jaki wymiar wybrać? Zadzwoń, to szybciej niż szukanie w katalogach.</p>${call('gold')}</div>`}`;
- const sm=$('#showMap');if(sm)sm.onclick=()=>{$('#mapbox').innerHTML=`<iframe title="Mapa" src="https://maps.google.com/maps?q=${encodeURIComponent(S.address)}&z=15&output=embed"></iframe>`};
+ const sm=$('#showMap');if(sm)sm.onclick=()=>{$('#mapbox').innerHTML=`<iframe title="Mapa" src="https://maps.google.com/maps?q=${encodeURIComponent(S.mapQuery||S.address)}&z=16&output=embed"></iframe>`};
  $('#foot').innerHTML=`<span>© ${YEAR} ${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}${S.nip?' · '+esc(S.nip):''}</span><span><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="#admin" id="adminLink">Panel administratora</a></span>`;
  $('#mbar').innerHTML=call('gold','Zadzwoń i zamów');
  $('#adminLink').onclick=e=>{e.preventDefault();openAdmin()};
