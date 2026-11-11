@@ -9,7 +9,7 @@ export const DEMO=!FIREBASE_CONFIG.apiKey;
 
 export const DEF={
  brand:'RadTom',oldName:'AGART',since:2006,
- phone:'',phone2:'',email:'radtom72@gmail.com',address:'',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',notice:'',
+ phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',notice:'',
  heroTitle:'Drzwi przeciwpożarowe od ludzi, którzy sprzedają je od {lat} lat',
  heroSub:'Drzwi o odporności ogniowej EI30, EI60 i EI120 do zakładów, magazynów, biur i obiektów użyteczności publicznej. Doradzimy, dobierzemy do wymiarów otworu i przyjmiemy zamówienie jednym telefonem.',
  aboutTitle:'Zmieniła się nazwa. Doświadczenie zostało.',

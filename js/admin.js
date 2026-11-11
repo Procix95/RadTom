@@ -185,18 +185,18 @@ async function viewTools(warn=''){
  let prods=[];try{prods=await DB.products(true)}catch{}
  const vis=prods.filter(p=>p.visible);
  const ck=[
-  [!!S.phone,'Numer telefonu ustawiony','Dodaj telefon w zakładce „Dane i teksty”'],
-  [!!S.address,'Adres ustawiony (mapa i dane lokalne)','Dodaj adres w „Dane i teksty”'],
-  [!!S.email,'E-mail ustawiony','Dodaj e-mail w „Dane i teksty”'],
+  [!!S.phone,'Numer telefonu ustawiony','Dodaj telefon w zakładce „Dane i teksty”','site'],
+  [!!S.address,'Adres ustawiony (mapa i dane lokalne)','Dodaj adres w „Dane i teksty”','site'],
+  [!!S.email,'E-mail ustawiony','Dodaj e-mail w „Dane i teksty”','site'],
   [!SITE_URL.includes('github.io'),'Własna domena ustawiona ('+SITE_URL+')','Adres jest tymczasowy. Po zakupie domeny uruchom narzedzia/ustaw-domene.py'],
-  [!!IMG.hero,'Zdjęcie w nagłówku dodane','Dodaj w zakładce „Zdjęcia strony”'],
-  [vis.length>0,'Są widoczne produkty ('+vis.length+')','Dodaj pierwszy produkt'],
-  [vis.length>0&&vis.every(p=>p.thumb),'Każdy produkt ma zdjęcie','Dodaj zdjęcia do produktów bez zdjęcia'],
-  [vis.length>0&&vis.every(p=>(p.desc||'').length>=80),'Każdy produkt ma opis (min. 80 znaków)','Rozbuduj opisy produktów, to pomaga w Google'],
-  [(S.gallery||[]).length>0,'Dodane realizacje (zdjęcia dostaw)','Dodaj kilka zdjęć w zakładce „Realizacje”']
+  [!!IMG.hero,'Zdjęcie w nagłówku dodane','Dodaj w zakładce „Zdjęcia strony”','img'],
+  [vis.length>0,'Są widoczne produkty ('+vis.length+')','Dodaj pierwszy produkt lub wczytaj gotowy katalog','seed'],
+  [vis.length>0&&vis.every(p=>p.thumb),'Każdy produkt ma zdjęcie','Dodaj zdjęcia do produktów bez zdjęcia','prod'],
+  [vis.length>0&&vis.every(p=>(p.desc||'').length>=80),'Każdy produkt ma opis (min. 80 znaków)','Rozbuduj opisy produktów, to pomaga w Google','prod'],
+  [(S.gallery||[]).length>0,'Dodane realizacje (zdjęcia dostaw)','Dodaj kilka zdjęć w zakładce „Realizacje”','gal']
  ];
  m.innerHTML=warn+`<div class="a-head"><h2>Narzędzia i SEO</h2></div>
- <div class="a-card"><h3>Lista kontrolna widoczności w Google</h3><ul class="a-ck">${ck.map(([ok,t,h])=>`<li class="${ok?'ok':'no'}">${ok?'✓':'!'} ${esc(t)}${ok?'':`<div class="a-hint">${esc(h)}</div>`}</li>`).join('')}</ul></div>
+ <div class="a-card"><h3>Lista kontrolna widoczności w Google</h3><ul class="a-ck">${ck.map(([ok,t,h,go])=>`<li class="${ok?'ok':'no'}">${ok?'✓':'!'} ${esc(t)}${ok?'':`<div class="a-hint">${esc(h)}</div>`+(go==='seed'?`<button class="a-btn pri" style="margin-top:8px" data-act="seed">Wczytaj gotowy katalog (${SEED.length} produktów)</button>`:go?`<button class="a-btn" style="margin-top:8px" data-tab="${go}">Przejdź i uzupełnij</button>`:'')}</li>`).join('')}</ul></div>
  <div class="a-card"><h3>Strony kategorii i produktów (SEO)</h3><p class="a-mut" style="margin-bottom:12px">Pobierz plik oferta.json, wrzuć go do folderu <b>narzedzia</b> w repozytorium i uruchom <code>python narzedzia/gen-strony.py</code>. Skrypt wygeneruje osobne strony kategorii i produktów, sitemap.xml, llms.txt i api/produkty.json. Powtórz po każdej większej zmianie oferty.</p><button class="a-btn pri" data-act="exportoffer">Pobierz oferta.json</button></div>
  <div class="a-card" id="admCard"><h3>Administratorzy</h3><p class="a-mut" id="admList">Ładowanie…</p><div class="a-grid" style="margin-top:12px"><label>Dodaj administratora (adres Gmail)<input id="admNew" placeholder="imie.nazwisko@gmail.com"></label></div><div class="a-save" style="margin-top:10px"><button class="a-btn pri" data-act="addadm">Dodaj administratora</button></div><div class="a-hint">Taka osoba zaloguje się przyciskiem „Zaloguj” na stronie i będzie mogła edytować wszystko, tak jak Ty.</div></div>
  <div class="a-card"><h3>Kopia zapasowa</h3><p class="a-mut" style="margin-bottom:12px">Plik JSON z danymi firmy, produktami i zdjęciami. Warto robić go co jakiś czas.</p><button class="a-btn" data-act="export">Pobierz kopię</button>
@@ -241,7 +241,7 @@ async function onClick(e){
  else if(a==='savesite'){busy(true);try{const o={...draft};if(!o.since)o.since=DEF.since;await saveSettings(o);toast('Zapisano ✓')}catch(x){toast('Błąd zapisu: '+errMsg(x),'err')}busy(false)}
  else if(a==='rmimg'){busy(true);try{await DB.saveImages({[t.dataset.k]:''});IMG[t.dataset.k]='';toast('Usunięto');viewImages()}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
  else if(a==='exportoffer'){busy(true);try{const d=await DB.exportAll();download('oferta.json',{wygenerowano:new Date().toISOString(),main:{...DEF,...d.main},products:d.products.filter(p=>p.visible).map(({photoIds,...p})=>p)})}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
- else if(a==='seed'){busy(true);try{let n=0;for(const x of SEED){const{id,...r}=x;await DB.saveProduct(null,r);n++}toast('Dodano produkty: '+n+' ✓');await viewProducts()}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
+ else if(a==='seed'){busy(true);try{let n=0;for(const x of SEED){const{id,...r}=x;await DB.saveProduct(null,r);n++}toast('Dodano produkty: '+n+' ✓');tab='prod';await showTab()}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
  else if(a==='addadm'){const em=($('#admNew').value||'').trim().toLowerCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){toast('Wpisz poprawny adres e-mail','err');return}busy(true);try{await DB.addAdmin(em,user&&user.email);$('#admNew').value='';toast('Dodano administratora ✓');drawAdmins()}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
  else if(a==='deladm'){if(!confirm('Odebrać uprawnienia: '+id+'?'))return;busy(true);try{await DB.delAdmin(id);toast('Usunięto');drawAdmins()}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
  else if(a==='export'){busy(true);try{download(`radtom-kopia-${new Date().toISOString().slice(0,10)}.json`,await DB.exportAll())}catch(x){toast('Błąd: '+errMsg(x),'err')}busy(false)}
