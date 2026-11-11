@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Administrator = konto Google, którego adres e-mail jest ID dokumentu w kolekcji "admins"
+    // (dokument zakładasz ręcznie w konsoli Firebase, małymi literami).
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/admins/$(request.auth.token.email));
+    }
+
+    // Każdy zalogowany może sprawdzić tylko swój własny dokument (żeby panel wiedział, czy jest adminem).
+    match /admins/{email} {
+      allow get: if request.auth != null && request.auth.token.email == email;
+      allow list, write: if false;
+    }
+
+    // Dane firmy, teksty i zdjęcia strony (główna, hero, o firmie) – publiczne do odczytu.
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Produkty: odwiedzający widzą tylko widoczne, admin widzi wszystkie.
+    match /products/{productId} {
+      allow read: if resource.data.visible == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Zdjęcia produktów.
+    match /photos/{photoId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
