@@ -17,6 +17,9 @@ Strona główna działa od razu po zapisie w panelu. Osobne podstrony kategorii 
 3. W katalogu głównym repozytorium: `python narzedzia/gen-strony.py`
 4. Wrzuć na GitHub zmienione pliki (commit + push lub "Upload files").
 
+## Zapytania z formularza i powiadomienia SMS
+Zapytania zapisują się w bazie i widać je w panelu, w zakładce **Zapytania** (z licznikiem nowych). Żeby dostawać też **SMS na telefon**, trzeba raz uruchomić pośrednika: instrukcja jest na górze pliku `narzedzia/sms-worker.js` (darmowy Cloudflare Workers + płatna bramka SMSAPI, grosze za SMS). Adres workera wklejasz w panelu: Dane i teksty → „Adres webhooka do powiadomień SMS”. Bez tego formularz działa, ale SMS-a nie ma.
+
 ## Po zmianie plików w css/ lub js/
 Uruchom `python narzedzia/wersja.py` przed wrzuceniem na GitHub. Wpisuje numer wersji do adresów plików, dzięki czemu przeglądarki od razu pobierają nową wersję.
 

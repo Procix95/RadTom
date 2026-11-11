@@ -71,6 +71,20 @@ service cloud.firestore {
          || request.resource.data.get('calls', 0) == resource.data.get('calls', 0) + 1);
     }
 
+    // Zapytania z formularza na stronie: każdy może dodać, czytać i zarządzać może tylko admin.
+    match /inquiries/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['name', 'phone', 'msg', 'items', 't', 'read', 'page'])
+        && request.resource.data.phone is string
+        && request.resource.data.phone.size() >= 5 && request.resource.data.phone.size() <= 30
+        && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 80))
+        && (!('msg' in request.resource.data) || (request.resource.data.msg is string && request.resource.data.msg.size() <= 1500))
+        && (!('page' in request.resource.data) || (request.resource.data.page is string && request.resource.data.page.size() <= 200))
+        && (!('items' in request.resource.data) || (request.resource.data.items is list && request.resource.data.items.size() <= 20))
+        && request.resource.data.t is number
+        && request.resource.data.read == false;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

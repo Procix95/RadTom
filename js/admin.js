@@ -1,14 +1,14 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=1111c';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=1111d';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
-const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
+const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['inq','Zapytania'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
 const errMsg=e=>e&&e.code==='permission-denied'?'brak uprawnień (sprawdź reguły Firestore i kolekcję admins)':(e&&e.message)||'błąd';
 async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveMain(o);Object.assign(S,o)}
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=1111c';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=1111d';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';
@@ -33,11 +33,12 @@ function renderAdmin(){
  if(!DEMO&&!isAdm){a.innerHTML=top+`<div class="a-login"><h2>Brak uprawnień</h2><p>Konto ${esc(user.email)} nie jest administratorem tej strony. Dodaj dokument o ID równym temu adresowi (małymi literami) w kolekcji <b>admins</b> w konsoli Firebase.</p><button class="a-btn" data-act="logout">Zmień konto</button></div>`;return}
  a.innerHTML=top+`<div class="a-body"><div class="a-nav">${TABS.map(([k,l])=>`<button data-tab="${k}" class="${tab===k?'on':''}">${l}</button>`).join('')}</div><div id="aMain"></div></div>`;
  showTab();
+ DB.inquiries().then(l=>badge(l.filter(x=>!x.read).length)).catch(()=>{});
 }
 async function showTab(){
  $$('.a-nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
  const warn=[DEMO?'<div class="a-warn"><b>Tryb podglądu.</b> Zmiany działają tylko do odświeżenia strony. Aby zapisywać na stałe, uzupełnij konfigurację Firebase w js/config.js.</div>':'',(!S.phone&&tab!=='site')?'<div class="a-warn">Nie ustawiono numeru telefonu. Przyciski „Zadzwoń” są ukryte, dopóki nie wpiszesz go w zakładce <b>Dane i teksty</b>.</div>':''].join('');
- ({prod:viewProducts,gal:viewGal,rev:viewRev,site:viewSite,img:viewImages,stat:viewStats,tools:viewTools}[tab])(warn);
+ ({prod:viewProducts,inq:viewInq,gal:viewGal,rev:viewRev,site:viewSite,img:viewImages,stat:viewStats,tools:viewTools}[tab])(warn);
 }
 const FLD=(l,k,v,o={})=>`<label class="${o.full?'full':''}">${l}${o.area?`<textarea data-k="${k}" ${o.lines?'data-t="lines"':''}>${esc(v)}</textarea>`:`<input type="${o.type||'text'}" data-k="${k}" value="${esc(v)}" ${o.ph?`placeholder="${esc(o.ph)}"`:''}>`}${o.hint?`<div class="a-hint">${o.hint}</div>`:''}</label>`;
 function bind(root,obj){
@@ -61,8 +62,8 @@ const SPEC_PRESETS=['Odporność ogniowa','Dymoszczelność','Grubość skrzydł
 async function editProduct(id){
  const m=$('#aMain');m.innerHTML='<p class="a-mut">Ładowanie…</p>';busy(true);
  const cats=(S.categories||[]).map(c=>String(c).split('|')[0].trim());
- const base=id?structuredClone(listCache.find(p=>p.id===id)):{name:'',category:cats[0]||'',short:'',desc:'',price:'',badge:'',visible:true,order:(Math.max(0,...listCache.map(p=>p.order||0))+1),variants:[{name:'',leafW:'',leafH:'',mountW:'',mountH:'',price:''}],specs:[]};
- base.variants=base.variants||[];base.specs=base.specs||[];
+ const base=id?structuredClone(listCache.find(p=>p.id===id)):{name:'',category:cats[0]||'',short:'',desc:'',price:'',badge:'',visible:true,order:(Math.max(0,...listCache.map(p=>p.order||0))+1),variants:[{name:'',leafW:'',leafH:'',mountW:'',mountH:'',price:''}],specs:[],docs:[]};
+ base.variants=base.variants||[];base.specs=base.specs||[];base.docs=base.docs||[];
  const photos=[];for(const pid of base.photoIds||[]){const src=await DB.photo(pid);if(src)photos.push({id:pid,src})}
  busy(false);ed={id:id||null,f:base,photos,removed:[]};drawEditor();
 }
@@ -81,13 +82,15 @@ function drawEditor(){
  <div class="a-card"><h3>Zdjęcia</h3><div class="a-ph" id="edPh"></div><input type="file" id="edFile" accept="image/*" multiple><div class="a-hint">Pierwsze zdjęcie jest główne (widać je na karcie). Zdjęcia są automatycznie zmniejszane.</div></div>
  <div class="a-card"><h3>Wymiary (w mm)</h3><div id="edVar"></div><button class="a-btn" data-act="addvar">+ Dodaj wariant wymiarowy</button></div>
  <div class="a-card"><h3>Dodatkowe parametry</h3><div id="edSpec"></div><div class="a-chips">${SPEC_PRESETS.map(s=>`<button data-act="addspec" data-k="${esc(s)}">+ ${esc(s)}</button>`).join('')}</div><button class="a-btn" data-act="addspec" data-k="">+ Własny parametr</button></div>
+ <div class="a-card"><h3>Do pobrania (karty techniczne, certyfikaty)</h3><div id="edDocs"></div><button class="a-btn" data-act="adddoc">+ Dodaj dokument</button><div class="a-hint">Wklej link do pliku PDF: z Dysku Google (udostępnij „każdy z linkiem”) albo z folderu <b>docs</b> w repozytorium (np. docs/karta-ei30.pdf).</div></div>
  <div class="a-save"><button class="a-btn pri" data-act="savep">Zapisz produkt</button><button class="a-btn" data-act="back">Anuluj</button></div>`;
- bind($('#edBase'),f);drawPh();drawVar();drawSpec();
+ bind($('#edBase'),f);drawPh();drawVar();drawSpec();drawDocs();
  $('#edFile').onchange=async e=>{busy(true);try{for(const file of e.target.files)ed.photos.push({id:null,src:await resize(file,1600,.8,650000)})}catch(x){toast('Nie udało się wczytać zdjęcia','err')}busy(false);e.target.value='';drawPh()};
 }
 function drawPh(){$('#edPh').innerHTML=ed.photos.map((p,i)=>`<div class="a-pi tall"><img src="${p.src}" alt="">${i===0?'<span class="tag">GŁÓWNE</span>':''}<div><button data-act="phl" data-i="${i}" ${i?'':'disabled'}>←</button><button data-act="phr" data-i="${i}" ${i<ed.photos.length-1?'':'disabled'}>→</button><button data-act="phx" data-i="${i}">✕</button></div></div>`).join('')||'<span class="a-mut">Brak zdjęć</span>'}
 function drawVar(){const b=$('#edVar');b.innerHTML=ed.f.variants.map((v,i)=>`<div class="a-vr">${['name:Wariant (opc.)','leafW:Szer. skrzydła','leafH:Wys. skrzydła','mountW:Szer. montażowa','mountH:Wys. montażowa','price:Cena wariantu (opc.)'].map(s=>{const[k,l]=s.split(':');return`<label>${l}<input data-l="variants" data-i="${i}" data-f="${k}" value="${esc(v[k])}"></label>`}).join('')}<button class="a-x" data-act="delvar" data-i="${i}">✕</button></div>`).join('');bind(b,ed.f)}
 function drawSpec(){const b=$('#edSpec');b.innerHTML=ed.f.specs.map((s,i)=>`<div class="a-sr"><label>Parametr<input data-l="specs" data-i="${i}" data-f="k" value="${esc(s.k)}"></label><label>Wartość<input data-l="specs" data-i="${i}" data-f="v" value="${esc(s.v)}"></label><button class="a-x" data-act="delspec" data-i="${i}">✕</button></div>`).join('');bind(b,ed.f)}
+function drawDocs(){const b=$('#edDocs');b.innerHTML=ed.f.docs.map((s,i)=>`<div class="a-sr"><label>Nazwa dokumentu<input data-l="docs" data-i="${i}" data-f="name" value="${esc(s.name)}" placeholder="np. Karta techniczna EI30"></label><label>Adres (link) do pliku<input data-l="docs" data-i="${i}" data-f="url" value="${esc(s.url)}" placeholder="https://..."></label><button class="a-x" data-act="deldoc" data-i="${i}">✕</button></div>`).join('');bind(b,ed.f)}
 async function saveProduct(){
  const f=ed.f;if(!String(f.name).trim()){toast('Podaj nazwę produktu','err');return}
  busy(true);
@@ -96,7 +99,7 @@ async function saveProduct(){
   for(const id of ed.removed)await DB.delPhoto(id);ed.removed=[];
   const thumb=ed.photos[0]?await resize(ed.photos[0].src,600,.72,70000):'';
   const obj={name:f.name.trim(),category:f.category||'',short:f.short||'',desc:f.desc||'',price:f.price||'',badge:f.badge||'',visible:!!f.visible,order:+f.order||0,photoIds:ids,thumb,
-   variants:f.variants.filter(v=>v.leafW||v.leafH||v.mountW||v.mountH||v.name||v.price),specs:f.specs.filter(s=>s.k&&s.v),updated:Date.now()};
+   variants:f.variants.filter(v=>v.leafW||v.leafH||v.mountW||v.mountH||v.name||v.price),specs:f.specs.filter(s=>s.k&&s.v),docs:(f.docs||[]).filter(d=>d.url&&/^(https?:\/\/|\/|\.\/|[\w-]+[\w./-]*\.pdf)/i.test(String(d.url).trim())),updated:Date.now()};
   ed.id=await DB.saveProduct(ed.id,obj);toast('Zapisano ✓');tab='prod';showTab();
  }catch(e){console.error(e);toast('Błąd zapisu: '+errMsg(e),'err')}
  busy(false);
@@ -137,6 +140,16 @@ function viewRev(warn=''){
 }
 function drawRev(){const b=$('#revList');b.innerHTML=draft.reviews.map((r,i)=>`<div class="a-rv"><label>Opinia<textarea data-l="reviews" data-i="${i}" data-f="t">${esc(r.t)}</textarea></label><label>Autor<input data-l="reviews" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>Firma / stanowisko<input data-l="reviews" data-i="${i}" data-f="f" value="${esc(r.f)}"></label><button class="a-x" data-act="delrev" data-i="${i}">✕</button></div>`).join('')}
 
+/* ---------- zapytania z formularza ---------- */
+async function viewInq(warn=''){
+ const m=$('#aMain');m.innerHTML=warn+'<p class="a-mut">Ładowanie…</p>';
+ let l=[];try{l=await DB.inquiries()}catch(e){m.innerHTML=warn+'<div class="a-warn">Nie udało się pobrać zapytań: '+esc(errMsg(e))+'. Opublikuj najnowsze reguły Firestore (patrz README).</div>';return}
+ badge(l.filter(x=>!x.read).length);
+ const d=t=>new Date(t).toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'});
+ m.innerHTML=warn+`<div class="a-head"><h2>Zapytania <small>(${l.length})</small></h2></div>`+(l.length?l.map(q=>`<div class="a-card" style="${q.read?'opacity:.7':'border-left:3px solid var(--brass2,#d4b176)'}"><div class="a-row" style="border:0;padding:0"><div class="a-ri"><b>${esc(q.name||'Bez imienia')} · <a href="tel:${esc(String(q.phone).replace(/[^\d+]/g,''))}">${esc(q.phone)}</a></b><span>${esc(d(q.t))}${q.read?'':' · <em>nowe</em>'}</span></div><div class="a-ra"><button data-act="iread" data-id="${esc(q.id)}" data-v="${q.read?0:1}">${q.read?'Oznacz jako nowe':'Oznacz jako przeczytane'}</button><button class="del" data-act="idel" data-id="${esc(q.id)}">Usuń</button></div></div>${(q.items||[]).length?`<p style="margin-top:10px"><b>Pozycje:</b> ${q.items.map(esc).join('; ')}</p>`:''}${q.msg?`<p style="margin-top:8px;white-space:pre-line">${esc(q.msg)}</p>`:''}</div>`).join(''):'<div class="a-empty">Nie ma jeszcze zapytań. Pojawią się tutaj, gdy ktoś wyśle formularz na stronie.</div>');
+}
+function badge(n){const b=$('.a-nav [data-tab="inq"]');if(b)b.textContent='Zapytania'+(n?` (${n})`:'')}
+
 /* ---------- dane i teksty ---------- */
 function viewSite(warn=''){
  draft=structuredClone({...DEF,...S});const d=draft;
@@ -146,13 +159,16 @@ function viewSite(warn=''){
   ${FLD('Nazwa firmy','brand',d.brand)}${FLD('Dawna nazwa (np. AGART)','oldName',d.oldName,{hint:'Zostaw puste, jeśli nie chcesz jej pokazywać.'})}
   ${FLD('Rok rozpoczęcia sprzedaży drzwi','since',d.since,{type:'number',hint:'Z tego liczone jest „od X lat” (rośnie samo co roku).'})}${FLD('Telefon główny (do zamówień)','phone',d.phone,{ph:'+48 000 000 000'})}
   ${FLD('Telefon dodatkowy','phone2',d.phone2)}${FLD('E-mail','email',d.email)}
-  ${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}</div></div>
+  ${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}
+  ${FLD('Numer do SMS-ów od klientów (opcjonalnie)','smsPhone',d.smsPhone,{ph:'np. 48600000000',hint:'Po wysłaniu zapytania klient dostaje przycisk „Wyślij też SMS-em” (otwiera SMS na jego telefonie, z gotową treścią). Wpisz poprawny 9-cyfrowy numer, z 48 na początku lub bez.'})}
+  ${FLD('Adres webhooka do powiadomień SMS (opcjonalnie)','webhook',d.webhook,{full:true,hint:'Jeśli skonfigurujesz usługę wysyłającą SMS-y (instrukcja w README: narzedzia/sms-worker.js), wklej tu jej adres. Każde zapytanie z formularza trafi wtedy SMS-em na Twój telefon.'})}
+  ${FLD('Link do wizytówki w Mapach Google','gmbUrl',d.gmbUrl,{full:true})}${FLD('Link „Napisz opinię” w Google','reviewUrl',d.reviewUrl,{full:true})}</div></div>
  <div class="a-card"><h3>Strona główna</h3><div class="a-grid">${FLD('Nagłówek','heroTitle',d.heroTitle,{full:true})}${FLD('Opis pod nagłówkiem','heroSub',d.heroSub,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>O firmie</h3><div class="a-grid">${FLD('Tytuł','aboutTitle',d.aboutTitle,{full:true})}${FLD('Tekst (akapity oddziel pustą linią)','aboutText',d.aboutText,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>Kategorie drzwi</h3><div class="a-grid">${FLD('Jedna kategoria w wierszu: Nazwa | krótki opis','categories',d.categories.join('\n'),{area:true,lines:true,full:true,hint:'Opis po kresce | trafia na stronę kategorii (ważne dla Google). Zmiana nazwy kategorii wymaga poprawienia jej w produktach.'})}</div></div>
- ${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}${pairs('classes','Poradnik: co oznaczają symbole (karty)')}${pairs('faq','Najczęstsze pytania')}</div>
+ ${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}${pairs('classes','Poradnik: co oznaczają symbole (karty)')}${pairs('faq','Najczęstsze pytania')}${pairs('guides','Poradniki (rozwijane)')}</div>
  <div class="a-save"><button class="a-btn pri" data-act="savesite">Zapisz zmiany</button></div>`;
- bind($('#siteForm'),d);['stats','feats','steps','classes','faq'].forEach(drawPairs);
+ bind($('#siteForm'),d);['stats','feats','steps','classes','faq','guides'].forEach(drawPairs);
 }
 function drawPairs(k){const b=$('#pl-'+k);if(!b)return;b.innerHTML=draft[k].map((r,i)=>`<div class="a-sr"><label>${k==='stats'?'Liczba / hasło':k==='classes'?'Symbol':k==='faq'?'Pytanie':'Tytuł'}<input data-l="${k}" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>${k==='stats'?'Opis':k==='faq'?'Odpowiedź':'Tekst'}<input data-l="${k}" data-i="${i}" data-f="b" value="${esc(r.b)}"></label><button class="a-x" data-act="delpair" data-key="${k}" data-i="${i}">✕</button></div>`).join('')}
 
@@ -227,6 +243,10 @@ async function onClick(e){
  else if(a==='phx'){const[p]=ed.photos.splice(i,1);if(p.id)ed.removed.push(p.id);drawPh()}
  else if(a==='addvar'){ed.f.variants.push({name:'',leafW:'',leafH:'',mountW:'',mountH:'',price:''});drawVar()}
  else if(a==='delvar'){ed.f.variants.splice(i,1);drawVar()}
+ else if(a==='adddoc'){ed.f.docs.push({name:'',url:''});drawDocs()}
+ else if(a==='deldoc'){ed.f.docs.splice(i,1);drawDocs()}
+ else if(a==='iread'){try{await DB.patchInquiry(id,{read:t.dataset.v==='1'});viewInq()}catch(x){toast('Błąd: '+errMsg(x),'err')}}
+ else if(a==='idel'){if(!confirm('Usunąć to zapytanie?'))return;try{await DB.delInquiry(id);viewInq()}catch(x){toast('Błąd: '+errMsg(x),'err')}}
  else if(a==='addspec'){ed.f.specs.push({k:t.dataset.k||'',v:''});drawSpec()}
  else if(a==='delspec'){ed.f.specs.splice(i,1);drawSpec()}
  else if(a==='savep')saveProduct();

@@ -1,5 +1,5 @@
 /* RadTom: wspólny skrypt stron pomocniczych (polityka prywatności, 404). Dane firmy bierze z ustawień panelu. */
-import {S,DEF,DB,makeDB,esc,tel,$,$$,YEAR,doorIcon} from './core.js?v=1111c';
+import {S,DEF,DB,makeDB,esc,tel,$,$$,YEAR,doorIcon} from './core.js?v=1111d';
 
 async function load(){
  try{await makeDB();const s=await DB.settings();Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,DEF,s.main||{})}catch(e){console.error(e)}

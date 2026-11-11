@@ -6,7 +6,7 @@ Uruchom po każdej zmianie w css/ lub js/, przed wrzuceniem na GitHub.
 import datetime, pathlib, re, sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 v = sys.argv[1] if len(sys.argv) > 1 else datetime.datetime.now().strftime("%m%d%H%M")
-PAT = re.compile(r"((?:css/(?:site|admin)\.css)|(?:\./(?:core|config|life|admin)\.js)|(?:js/(?:site|page)\.js))(\?v=\w*)?(?=[\"'])")
+PAT = re.compile(r"((?:css/(?:site|admin)\.css)|(?:\./(?:core|config|life|admin|extra)\.js)|(?:js/(?:site|page)\.js))(\?v=\w*)?(?=[\"'])")
 n = 0
 for f in list(ROOT.glob("*.html")) + list(ROOT.glob("js/*.js")) + list(ROOT.glob("narzedzia/gen-strony.py")) + list(ROOT.glob("kategoria/*/index.html")) + list(ROOT.glob("produkt/*/index.html")):
     s = f.read_text(encoding="utf-8")

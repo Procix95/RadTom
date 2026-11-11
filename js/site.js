@@ -1,6 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=1111c';
-import {$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=1111c';
+import {reveal,embers,initLife} from './life.js?v=1111d';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=1111d';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=1111d';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -38,7 +39,7 @@ export function renderSite(){
  hero.innerHTML=`<div class="wrap"><div>
   <div class="seal"><i></i>Od ${yrs} lat na rynku${S.oldName?' · dawniej '+esc(S.oldName):''}</div>
   <h1>${esc(tok(S.heroTitle))}</h1><p>${esc(tok(S.heroSub))}</p>
-  <div class="cta">${call('gold')}<a class="btn ghost" href="#oferta">Zobacz ofertę</a></div></div>
+  <div class="cta">${call('gold')}<a class="btn ghost" href="#oferta">Zobacz ofertę</a><button class="btn ghost" id="askHero" type="button">Zapytaj o ofertę</button></div></div>
   <div class="hero-art" aria-hidden="true"><svg class="door-anim" viewBox="0 0 300 380" width="300"><defs><radialGradient id="glow" cx="50%" cy="62%" r="62%"><stop offset="0" stop-color="#ffd08a" stop-opacity=".95"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></radialGradient></defs><g fill="none" stroke="#d4b176"><rect x="40" y="20" width="220" height="340" stroke-opacity=".35"/><rect class="door-in" x="62" y="42" width="176" height="316" fill="url(#glow)" stroke="none"/><g class="leaf"><rect x="62" y="42" width="176" height="316" stroke-width="2" fill="#12213a"/><rect x="82" y="64" width="136" height="130" stroke-opacity=".5"/><rect x="82" y="214" width="136" height="130" stroke-opacity=".5"/><circle cx="212" cy="204" r="7" fill="#d4b176"/><text x="150" y="140" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="34" font-weight="700" fill="#d4b176" stroke="none">EI60</text></g></g></svg></div></div>`;
  $('#stats').innerHTML=(S.stats||[]).map(s=>`<div class="stat"><b>${esc(tok(s.a))}</b><span>${esc(tok(s.b))}</span></div>`).join('');
  renderCatalog();
@@ -53,9 +54,13 @@ export function renderSite(){
  if(S.phone)it.push(`<div><small>Telefon</small><a class="big" href="${tel(S.phone)}">${esc(S.phone)}</a>${S.phone2?`<br><a href="${tel(S.phone2)}">${esc(S.phone2)}</a>`:''}</div>`);
  if(S.email)it.push(`<div><small>E-mail</small><a href="mailto:${esc(S.email)}">${esc(S.email)}</a></div>`);
  if(S.address)it.push(`<div><small>Adres</small><span>${esc(S.address)}</span></div>`);
- if(S.hours)it.push(`<div><small>Godziny otwarcia</small><span style="white-space:pre-line">${esc(S.hours)}</span></div>`);
- $('#contact').innerHTML=`<div><div class="eyebrow">Kontakt</div><h2 style="font-size:clamp(2rem,4.2vw,3.1rem)">Zadzwoń i zamów</h2><p style="color:#c3cddb;max-width:460px">Powiedz, gdzie mają być zamontowane drzwi, a my dobierzemy odpowiedni model.</p><div class="cl">${it.join('')}</div></div>
+ const now=S.hours?openNow(S.hours):null;
+ if(S.hours)it.push(`<div><small>Godziny otwarcia</small><span style="white-space:pre-line">${esc(S.hours)}</span>${now?`<div class="now ${now.open?'open':''}" id="nowB">${esc(now.label)}</div>`:''}</div>`);
+ const gm=safeUrl(S.gmbUrl),gr=safeUrl(S.reviewUrl);
+ if(gm||gr)it.push(`<div><small>Google</small><span class="glink">${gm?`<a href="${esc(gm)}" target="_blank" rel="noopener">Zobacz nas w Mapach Google</a>`:''}${gr?`<a href="${esc(gr)}" target="_blank" rel="noopener">Napisz opinię</a>`:''}</span></div>`);
+ $('#contact').innerHTML=`<div><div class="eyebrow">Kontakt</div><h2 style="font-size:clamp(2rem,4.2vw,3.1rem)">Zadzwoń i zamów</h2><p style="color:#c3cddb;max-width:460px">Powiedz, gdzie mają być zamontowane drzwi, a my dobierzemy odpowiedni model.</p><div class="cl">${it.join('')}</div><button class="btn gold" id="askBtn" type="button" style="margin-top:26px">Napisz zapytanie</button></div>
   ${S.address?`<div class="map" id="mapbox"><button class="btn gold" id="showMap">Pokaż mapę</button><p>Mapa Google ładuje się dopiero po kliknięciu. Wtedy Google może zapisać dane o Twojej wizycie.</p></div>`:`<div class="callbox"><h3>Chętnie doradzimy</h3><p>Nie wiesz, jaką klasę odporności lub jaki wymiar wybrać? Zadzwoń, to szybciej niż szukanie w katalogach.</p>${call('gold')}</div>`}`;
+ $('#askBtn').onclick=()=>openInquiry();const ah=$('#askHero');if(ah)ah.onclick=()=>openInquiry();
  const sm=$('#showMap');if(sm)sm.onclick=()=>{$('#mapbox').innerHTML=`<iframe title="Mapa" src="https://maps.google.com/maps?q=${encodeURIComponent(S.mapQuery||S.address)}&z=16&output=embed"></iframe>`};
  $('#foot').innerHTML=`<span>© ${YEAR} ${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}${S.nip?' · '+esc(S.nip):''}${S.credit?`<br><small class="credit">${esc(S.credit)}</small>`:''}</span><span><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="#admin" id="adminLink">Panel administratora</a></span>`;
  $('#mbar').innerHTML=call('gold','Zadzwoń i zamów');
@@ -73,6 +78,8 @@ function renderLife(){
  const row=words.map(w=>`<span>${esc(w)}</span>`).join('');
  $('#band').innerHTML=`<div class="track">${row}${row}</div>`;
  $('#fab').innerHTML=S.phone?`<a class="fab" href="${tel(S.phone)}" data-call aria-label="Zadzwoń: ${esc(S.phone)}"><svg width="26" height="26" viewBox="0 0 24 24" fill="#12213a"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>${esc(S.phone)}</span></a>`:'';
+ renderGuides();paintList();
+ if(!window.__nowT){window.__nowT=setInterval(()=>{const b=$('#nowB');if(!b)return;const n=openNow(S.hours);if(n){b.textContent=n.label;b.classList.toggle('open',n.open)}},60000)}
  embers();reveal();initLife();
 }
 function jsonLd(){
@@ -90,12 +97,15 @@ function renderCatalog(){
  if(filter&&!ordered.includes(filter))filter='';
  $('#filters').innerHTML=ordered.length>1?`<button class="chip ${filter?'':'on'}" data-c="">Wszystkie</button>`+ordered.map(c=>`<button class="chip ${filter===c?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join(''):'';
  $$('#filters .chip').forEach(b=>b.onclick=()=>{filter=b.dataset.c;renderCatalog()});
- const list=P.filter(p=>!filter||p.category===filter).sort((a,b)=>(a.order||0)-(b.order||0));
+ renderFit(renderCatalog);
+ const list=P.filter(p=>(!filter||p.category===filter)&&fitsOpening(p)).sort((a,b)=>(a.order||0)-(b.order||0));
  $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||PH}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
   <div class="cb"><div class="cat">${esc(p.category||'')}</div><h3>${esc(p.name)}</h3><p>${esc(p.short||'')}</p>${dimsOf(p)}
-  <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}</div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
+  <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}<button class="btn sm line addl" data-addlist="${esc(p.id)}"></button></div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
  reveal();
- $$('#grid .card').forEach(c=>c.onclick=e=>{if(e.target.closest('a'))return;openProduct(c.dataset.id)});
+ if(fitActive())fitResult(list.length);
+ $$('#grid .card').forEach(c=>c.onclick=e=>{if(e.target.closest('a'))return;const a=e.target.closest('[data-addlist]');if(a){const p=ST.P.find(x=>x.id===a.dataset.addlist);if(p)toast(toggleList(p)?'Dodano do listy zapytania':'Usunięto z listy');return}openProduct(c.dataset.id)});
+ paintList();
  const cl=$('#catlinks');
  if(IDX&&IDX.kategorie?.length){cl.hidden=false;cl.innerHTML='<span>Strony kategorii:</span>'+IDX.kategorie.map(k=>`<a class="chip" href="${esc(k.url)}">${esc(k.nazwa)}</a>`).join('')}else cl.hidden=true;
 }
@@ -113,6 +123,7 @@ function renderReviews(){
 /* ---------- okno produktu i podgląd zdjęcia ---------- */
 function closeModal(){const m=$('#modal');m.classList.remove('on');document.body.style.overflow='';curP=null;history.replaceState(null,'',location.pathname+location.search)}
 function lightbox(src,cap){const m=$('#modal');m.innerHTML=`<div class="lb"><button class="mx" aria-label="Zamknij">×</button><img src="${src}" alt="${esc(cap||'')}">${cap?`<p>${esc(cap)}</p>`:''}</div>`;m.classList.add('on');document.body.style.overflow='hidden';$('.mx',m).onclick=closeModal;m.onclick=e=>{if(e.target===m)closeModal()}}
+const inListIds=id=>{try{return JSON.parse(localStorage.getItem('rt_list')||'[]').some(x=>x.id===id)}catch{return false}};
 async function openProduct(id,push=true){
  const p=ST.P.find(x=>x.id===id);if(!p)return;
  const m=$('#modal');if(push)history.replaceState(null,'','#produkt-'+id);
@@ -126,9 +137,12 @@ async function openProduct(id,push=true){
    <div class="desc">${esc(p.desc||p.short||'')}</div>
    ${vs.length?`<h4>Wymiary (mm)</h4><table class="t"><tr>${named?'<th>Wariant</th>':''}<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>${vs.some(v=>v.price)?'<th>Cena</th>':''}</tr>${vs.map(v=>`<tr>${named?`<td>${esc(v.name)}</td>`:''}<td>${esc(v.leafW||'–')}</td><td>${esc(v.leafH||'–')}</td><td>${esc(v.mountW||'–')}</td><td>${esc(v.mountH||'–')}</td>${vs.some(x=>x.price)?`<td>${esc(v.price||'–')}</td>`:''}</tr>`).join('')}</table>`:''}
    ${(p.specs||[]).length?`<h4>Parametry</h4><table class="t kv">${p.specs.map(s=>`<tr><th>${esc(s.k)}</th><td>${esc(s.v)}</td></tr>`).join('')}</table>`:''}
-   <div class="mcta">${call('gold','Zadzwoń i zamów: '+esc(S.phone))}${S.email?`<a class="btn line" href="mailto:${esc(S.email)}?subject=${subj}">Wyślij zapytanie e-mail</a>`:''}${page?`<a class="btn line" href="${esc(page.url)}">Pełna strona produktu</a>`:''}</div></div></div>`;
+   ${(p.docs||[]).filter(d=>safeUrl(d.url)).length?`<h4>Do pobrania</h4><div class="docs">${p.docs.filter(d=>safeUrl(d.url)).map(d=>`<a href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener">${esc(d.name||'Dokument')}</a>`).join('')}</div>`:''}
+   <div class="mcta">${call('gold','Zadzwoń i zamów: '+esc(S.phone))}<button class="btn line addl" data-addlist="${esc(p.id)}"></button><button class="btn line" id="askProd">Zapytaj o ten model</button>${S.email?`<a class="btn line" href="mailto:${esc(S.email)}?subject=${subj}">Wyślij zapytanie e-mail</a>`:''}${page?`<a class="btn line" href="${esc(page.url)}">Pełna strona produktu</a>`:''}</div></div></div>`;
  m.classList.add('on');document.body.style.overflow='hidden';
  $('.mx',m).onclick=closeModal;m.onclick=e=>{if(e.target===m)closeModal()};
+ paintList();$('[data-addlist]',m).onclick=()=>toggleList(p);
+ $('#askProd',m).onclick=()=>{closeModal();if(!inListIds(p.id))toggleList(p);openInquiry()};
  if((p.photoIds||[]).length){
   const imgs=(await Promise.all(p.photoIds.map(getPhoto))).filter(Boolean);
   if(imgs.length&&curP===id){
@@ -144,7 +158,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=1111c');
+ const m=await import('./admin.js?v=1111d');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});

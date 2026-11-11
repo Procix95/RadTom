@@ -1,5 +1,5 @@
 /* RadTom: wspólny kod strony i panelu (dane, Firebase, narzędzia). */
-import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=1111c';
+import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=1111d';
 export {SITE_URL};
 export const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,7 +9,7 @@ export const DEMO=!FIREBASE_CONFIG.apiKey;
 
 export const DEF={
  brand:'RadTom',oldName:'AGART',since:2006,
- phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',notice:'',
+ phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',smsPhone:'',webhook:'',gmbUrl:'',reviewUrl:'',notice:'',
  heroTitle:'Drzwi przeciwpożarowe od ludzi, którzy sprzedają je od {lat} lat',
  heroSub:'Drzwi o odporności ogniowej EI30, EI60 i EI120 do zakładów, magazynów, biur i obiektów użyteczności publicznej. Doradzimy, dobierzemy do wymiarów otworu i przyjmiemy zamówienie jednym telefonem.',
  aboutTitle:'Zmieniła się nazwa. Doświadczenie zostało.',
@@ -19,6 +19,7 @@ export const DEF={
  feats:[{a:'Doświadczenie, które widać',b:'Ponad dwie dekady w branży to setki dobranych drzwi i znajomość problemów, które pojawiają się dopiero na budowie.'},{a:'Dopasowanie do otworu',b:'Przy każdym modelu podajemy wymiary skrzydła i montażowe, więc od razu wiesz, czy drzwi pasują.'},{a:'Zamówienie przez telefon',b:'Bez formularzy i czekania. Dzwonisz, ustalamy szczegóły i przyjmujemy zamówienie.'}],
  steps:[{a:'Zadzwoń lub napisz',b:'Opisz, gdzie drzwi mają być zamontowane i jakie mają spełniać wymagania.'},{a:'Dobieramy drzwi',b:'Proponujemy model pasujący do wymagań i wymiarów otworu.'},{a:'Potwierdzamy szczegóły',b:'Uzgadniamy wymiary, wykonanie, kolor i warunki zamówienia.'},{a:'Realizujemy zamówienie',b:'Przyjmujemy zamówienie i informujemy o terminie realizacji.'}],
  classes:[{a:'EI',b:'Szczelność i izolacyjność ogniowa. Drzwi przez określony czas nie przepuszczają ognia i gorących gazów (E) oraz ograniczają nagrzewanie się strony odległej od ognia (I).'},{a:'30 · 60 · 120',b:'Liczba po symbolu to czas w minutach, przez który drzwi zachowują deklarowane właściwości w badaniu ogniowym. EI60 oznacza 60 minut.'},{a:'S',b:'Dymoszczelność. Drzwi ograniczają przenikanie dymu, co jest ważne na drogach ewakuacyjnych i w strefach, które mają być chronione przed zadymieniem.'},{a:'RC2 · RC3',b:'Klasy odporności na włamanie. Im wyższa liczba, tym trudniej sforsować drzwi w próbie włamania.'},{a:'Kierunkowe',b:'Drzwi kierunkowe zostały przebadane przy pożarze z określonej strony. Przy zamawianiu ważne jest, z której strony mają być zamontowane.'}],
+ guides:[{"a":"Jak zmierzyć otwór pod drzwi","b":"Zmierz szerokość i wysokość otworu w kilku miejscach (u góry, w środku i na dole) i weź najmniejszą wartość. Podaj wymiary w milimetrach, stronę otwierania (lewe lub prawe) i grubość ściany. Przy wątpliwościach zadzwoń, pomożemy ustalić wymiar montażowy."},{"a":"EI30, EI60 czy EI120: którą klasę wybrać","b":"Wymaganą klasę odporności ogniowej określa projekt budynku i przepisy przeciwpożarowe, zwykle ustala ją projektant lub rzeczoznawca do spraw ochrony przeciwpożarowej. Jeśli masz tę informację, podaj ją przy zamówieniu, a dobierzemy odpowiedni model."},{"a":"Drzwi kierunkowe: z której strony montować","b":"Drzwi kierunkowe zostały przebadane przy pożarze z określonej strony. Przy zamawianiu podaj, z której strony pomieszczenia mają być zamontowane, żeby dobrać właściwe wykonanie."},{"a":"Samozamykacz i wyposażenie drzwi","b":"Drzwi przeciwpożarowe powinny się domykać po każdym przejściu, dlatego zwykle wyposaża się je w samozamykacz. W drzwiach dwuskrzydłowych potrzebny jest też regulator kolejności zamykania skrzydeł, a na drogach ewakuacyjnych stosuje się dźwignie antypaniczne. Konkretne wymagania wynikają z projektu."}],
  faq:[{a:'Jak zamówić drzwi?',b:'Zadzwoń lub napisz. Ustalimy model, wymiary i wykonanie, a zamówienie przyjmiemy telefonicznie, bez formularzy.'},{a:'Jakie wymiary mam podać?',b:'Szerokość i wysokość otworu oraz stronę otwierania. Resztę dobierzemy, a przy każdym modelu podajemy wymiary skrzydła i wymiary montażowe.'},{a:'Co to jest {old}?',b:'Pod nazwą {old} sprzedajemy drzwi od {lat} lat. Dziś ta sama firma działa jako {brand}, z tym samym doświadczeniem.'},{a:'Jakie dokumenty mają drzwi?',b:'Zapytaj o dokumenty dla wybranego modelu przy składaniu zamówienia.'},{a:'Jak długo czeka się na realizację?',b:'Termin zależy od modelu i wykonania. Podajemy go przy przyjmowaniu zamówienia.'}],
  reviews:[],gallery:[]
 };
@@ -100,6 +101,7 @@ function MemDB(seed){
   async bump(coll,id,f){const m=coll==='stats'?st.stats:st.pstats;(m[id]=m[id]||{})[f]=(m[id][f]||0)+1},
   async stats(){return Object.entries(st.stats).map(([id,v])=>({id,...v})).sort((a,b)=>b.id.localeCompare(a.id)).slice(0,30)},
   async prodStats(){return Object.entries(st.pstats).map(([id,v])=>({id,...v}))},
+  async inquiries(){return structuredClone(st.inq||[]).sort((a,b)=>b.t-a.t)},async addInquiry(o){(st.inq=st.inq||[]).push({...o,id:'q'+(++n)})},async patchInquiry(id,o){Object.assign((st.inq||[]).find(x=>x.id===id)||{},o)},async delInquiry(id){st.inq=(st.inq||[]).filter(x=>x.id!==id)},
   async admins(){return[{id:'demo@gmail.com'}]},async addAdmin(){},async delAdmin(){},
   async exportAll(){return structuredClone({main:st.main,images:st.images,products:st.prods,photos:st.photos})},
   async importAll(o){st.main=o.main||{};st.images=o.images||{};st.prods=o.products||[];st.photos=o.photos||{}}
@@ -121,6 +123,10 @@ function LiveDB(){
   async bump(coll,id,f){await setDoc(doc(db,coll,id),{[f]:increment(1)},{merge:true})},
   async stats(){const r=await getDocs(query(collection(db,'stats'),orderBy(documentId(),'desc'),limit(30)));return r.docs.map(d=>({id:d.id,...d.data()}))},
   async prodStats(){const r=await getDocs(collection(db,'prodStats'));return r.docs.map(d=>({id:d.id,...d.data()}))},
+  async inquiries(){const r=await getDocs(query(collection(db,'inquiries'),orderBy('t','desc'),limit(200)));return r.docs.map(d=>({...d.data(),id:d.id}))},
+  async addInquiry(o){await addDoc(collection(db,'inquiries'),o)},
+  async patchInquiry(id,o){await updateDoc(doc(db,'inquiries',id),o)},
+  async delInquiry(id){await deleteDoc(doc(db,'inquiries',id))},
   async admins(){const r=await getDocs(collection(db,'admins'));return r.docs.map(d=>({id:d.id,...d.data()}))},
   async addAdmin(email,by){await setDoc(doc(db,'admins',email),{rola:'admin',dodal:by||'',data:Date.now()})},
   async delAdmin(email){await deleteDoc(doc(db,'admins',email))},

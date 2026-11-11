@@ -98,7 +98,7 @@ def main():
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312213a'/%3E%3Crect x='10' y='5' width='12' height='22' fill='none' stroke='%23d4b176' stroke-width='2'/%3E%3Ccircle cx='19' cy='17' r='1.4' fill='%23d4b176'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{rel}css/site.css?v=1111c">
+<link rel="stylesheet" href="{rel}css/site.css?v=1111d">
 </head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="{rel or './'}">{DOOR}<span><b>{esc(brand.upper())}</b><small>{subtitle}</small></span></a>
 <div class="hd-r"><a href="{rel}#oferta">Oferta</a><a href="{rel}#kontakt">Kontakt</a>{call_btn('gold sm', 'Zadzwoń')}</div></div></header>
@@ -137,6 +137,11 @@ def main():
             dimtbl = "<h2>Wymiary (mm)</h2><table class='t'><tr>" + ("<th>Wariant</th>" if named else "") + "<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>" + ("<th>Cena</th>" if any(v.get("price") for v in vs) else "") + "</tr>" + "".join(
                 "<tr>" + (f"<td>{esc(v.get('name'))}</td>" if named else "") + f"<td>{esc(v.get('leafW') or '–')}</td><td>{esc(v.get('leafH') or '–')}</td><td>{esc(v.get('mountW') or '–')}</td><td>{esc(v.get('mountH') or '–')}</td>" + (f"<td>{esc(v.get('price') or '–')}</td>" if any(x.get('price') for x in vs) else "") + "</tr>" for v in vs) + "</table>"
         spec = ("<h2>Parametry</h2><table class='t kv'>" + "".join(f"<tr><th>{esc(s['k'])}</th><td>{esc(s['v'])}</td></tr>" for s in p.get("specs") or []) + "</table>") if p.get("specs") else ""
+        def docurl(u):
+            u = str(u or "").strip()
+            return u if re.match(r"https?://", u) else (rel + u.lstrip("./").lstrip("/")) if u else ""
+        dl = [(d.get("name") or "Dokument", docurl(d.get("url"))) for d in p.get("docs") or [] if d.get("url") and re.match(r"^(https?://|/|\./|[\w-]+[\w./-]*\.pdf)", str(d["url"]).strip(), re.I)]
+        docs = ("<h2>Do pobrania</h2><div class='docs'>" + "".join(f'<a href="{esc(u)}" rel="noopener">{esc(n)}</a>' for n, u in dl) + "</div>") if dl else ""
         others = [q for q in prods if q is not p and q.get("category") == p.get("category")][:4]
         more = ('<h2>Inne w tej kategorii</h2><div class="filters" style="margin:10px 0 0">' + "".join(f'<a class="chip" href="{rel}produkt/{q["slug"]}/">{esc(q["name"])}</a>' for q in others) + "</div>") if others else ""
         crumb = f'<a href="{rel}">Strona główna</a> › ' + (f'<a href="{rel}kategoria/{c["slug"]}/">{esc(c["name"])}</a> › ' if c else "") + esc(p["name"])
@@ -144,7 +149,7 @@ def main():
         body = (f'<main class="pg"><div class="wrap"><div class="crumb">{crumb}</div><div class="pgrid"><div class="pimg"><img src="{rel}{img}" alt="{esc(p["name"])}"></div>'
                 f'<div class="pinfo"><div class="cat">{esc(p.get("category",""))}</div><h1>{esc(p["name"])}</h1>'
                 f'<div class="price">{esc(p["price"]) if p.get("price") else "Cena: zapytaj telefonicznie"}</div><div class="desc">{esc(p.get("desc") or p.get("short") or "")}</div>'
-                f'{dimtbl}{spec}<div class="mcta">{call_btn("gold", "Zadzwoń i zamów: " + phone)}{mail}</div>{more}</div></div></div></main>')
+                f'{dimtbl}{spec}{docs}<div class="mcta">{call_btn("gold", "Zadzwoń i zamów: " + phone)}{mail}</div>{more}</div></div></div></main>')
         url = f"{URL}/produkt/{p['slug']}/"
         prod_ld = {"@context": "https://schema.org", "@type": "Product", "name": p["name"], "description": clip(p.get("desc") or p.get("short"), 500),
                    "category": p.get("category", ""), "brand": {"@type": "Brand", "name": brand}, "url": url}
