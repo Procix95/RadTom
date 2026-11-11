@@ -29,9 +29,9 @@ const SVGDOOR=`<svg viewBox="0 0 300 380" width="55%"><g fill="none" stroke="#d4
 
 export function renderSite(){
  const yrs=YEAR-(+S.since||YEAR);
- document.title=`Drzwi BHP – ${S.brand}${S.oldName?' (dawniej '+S.oldName+')':''} | od ${yrs} lat na rynku`;
+ document.title=`Drzwi przeciwpożarowe – ${S.brand}${S.oldName?' (dawniej '+S.oldName+')':''} | od ${yrs} lat na rynku`;
  const nt=$('#notice');nt.hidden=!S.notice;nt.textContent=S.notice||'';
- $('#logo').innerHTML=`${doorIcon}<span><b>${esc(String(S.brand).toUpperCase())}</b><small>Drzwi BHP${S.oldName?' · dawniej '+esc(S.oldName):''}</small></span>`;
+ $('#logo').innerHTML=`${doorIcon}<span><b>${esc(String(S.brand).toUpperCase())}</b><small>Drzwi przeciwpożarowe${S.oldName?' · dawniej '+esc(S.oldName):''}</small></span>`;
  $('#navcall').innerHTML=call('gold sm','Zadzwoń');
  const hero=$('#hero');hero.className='hero'+(IMG.hero?' img':'');if(IMG.hero)hero.style.setProperty('--hi',`url("${IMG.hero}")`);else hero.style.removeProperty('--hi');
  hero.innerHTML=`<div class="wrap"><div>
@@ -43,7 +43,7 @@ export function renderSite(){
  renderCatalog();
  const paras=tok(S.aboutText).split(/\n\s*\n/).map(t=>`<p>${esc(t)}</p>`).join('');
  $('#about').innerHTML=`<div><div class="eyebrow">O firmie</div><h2>${esc(tok(S.aboutTitle))}</h2>${paras}
-  <div class="timeline"><div class="tl"><b>${esc(S.since)}</b><span>Początek sprzedaży drzwi BHP${S.oldName?' jako '+esc(S.oldName):''}</span></div><div class="tl"><b>${YEAR}</b><span>${esc(S.brand)}: ta sama firma i to samo doświadczenie</span></div></div></div>
+  <div class="timeline"><div class="tl"><b>${esc(S.since)}</b><span>Początek sprzedaży drzwi przeciwpożarowych${S.oldName?' jako '+esc(S.oldName):''}</span></div><div class="tl"><b>${YEAR}</b><span>${esc(S.brand)}: ta sama firma i to samo doświadczenie</span></div></div></div>
   <div class="aimg">${IMG.about?`<img src="${IMG.about}" alt="${esc(S.brand)}" loading="lazy">`:`<div class="aph">${SVGDOOR}</div>`}</div>`;
  $('#feats').innerHTML=(S.feats||[]).map((f,i)=>`<div class="feat"><i>0${i+1}</i><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
  $('#steps').innerHTML=(S.steps||[]).map(f=>`<div class="step"><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
@@ -63,7 +63,7 @@ export function renderSite(){
 }
 function jsonLd(){
  let ld=$('#ld');if(!ld){ld=document.createElement('script');ld.id='ld';ld.type='application/ld+json';document.head.appendChild(ld)}
- const o={'@context':'https://schema.org','@type':'LocalBusiness',name:S.brand,alternateName:S.oldName||undefined,url:SITE_URL+'/',telephone:S.phone||undefined,email:S.email||undefined,address:S.address||undefined,foundingDate:String(S.since),description:'Sprzedaż drzwi BHP: przeciwpożarowych, technicznych, ewakuacyjnych.'};
+ const o={'@context':'https://schema.org','@type':'LocalBusiness',name:S.brand,alternateName:S.oldName||undefined,url:SITE_URL+'/',telephone:S.phone||undefined,email:S.email||undefined,address:S.address||undefined,foundingDate:String(S.since),description:'Sprzedaż drzwi przeciwpożarowych: jedno- i dwuskrzydłowych, przeszklonych, dymoszczelnych.'};
  ld.textContent=JSON.stringify(o);
 }
 function renderCatalog(){

@@ -6,7 +6,7 @@ async function load(){
 }
 function fill(){
  const brand=S.brand||'RadTom',old=S.oldName||'';
- $('#logo').innerHTML=`${doorIcon}<span><b>${esc(brand.toUpperCase())}</b><small>Drzwi BHP${old?' · dawniej '+esc(old):''}</small></span>`;
+ $('#logo').innerHTML=`${doorIcon}<span><b>${esc(brand.toUpperCase())}</b><small>Drzwi przeciwpożarowe${old?' · dawniej '+esc(old):''}</small></span>`;
  $('#navcall').innerHTML=S.phone?`<a class="btn gold sm" href="${tel(S.phone)}">Zadzwoń</a>`:'';
  $('#mbar').innerHTML=S.phone?`<a class="btn gold" href="${tel(S.phone)}">Zadzwoń i zamów</a>`:'';
  $('#foot').innerHTML=`<span>© ${YEAR} ${esc(brand)}${old?' (dawniej '+esc(old)+')':''}</span><span><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="./#admin">Panel administratora</a></span>`;

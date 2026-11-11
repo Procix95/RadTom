@@ -48,7 +48,7 @@ def main():
     URL = site_url(); today = datetime.date.today().isoformat(); year = datetime.date.today().year
     brand = M.get("brand") or "RadTom"; old = M.get("oldName") or ""; phone = M.get("phone") or ""; email = M.get("email") or ""
     since = M.get("since") or year; years = year - int(since)
-    subtitle = "Drzwi BHP" + (f" · dawniej {esc(old)}" if old else "")
+    subtitle = "Drzwi przeciwpożarowe" + (f" · dawniej {esc(old)}" if old else "")
 
     # kategorie: najpierw z ustawień (Nazwa | opis), potem te występujące tylko w produktach
     cats, seen = [], set()
@@ -149,7 +149,7 @@ def main():
         if p["img"]: prod_ld["image"] = [f"{URL}/{p['img']}"]
         trail = [("Strona główna", URL + "/")] + ([(c["name"], f"{URL}/kategoria/{c['slug']}/")] if c else []) + [(p["name"], url)]
         out = ROOT / "produkt" / p["slug"]; out.mkdir(parents=True, exist_ok=True)
-        (out / "index.html").write_text(shell(f"{p['name']} | Drzwi BHP {brand}", clip(p.get("desc") or p.get("short") or p["name"]) or p["name"],
+        (out / "index.html").write_text(shell(f"{p['name']} | Drzwi przeciwpożarowe {brand}", clip(p.get("desc") or p.get("short") or p["name"]) or p["name"],
                                               f"produkt/{p['slug']}/", 2, body, [prod_ld, breadcrumbs(trail)], p["img"]), encoding="utf-8")
 
     # --- strony kategorii ---
@@ -188,7 +188,7 @@ def main():
 
     # --- llms.txt ---
     lines = [f"# {brand}" + (f" (dawniej {old})" if old else ""), "",
-             f"> Sprzedaż drzwi BHP (przeciwpożarowych, technicznych, ewakuacyjnych, stalowych) od {years} lat. Przy każdym modelu podane są wymiary skrzydła i wymiary montażowe. Zamówienia telefoniczne.", ""]
+             f"> Sprzedaż drzwi przeciwpożarowych (jedno- i dwuskrzydłowych, przeszklonych, dymoszczelnych) od {years} lat. Przy każdym modelu podane są wymiary skrzydła i wymiary montażowe. Zamówienia telefoniczne.", ""]
     if phone: lines.append(f"- Telefon (zamówienia): {phone}")
     if email: lines.append(f"- E-mail: {email}")
     if M.get("address"): lines.append(f"- Adres: {M['address']}")
