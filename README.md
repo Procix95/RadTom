@@ -17,6 +17,9 @@ Strona główna działa od razu po zapisie w panelu. Osobne podstrony kategorii 
 3. W katalogu głównym repozytorium: `python narzedzia/gen-strony.py`
 4. Wrzuć na GitHub zmienione pliki (commit + push lub "Upload files").
 
+## Po zmianie plików w css/ lub js/
+Uruchom `python narzedzia/wersja.py` przed wrzuceniem na GitHub. Wpisuje numer wersji do adresów plików, dzięki czemu przeglądarki od razu pobierają nową wersję.
+
 ## Zmiana adresu po zakupie domeny
 `python narzedzia/ustaw-domene.py https://twojadomena.pl`, potem `python narzedzia/gen-strony.py`.
 Następnie: GitHub → Settings → Pages → Custom domain oraz Firebase → Authentication → Settings → Authorized domains (dodaj domenę).

@@ -1,5 +1,5 @@
 /* RadTom: wspólny kod strony i panelu (dane, Firebase, narzędzia). */
-import {FIREBASE_CONFIG,SITE_URL} from './config.js';
+import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=1111b';
 export {SITE_URL};
 export const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
