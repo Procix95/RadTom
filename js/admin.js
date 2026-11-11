@@ -1,5 +1,5 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=1111b';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=1111c';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
 const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
@@ -8,7 +8,7 @@ async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveM
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=1111b';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=1111c';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';
@@ -146,7 +146,7 @@ function viewSite(warn=''){
   ${FLD('Nazwa firmy','brand',d.brand)}${FLD('Dawna nazwa (np. AGART)','oldName',d.oldName,{hint:'Zostaw puste, jeśli nie chcesz jej pokazywać.'})}
   ${FLD('Rok rozpoczęcia sprzedaży drzwi','since',d.since,{type:'number',hint:'Z tego liczone jest „od X lat” (rośnie samo co roku).'})}${FLD('Telefon główny (do zamówień)','phone',d.phone,{ph:'+48 000 000 000'})}
   ${FLD('Telefon dodatkowy','phone2',d.phone2)}${FLD('E-mail','email',d.email)}
-  ${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}</div></div>
+  ${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}</div></div>
  <div class="a-card"><h3>Strona główna</h3><div class="a-grid">${FLD('Nagłówek','heroTitle',d.heroTitle,{full:true})}${FLD('Opis pod nagłówkiem','heroSub',d.heroSub,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>O firmie</h3><div class="a-grid">${FLD('Tytuł','aboutTitle',d.aboutTitle,{full:true})}${FLD('Tekst (akapity oddziel pustą linią)','aboutText',d.aboutText,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>Kategorie drzwi</h3><div class="a-grid">${FLD('Jedna kategoria w wierszu: Nazwa | krótki opis','categories',d.categories.join('\n'),{area:true,lines:true,full:true,hint:'Opis po kresce | trafia na stronę kategorii (ważne dla Google). Zmiana nazwy kategorii wymaga poprawienia jej w produktach.'})}</div></div>

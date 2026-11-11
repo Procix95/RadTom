@@ -48,6 +48,8 @@ def main():
     URL = site_url(); today = datetime.date.today().isoformat(); year = datetime.date.today().year
     brand = M.get("brand") or "RadTom"; old = M.get("oldName") or ""; phone = M.get("phone") or ""; email = M.get("email") or ""
     since = M.get("since") or year; years = year - int(since)
+    credit = M.get("credit", "Strona wykonana przez Radosław Jaskuła (Procix94)")
+    credit_html = f'<br><small class="credit">{esc(credit)}</small>' if credit else ""
     subtitle = "Drzwi przeciwpożarowe" + (f" · dawniej {esc(old)}" if old else "")
 
     # kategorie: najpierw z ustawień (Nazwa | opis), potem te występujące tylko w produktach
@@ -96,12 +98,12 @@ def main():
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312213a'/%3E%3Crect x='10' y='5' width='12' height='22' fill='none' stroke='%23d4b176' stroke-width='2'/%3E%3Ccircle cx='19' cy='17' r='1.4' fill='%23d4b176'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{rel}css/site.css?v=1111b">
+<link rel="stylesheet" href="{rel}css/site.css?v=1111c">
 </head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="{rel or './'}">{DOOR}<span><b>{esc(brand.upper())}</b><small>{subtitle}</small></span></a>
 <div class="hd-r"><a href="{rel}#oferta">Oferta</a><a href="{rel}#kontakt">Kontakt</a>{call_btn('gold sm', 'Zadzwoń')}</div></div></header>
 {body}
-<footer><div class="wrap"><span>© {year} {esc(brand)}{f' (dawniej {esc(old)})' if old else ''}</span><span><a href="{rel}polityka-prywatnosci.html">Polityka prywatności</a><a href="{rel}#admin">Panel administratora</a></span></div></footer>
+<footer><div class="wrap"><span>© {year} {esc(brand)}{f' (dawniej {esc(old)})' if old else ''}{credit_html}</span><span><a href="{rel}polityka-prywatnosci.html">Polityka prywatności</a><a href="{rel}#admin">Panel administratora</a></span></div></footer>
 <div id="mbar">{call_btn('gold', 'Zadzwoń i zamów')}</div>
 </body></html>
 """
