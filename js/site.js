@@ -1,4 +1,5 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
+import {reveal,embers,initLife} from './life.js';
 import {$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js';
 
 let filter='',curP=null,IDX=null;
@@ -38,7 +39,7 @@ export function renderSite(){
   <div class="seal"><i></i>Od ${yrs} lat na rynku${S.oldName?' · dawniej '+esc(S.oldName):''}</div>
   <h1>${esc(tok(S.heroTitle))}</h1><p>${esc(tok(S.heroSub))}</p>
   <div class="cta">${call('gold')}<a class="btn ghost" href="#oferta">Zobacz ofertę</a></div></div>
-  <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 300 380" width="300"><g fill="none" stroke="#d4b176"><rect x="40" y="20" width="220" height="340" stroke-opacity=".35"/><rect x="62" y="42" width="176" height="316" stroke-width="2"/><rect x="82" y="64" width="136" height="130" stroke-opacity=".5"/><rect x="82" y="214" width="136" height="130" stroke-opacity=".5"/><circle cx="212" cy="204" r="7" fill="#d4b176"/></g></svg></div></div>`;
+  <div class="hero-art" aria-hidden="true"><svg class="door-anim" viewBox="0 0 300 380" width="300"><defs><radialGradient id="glow" cx="50%" cy="62%" r="62%"><stop offset="0" stop-color="#ffd08a" stop-opacity=".95"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></radialGradient></defs><g fill="none" stroke="#d4b176"><rect x="40" y="20" width="220" height="340" stroke-opacity=".35"/><rect class="door-in" x="62" y="42" width="176" height="316" fill="url(#glow)" stroke="none"/><g class="leaf"><rect x="62" y="42" width="176" height="316" stroke-width="2" fill="#12213a"/><rect x="82" y="64" width="136" height="130" stroke-opacity=".5"/><rect x="82" y="214" width="136" height="130" stroke-opacity=".5"/><circle cx="212" cy="204" r="7" fill="#d4b176"/><text x="150" y="140" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="34" font-weight="700" fill="#d4b176" stroke="none">EI60</text></g></g></svg></div></div>`;
  $('#stats').innerHTML=(S.stats||[]).map(s=>`<div class="stat"><b>${esc(tok(s.a))}</b><span>${esc(tok(s.b))}</span></div>`).join('');
  renderCatalog();
  const paras=tok(S.aboutText).split(/\n\s*\n/).map(t=>`<p>${esc(t)}</p>`).join('');
@@ -47,7 +48,7 @@ export function renderSite(){
   <div class="aimg">${IMG.about?`<img src="${IMG.about}" alt="${esc(S.brand)}" loading="lazy">`:`<div class="aph">${SVGDOOR}</div>`}</div>`;
  $('#feats').innerHTML=(S.feats||[]).map((f,i)=>`<div class="feat"><i>0${i+1}</i><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
  $('#steps').innerHTML=(S.steps||[]).map(f=>`<div class="step"><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
- renderGallery();renderReviews();
+ renderGallery();renderReviews();renderLife();
  const it=[];
  if(S.phone)it.push(`<div><small>Telefon</small><a class="big" href="${tel(S.phone)}">${esc(S.phone)}</a>${S.phone2?`<br><a href="${tel(S.phone2)}">${esc(S.phone2)}</a>`:''}</div>`);
  if(S.email)it.push(`<div><small>E-mail</small><a href="mailto:${esc(S.email)}">${esc(S.email)}</a></div>`);
@@ -61,10 +62,26 @@ export function renderSite(){
  $('#adminLink').onclick=e=>{e.preventDefault();openAdmin()};
  jsonLd();
 }
+function renderLife(){
+ const cls=(S.classes||[]).filter(x=>x.a);
+ $('#klasy').hidden=!cls.length;
+ $('#clss').innerHTML=cls.map(c=>`<div class="cls"><b>${esc(tok(c.a))}</b><p>${esc(tok(c.b))}</p></div>`).join('');
+ const fq=(S.faq||[]).filter(x=>x.a&&x.b);
+ $('#faq').hidden=!fq.length;
+ $('#faqs').innerHTML=fq.map(q=>`<details class="fq"><summary>${esc(tok(q.a))}</summary><p>${esc(tok(q.b))}</p></details>`).join('');
+ const words=['EI30','EI60','EI120','S30','S60','RC2','RC3','jedno- i dwuskrzydłowe','dymoszczelne','akustyczne',...(S.categories||[]).map(catName)];
+ const row=words.map(w=>`<span>${esc(w)}</span>`).join('');
+ $('#band').innerHTML=`<div class="track">${row}${row}</div>`;
+ $('#fab').innerHTML=S.phone?`<a class="fab" href="${tel(S.phone)}" data-call aria-label="Zadzwoń: ${esc(S.phone)}"><svg width="26" height="26" viewBox="0 0 24 24" fill="#12213a"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>${esc(S.phone)}</span></a>`:'';
+ embers();reveal();initLife();
+}
 function jsonLd(){
  let ld=$('#ld');if(!ld){ld=document.createElement('script');ld.id='ld';ld.type='application/ld+json';document.head.appendChild(ld)}
  const o={'@context':'https://schema.org','@type':'LocalBusiness',name:S.brand,alternateName:S.oldName||undefined,url:SITE_URL+'/',telephone:S.phone||undefined,email:S.email||undefined,address:S.address||undefined,foundingDate:String(S.since),description:'Sprzedaż drzwi przeciwpożarowych: jedno- i dwuskrzydłowych, przeszklonych, dymoszczelnych.'};
  ld.textContent=JSON.stringify(o);
+ let lf=$('#ldfaq');const fq=(S.faq||[]).filter(x=>x.a&&x.b);
+ if(fq.length){if(!lf){lf=document.createElement('script');lf.id='ldfaq';lf.type='application/ld+json';document.head.appendChild(lf)}
+  lf.textContent=JSON.stringify({'@context':'https://schema.org','@type':'FAQPage',mainEntity:fq.map(q=>({'@type':'Question',name:tok(q.a),acceptedAnswer:{'@type':'Answer',text:tok(q.b)}}))})}else if(lf)lf.remove();
 }
 function renderCatalog(){
  const P=ST.P,cats=[...new Set(P.map(p=>p.category).filter(Boolean))];
@@ -77,6 +94,7 @@ function renderCatalog(){
  $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||PH}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
   <div class="cb"><div class="cat">${esc(p.category||'')}</div><h3>${esc(p.name)}</h3><p>${esc(p.short||'')}</p>${dimsOf(p)}
   <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}</div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
+ reveal();
  $$('#grid .card').forEach(c=>c.onclick=e=>{if(e.target.closest('a'))return;openProduct(c.dataset.id)});
  const cl=$('#catlinks');
  if(IDX&&IDX.kategorie?.length){cl.hidden=false;cl.innerHTML='<span>Strony kategorii:</span>'+IDX.kategorie.map(k=>`<a class="chip" href="${esc(k.url)}">${esc(k.nazwa)}</a>`).join('')}else cl.hidden=true;

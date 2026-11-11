@@ -150,11 +150,11 @@ function viewSite(warn=''){
  <div class="a-card"><h3>Strona główna</h3><div class="a-grid">${FLD('Nagłówek','heroTitle',d.heroTitle,{full:true})}${FLD('Opis pod nagłówkiem','heroSub',d.heroSub,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>O firmie</h3><div class="a-grid">${FLD('Tytuł','aboutTitle',d.aboutTitle,{full:true})}${FLD('Tekst (akapity oddziel pustą linią)','aboutText',d.aboutText,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>Kategorie drzwi</h3><div class="a-grid">${FLD('Jedna kategoria w wierszu: Nazwa | krótki opis','categories',d.categories.join('\n'),{area:true,lines:true,full:true,hint:'Opis po kresce | trafia na stronę kategorii (ważne dla Google). Zmiana nazwy kategorii wymaga poprawienia jej w produktach.'})}</div></div>
- ${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}</div>
+ ${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}${pairs('classes','Poradnik: co oznaczają symbole (karty)')}${pairs('faq','Najczęstsze pytania')}</div>
  <div class="a-save"><button class="a-btn pri" data-act="savesite">Zapisz zmiany</button></div>`;
- bind($('#siteForm'),d);['stats','feats','steps'].forEach(drawPairs);
+ bind($('#siteForm'),d);['stats','feats','steps','classes','faq'].forEach(drawPairs);
 }
-function drawPairs(k){const b=$('#pl-'+k);if(!b)return;b.innerHTML=draft[k].map((r,i)=>`<div class="a-sr"><label>${k==='stats'?'Liczba / hasło':'Tytuł'}<input data-l="${k}" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>${k==='stats'?'Opis':'Tekst'}<input data-l="${k}" data-i="${i}" data-f="b" value="${esc(r.b)}"></label><button class="a-x" data-act="delpair" data-key="${k}" data-i="${i}">✕</button></div>`).join('')}
+function drawPairs(k){const b=$('#pl-'+k);if(!b)return;b.innerHTML=draft[k].map((r,i)=>`<div class="a-sr"><label>${k==='stats'?'Liczba / hasło':k==='classes'?'Symbol':k==='faq'?'Pytanie':'Tytuł'}<input data-l="${k}" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>${k==='stats'?'Opis':k==='faq'?'Odpowiedź':'Tekst'}<input data-l="${k}" data-i="${i}" data-f="b" value="${esc(r.b)}"></label><button class="a-x" data-act="delpair" data-key="${k}" data-i="${i}">✕</button></div>`).join('')}
 
 /* ---------- zdjęcia strony ---------- */
 function viewImages(warn=''){
