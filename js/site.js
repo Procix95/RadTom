@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122112';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122112';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122112';
+import {reveal,embers,initLife} from './life.js?v=11122134';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122134';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122134';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -39,7 +39,8 @@ export function renderSite(){
  hero.innerHTML=`<div class="wrap"><div>
   <div class="seal"><i></i>Od ${yrs} lat na rynku${S.oldName?' · dawniej '+esc(S.oldName):''}</div>
   <h1>${esc(tok(S.heroTitle))}</h1><p>${esc(tok(S.heroSub))}</p>
-  <div class="cta">${call('gold')}<a class="btn ghost" href="#oferta">Zobacz ofertę</a><button class="btn ghost" id="askHero" type="button">Zapytaj o ofertę</button></div></div>
+  <div class="cta">${call('gold')}<a class="btn ghost" href="#oferta">Zobacz ofertę</a><button class="btn ghost" id="askHero" type="button">Zapytaj o ofertę</button></div>
+  <ul class="trust"><li>Jedno- i dwuskrzydłowe</li><li>Klasy EI30, EI60, EI120</li><li><a href="#wymiary">Policz otwór online</a></li></ul></div>
   <div class="hero-art" aria-hidden="true"><svg class="door-anim" viewBox="0 0 300 380" width="300"><defs><radialGradient id="glow" cx="50%" cy="62%" r="62%"><stop offset="0" stop-color="#ffd08a" stop-opacity=".95"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></radialGradient></defs><g fill="none" stroke="#d4b176"><rect x="40" y="20" width="220" height="340" stroke-opacity=".35"/><rect class="door-in" x="62" y="42" width="176" height="316" fill="url(#glow)" stroke="none"/><g class="leaf"><rect x="62" y="42" width="176" height="316" stroke-width="2" fill="#12213a"/><rect x="82" y="64" width="136" height="130" stroke-opacity=".5"/><rect x="82" y="214" width="136" height="130" stroke-opacity=".5"/><circle cx="212" cy="204" r="7" fill="#d4b176"/><text x="150" y="140" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="34" font-weight="700" fill="#d4b176" stroke="none">EI60</text></g></g></svg></div></div>`;
  $('#stats').innerHTML=(S.stats||[]).map(s=>`<div class="stat"><b>${esc(tok(s.a))}</b><span>${esc(tok(s.b))}</span></div>`).join('');
  renderCatalog();
@@ -78,6 +79,8 @@ function renderLife(){
  const row=words.map(w=>`<span>${esc(w)}</span>`).join('');
  $('#band').innerHTML=`<div class="track">${row}${row}</div>`;
  $('#fab').innerHTML=S.phone?`<a class="fab" href="${tel(S.phone)}" data-call aria-label="Zadzwoń: ${esc(S.phone)}"><svg width="26" height="26" viewBox="0 0 24 24" fill="#12213a"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>${esc(S.phone)}</span></a>`:'';
+ const pr=$('#promo');if(pr){const t=(S.promo||'').trim();pr.hidden=!t;pr.innerHTML=t?`<div class="wrap"><span>${esc(tok(t))}</span><a href="#wymiary">Policz otwór →</a>${S.phone?`<a href="${tel(S.phone)}" data-call>${esc(S.phone)}</a>`:''}</div>`:''}
+ const cb=$('#ctab');if(cb){cb.innerHTML=`<div class="ctab-in"><div><div class="eyebrow">Doradzimy</div><h2>Nie wiesz, jakie drzwi wybrać?</h2><p>Opisz, gdzie drzwi mają być zamontowane i jaki masz otwór. Dobierzemy klasę odporności i wymiar.</p></div><div class="ctab-b">${call('gold lg')}<button class="btn ghost lg" id="ctabAsk" type="button">Napisz zapytanie</button><a class="btn ghost lg" href="#wymiary">Policz otwór</a></div></div>`;const q=$('#ctabAsk');if(q)q.onclick=()=>openInquiry()}
  renderGuides();renderCalc();paintList();
  if(!window.__nowT){window.__nowT=setInterval(()=>{const b=$('#nowB');if(!b)return;const n=openNow(S.hours);if(n){b.textContent=n.label;b.classList.toggle('open',n.open)}},60000)}
  embers();reveal();initLife();
@@ -97,6 +100,7 @@ function renderCatalog(){
  if(filter&&!ordered.includes(filter))filter='';
  $('#filters').innerHTML=ordered.length>1?`<button class="chip ${filter?'':'on'}" data-c="">Wszystkie</button>`+ordered.map(c=>`<button class="chip ${filter===c?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join(''):'';
  $$('#filters .chip').forEach(b=>b.onclick=()=>{filter=b.dataset.c;renderCatalog()});
+ const tl=$('#tiles');if(tl){tl.hidden=ordered.length<2;tl.innerHTML=ordered.map(c=>{const ps=P.filter(p=>p.category===c).sort((x,y)=>(x.order||0)-(y.order||0));const p0=ps[0];return `<button type="button" class="tile ${filter===c?'on':''}" data-c="${esc(c)}"><span class="ti"><img src="${p0.thumb||artFor(p0)}" alt="" loading="lazy"></span><b>${esc(c)}</b><small>${ps.length} ${ps.length===1?'model':ps.length<5?'modele':'modeli'}</small></button>`}).join('');$$('.tile',tl).forEach(b=>b.onclick=()=>{filter=filter===b.dataset.c?'':b.dataset.c;renderCatalog();const f=$('#filters');if(f)f.scrollIntoView({behavior:'smooth',block:'start'})})}
  renderFit(renderCatalog);
  const list=P.filter(p=>(!filter||p.category===filter)&&fitsOpening(p)).sort((a,b)=>(a.order||0)-(b.order||0));
  $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||artFor(p)}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
@@ -158,7 +162,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122112');
+ const m=await import('./admin.js?v=11122134');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});
