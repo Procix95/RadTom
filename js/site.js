@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122040';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=11122040';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122040';
+import {reveal,embers,initLife} from './life.js?v=11122046';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=11122046';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122046';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -158,7 +158,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122040');
+ const m=await import('./admin.js?v=11122046');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});

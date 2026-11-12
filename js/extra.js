@@ -1,5 +1,5 @@
 /* RadTom: formularz zapytań, lista zapytania, dobór drzwi do otworu, „otwarte teraz”, poradniki. */
-import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok} from './core.js?v=11122040';
+import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok} from './core.js?v=11122046';
 
 export const safeUrl=u=>/^(https?:\/\/|\/|\.\/|[\w-]+[\w./-]*\.pdf)/i.test(String(u||'').trim())?String(u).trim():'';
 
