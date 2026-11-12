@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122107';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122107';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122107';
+import {reveal,embers,initLife} from './life.js?v=11122112';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122112';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122112';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -62,7 +62,7 @@ export function renderSite(){
   ${S.address?`<div class="map" id="mapbox"><button class="btn gold" id="showMap">Pokaż mapę</button><p>Mapa Google ładuje się dopiero po kliknięciu. Wtedy Google może zapisać dane o Twojej wizycie.</p></div>`:`<div class="callbox"><h3>Chętnie doradzimy</h3><p>Nie wiesz, jaką klasę odporności lub jaki wymiar wybrać? Zadzwoń, to szybciej niż szukanie w katalogach.</p>${call('gold')}</div>`}`;
  $('#askBtn').onclick=()=>openInquiry();const ah=$('#askHero');if(ah)ah.onclick=()=>openInquiry();
  const sm=$('#showMap');if(sm)sm.onclick=()=>{$('#mapbox').innerHTML=`<iframe title="Mapa" src="https://maps.google.com/maps?q=${encodeURIComponent(S.mapQuery||S.address)}&z=16&output=embed"></iframe>`};
- $('#foot').innerHTML=`<span>© ${YEAR} ${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}${S.nip?' · '+esc(S.nip):''}${S.credit?`<br><small class="credit">${esc(S.credit)}</small>`:''}</span><span><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="#admin" id="adminLink">Panel administratora</a></span>`;
+ $('#foot').innerHTML=`<span>© ${YEAR} ${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}${S.nip?' · '+esc(S.nip):''}${S.credit?`<br><small class="credit"><a href="https://github.com/Procix95" target="_blank" rel="noopener author">${esc(S.credit)}</a></small>`:''}</span><span><a href="polityka-prywatnosci.html">Polityka prywatności</a><a href="#admin" id="adminLink">Panel administratora</a></span>`;
  $('#mbar').innerHTML=call('gold','Zadzwoń i zamów');
  $('#adminLink').onclick=e=>{e.preventDefault();openAdmin()};
  jsonLd();
@@ -158,7 +158,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122107');
+ const m=await import('./admin.js?v=11122112');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});
