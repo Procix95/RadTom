@@ -1,5 +1,5 @@
 /* RadTom: wspólny kod strony i panelu (dane, Firebase, narzędzia). */
-import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=11122146';
+import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=11122152';
 export {SITE_URL};
 export const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,7 +9,7 @@ export const DEMO=!FIREBASE_CONFIG.apiKey;
 
 export const DEF={
  brand:'RadTom',oldName:'AGART',since:2006,
- phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',ownerName:'Radosław Jaskuła',ownerNote:'Drzwi przeciwpożarowe sprzedajemy od 20 lat. Wiem, że wybór drzwi do konkretnego otworu bywa kłopotliwy, i dlatego zamiast gotowych formułek wolę po prostu porozmawiać.\n\nPowiedz, gdzie drzwi mają być zamontowane i jaki masz otwór, a pomogę dobrać klasę odporności oraz wymiar. Zadzwoń albo zostaw numer, oddzwonię.',promo:'Dobierzemy drzwi do Twojego otworu: zadzwoń albo policz wymiary online.',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',smsPhone:'',webhook:'',gmbUrl:'',reviewUrl:'',notice:'',
+ phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',ownerName:'Tomasz Jaskuła',ownerNote:'Drzwi przeciwpożarowe sprzedajemy od 20 lat. Wiem, że wybór drzwi do konkretnego otworu bywa kłopotliwy, i dlatego zamiast gotowych formułek wolę po prostu porozmawiać.\n\nPowiedz, gdzie drzwi mają być zamontowane i jaki masz otwór, a pomogę dobrać klasę odporności oraz wymiar. Zadzwoń albo zostaw numer, oddzwonię.',promo:'Dobierzemy drzwi do Twojego otworu: zadzwoń albo policz wymiary online.',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',smsPhone:'',webhook:'',gmbUrl:'',reviewUrl:'',notice:'',
  heroTitle:'Drzwi przeciwpożarowe od ludzi, którzy sprzedają je od {lat} lat',
  heroSub:'Drzwi o odporności ogniowej EI30, EI60 i EI120 do zakładów, magazynów, biur i obiektów użyteczności publicznej. Doradzimy, dobierzemy do wymiarów otworu i przyjmiemy zamówienie jednym telefonem.',
  aboutTitle:'Zmieniła się nazwa. Doświadczenie zostało.',
