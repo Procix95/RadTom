@@ -11,7 +11,7 @@
 @font-face{font-family:'Inter';font-style:normal;font-weight:500;font-display:swap;src:url(../fonts/inter-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/inter-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 @font-face{font-family:'Inter';font-style:normal;font-weight:600;font-display:swap;src:url(../fonts/inter-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-:root{--ink:#0e1623;--navy:#12213a;--navy2:#1b2f4f;--steel:#64748b;--paper:#f6f3ec;--white:#fff;--line:#e2ddd1;--brass:#b08d4f;--brass2:#d4b176;--ok:#2f7d5b;--err:#b3382c;--sh:0 12px 34px rgba(14,22,35,.09)}
+:root{--ink:#0e1623;--navy:#12213a;--navy2:#1b2f4f;--steel:#64748b;--paper:#f8f1e4;--white:#fff;--line:#e2ddd1;--brass:#b08d4f;--brass2:#d4b176;--ok:#2f7d5b;--err:#b3382c;--sh:0 12px 34px rgba(14,22,35,.09)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font:16px/1.65 Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
@@ -313,3 +313,23 @@ footer .credit{display:inline-block;margin-top:6px;color:#6f7e93;font-size:.78re
 .ctab-in h2{color:var(--navy)}.ctab-in p{color:#2c3a52}.ctaband .eyebrow{color:#7a5d2a}
 .ctaband .btn.gold{background:var(--navy);color:#fff;border-color:var(--navy)}.ctaband .btn.gold:hover{background:#0c1829}
 .ctaband .btn.ghost{border-color:var(--navy);color:var(--navy)}.ctaband .btn.ghost:hover{background:rgba(18,33,58,.08)}
+
+/* === Cieplejszy charakter, quiz, wiadomość od właściciela === */
+.hero:before{content:"";position:absolute;inset:auto -10% -35% -10%;height:80%;background:radial-gradient(ellipse at 25% 100%,rgba(255,170,80,.22),transparent 65%);pointer-events:none}
+.quiz{margin:34px 0 0;background:linear-gradient(135deg,#fff,#fbf4e6);border:1px solid var(--line);border-left:4px solid var(--brass2);border-radius:6px;padding:26px 30px;box-shadow:var(--sh)}
+.q-in h3{font-size:1.9rem;color:var(--navy);margin:6px 0 16px}
+.qd{display:flex;gap:6px}.qd i{width:34px;height:4px;border-radius:2px;background:var(--line)}.qd i.on{background:var(--brass)}
+.q-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.q-opts button{background:#fff;border:1px solid var(--line);border-radius:5px;padding:15px 16px;text-align:left;font:500 .98rem/1.35 Inter,sans-serif;color:var(--navy);cursor:pointer;transition:.25s}
+.q-opts button:hover{border-color:var(--brass2);transform:translateY(-3px);box-shadow:var(--sh)}
+.q-back{margin-top:16px;background:none;border:0;color:var(--steel);cursor:pointer;font:500 .88rem Inter,sans-serif;text-decoration:underline;text-underline-offset:3px}
+.q-res{max-width:720px;color:#3b4658;margin-bottom:16px}.q-res b{color:var(--navy)}
+.q-cta{display:flex;flex-wrap:wrap;gap:10px}
+.owner{background:var(--paper)}
+.own{max-width:860px;margin:0 auto;text-align:center;position:relative;padding:20px 0}
+.own-q{font-family:'Cormorant Garamond',serif;font-size:7rem;line-height:.6;color:var(--brass2);height:50px}
+.own blockquote{font-family:'Cormorant Garamond',serif;font-size:1.65rem;line-height:1.4;color:var(--navy);font-weight:500}
+.own blockquote p+p{margin-top:16px}
+.own figcaption{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.own figcaption b{font-size:1.05rem;color:var(--navy);letter-spacing:.04em}.own figcaption span{color:var(--steel);font-size:.88rem;margin-bottom:14px}
+@media(max-width:700px){.quiz{padding:20px 18px}.own blockquote{font-size:1.3rem}}

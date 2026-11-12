@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122134';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122134';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122134';
+import {reveal,embers,initLife} from './life.js?v=11122146';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc,renderQuiz} from './extra.js?v=11122146';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122146';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -81,6 +81,8 @@ function renderLife(){
  $('#fab').innerHTML=S.phone?`<a class="fab" href="${tel(S.phone)}" data-call aria-label="Zadzwoń: ${esc(S.phone)}"><svg width="26" height="26" viewBox="0 0 24 24" fill="#12213a"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>${esc(S.phone)}</span></a>`:'';
  const pr=$('#promo');if(pr){const t=(S.promo||'').trim();pr.hidden=!t;pr.innerHTML=t?`<div class="wrap"><span>${esc(tok(t))}</span><a href="#wymiary">Policz otwór →</a>${S.phone?`<a href="${tel(S.phone)}" data-call>${esc(S.phone)}</a>`:''}</div>`:''}
  const cb=$('#ctab');if(cb){cb.innerHTML=`<div class="ctab-in"><div><div class="eyebrow">Doradzimy</div><h2>Nie wiesz, jakie drzwi wybrać?</h2><p>Opisz, gdzie drzwi mają być zamontowane i jaki masz otwór. Dobierzemy klasę odporności i wymiar.</p></div><div class="ctab-b">${call('gold lg')}<button class="btn ghost lg" id="ctabAsk" type="button">Napisz zapytanie</button><a class="btn ghost lg" href="#wymiary">Policz otwór</a></div></div>`;const q=$('#ctabAsk');if(q)q.onclick=()=>openInquiry()}
+ renderQuiz({cats:()=>[...$$('#filters .chip')].map(b=>b.dataset.c).filter(Boolean),pick:c=>{filter=c;renderCatalog();const f=$('#filters');if(f)f.scrollIntoView({behavior:'smooth',block:'start'})}});
+ const ow=$('#owner');if(ow){const nt=(S.ownerNote||'').trim();$('#wlasciciel').hidden=!nt;ow.innerHTML=nt?`<figure class="own"><div class="own-q">“</div><blockquote>${nt.split(/\n\s*\n/).map(t=>`<p>${esc(tok(t))}</p>`).join('')}</blockquote><figcaption><b>${esc(S.ownerName||'')}</b><span>${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}</span>${S.phone?`<a class="btn gold sm" href="${tel(S.phone)}" data-call>Porozmawiajmy: ${esc(S.phone)}</a>`:''}</figcaption></figure>`:''}
  renderGuides();renderCalc();paintList();
  if(!window.__nowT){window.__nowT=setInterval(()=>{const b=$('#nowB');if(!b)return;const n=openNow(S.hours);if(n){b.textContent=n.label;b.classList.toggle('open',n.open)}},60000)}
  embers();reveal();initLife();
@@ -162,7 +164,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122134');
+ const m=await import('./admin.js?v=11122146');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});

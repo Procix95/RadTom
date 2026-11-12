@@ -1,5 +1,5 @@
 /* RadTom: formularz zapytań, lista zapytania, dobór drzwi do otworu, „otwarte teraz”, poradniki. */
-import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok,call} from './core.js?v=11122134';
+import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok,call} from './core.js?v=11122146';
 
 export const safeUrl=u=>/^(https?:\/\/|\/|\.\/|[\w-]+[\w./-]*\.pdf)/i.test(String(u||'').trim())?String(u).trim():'';
 
@@ -186,4 +186,33 @@ export function renderCalc(){
  $$('#ccMode button').forEach(b=>b.onclick=()=>{st.mode=b.dataset.v;$$('#ccMode button').forEach(x=>x.classList.toggle('on',x===b));drawIn()});
  $$('#ccFix button').forEach(b=>b.onclick=()=>{st.fix=b.dataset.v;$$('#ccFix button').forEach(x=>x.classList.toggle('on',x===b));calc()});
  drawIn();
+}
+
+
+/* === Quiz „Dobierz drzwi w 3 kliknięciach” === */
+const QPLACE=[['Komórka lokatorska, piwnica, pomieszczenie techniczne','Wewnętrzne','EI30 lub EI60'],['Korytarz, klatka schodowa, droga ewakuacyjna','Dymoszczelne','S30 lub S60 (odporność ogniową wskazuje projekt)'],['Wejście z zewnątrz do budynku lub pomieszczenia','Zewnętrzne','EI60 lub EI120'],['Biuro, hotel, sala, gdzie liczy się cisza','Akustyczne','EI60 z izolacją akustyczną'],['Miejsce, które trzeba chronić przed włamaniem','Antywłamaniowe','RC2 lub RC3']];
+const QWIDE=[['Zwykły otwór, jedno skrzydło','1'],['Szeroki otwór, dwa skrzydła','2'],['Nie wiem jeszcze','0']];
+export function renderQuiz(api){
+ const box=$('#quiz');if(!box||box.dataset.done)return;box.dataset.done='1';
+ const st={a:-1,b:-1};
+ const find=k=>(api.cats()||[]).find(c=>c.toLowerCase().includes(k.toLowerCase()))||'';
+ const dots=n=>`<div class="qd">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+ const view=()=>{
+  if(st.a<0){box.innerHTML=`<div class="q-in">${dots(1)}<h3>Gdzie mają stanąć drzwi?</h3><div class="q-opts">${QPLACE.map((o,i)=>`<button type="button" data-a="${i}">${esc(o[0])}</button>`).join('')}</div></div>`;
+   $$('[data-a]',box).forEach(b=>b.onclick=()=>{st.a=+b.dataset.a;view()})}
+  else if(st.b<0){box.innerHTML=`<div class="q-in">${dots(2)}<h3>Jaki jest otwór?</h3><div class="q-opts">${QWIDE.map((o,i)=>`<button type="button" data-b="${i}">${esc(o[0])}</button>`).join('')}</div><button type="button" class="q-back" id="qBack">← Wróć</button></div>`;
+   $$('[data-b]',box).forEach(b=>b.onclick=()=>{st.b=+b.dataset.b;view()});$('#qBack').onclick=()=>{st.a=-1;view()}}
+  else{
+   const p=QPLACE[st.a],w=QWIDE[st.b],two=w[1]==='2';
+   const cat=find(p[1]),dcat=two?find('Dwuskrzydłowe'):'';
+   const msg=`Szukam drzwi: ${p[0].toLowerCase()}. ${two?'Otwór szeroki, drzwi dwuskrzydłowe.':w[1]==='1'?'Zwykły otwór, jedno skrzydło.':'Nie wiem jeszcze, ile skrzydeł.'} Proszę o pomoc w doborze klasy i wymiaru.`;
+   box.innerHTML=`<div class="q-in">${dots(3)}<h3>Dla Ciebie: ${esc(p[1]==='Wewnętrzne'?'drzwi przeciwpożarowe wewnętrzne':p[1]==='Dymoszczelne'?'drzwi dymoszczelne':p[1]==='Zewnętrzne'?'drzwi zewnętrzne':p[1]==='Akustyczne'?'drzwi akustyczne':'drzwi antywłamaniowe')}${two?', dwuskrzydłowe':''}</h3>
+    <p class="q-res">Zwykle wybiera się tu klasę <b>${esc(p[2])}</b>. Wymaganą klasę wskazuje projekt budowlany lub rzeczoznawca ppoż., a my pomożemy dobrać model i wymiar.</p>
+    <div class="q-cta">${cat?`<button type="button" class="btn gold" id="qShow">Pokaż pasujące modele</button>`:''}${dcat&&dcat!==cat?`<button type="button" class="btn line" id="qShow2">Pokaż dwuskrzydłowe</button>`:''}<button type="button" class="btn line" id="qAsk">Opisz swoją sytuację</button>${call('line')}</div>
+    <button type="button" class="q-back" id="qAgain">↺ Zacznij od nowa</button></div>`;
+   const s1=$('#qShow');if(s1)s1.onclick=()=>api.pick(two&&dcat?dcat:cat);const s2=$('#qShow2');if(s2)s2.onclick=()=>api.pick(dcat);
+   $('#qAsk').onclick=()=>openInquiry(msg);$('#qAgain').onclick=()=>{st.a=-1;st.b=-1;view()};
+  }
+ };
+ view();
 }

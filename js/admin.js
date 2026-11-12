@@ -1,5 +1,5 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122134';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122146';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
 const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['inq','Zapytania'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
@@ -8,7 +8,7 @@ async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveM
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122134';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122146';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';
@@ -159,7 +159,7 @@ function viewSite(warn=''){
   ${FLD('Nazwa firmy','brand',d.brand)}${FLD('Dawna nazwa (np. AGART)','oldName',d.oldName,{hint:'Zostaw puste, jeśli nie chcesz jej pokazywać.'})}
   ${FLD('Rok rozpoczęcia sprzedaży drzwi','since',d.since,{type:'number',hint:'Z tego liczone jest „od X lat” (rośnie samo co roku).'})}${FLD('Telefon główny (do zamówień)','phone',d.phone,{ph:'+48 000 000 000'})}
   ${FLD('Telefon dodatkowy','phone2',d.phone2)}${FLD('E-mail','email',d.email)}
-  ${FLD('Pasek na samej górze strony','promo',d.promo,{full:true,hint:'Krótki komunikat nad menu, np. promocja albo informacja o terminie. Puste = bez paska.'})}${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}
+  ${FLD('Podpis pod wiadomością od właściciela','ownerName',d.ownerName,{full:true})}${FLD('Wiadomość od właściciela (sekcja po „O firmie”; puste = bez sekcji)','ownerNote',d.ownerNote,{area:true,full:true,hint:'Pisz własnymi słowami. Pusta linia oddziela akapity.'})}${FLD('Pasek na samej górze strony','promo',d.promo,{full:true,hint:'Krótki komunikat nad menu, np. promocja albo informacja o terminie. Puste = bez paska.'})}${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}
   ${FLD('Numer do SMS-ów od klientów (opcjonalnie)','smsPhone',d.smsPhone,{ph:'np. 48600000000',hint:'Po wysłaniu zapytania klient dostaje przycisk „Wyślij też SMS-em” (otwiera SMS na jego telefonie, z gotową treścią). Wpisz poprawny 9-cyfrowy numer, z 48 na początku lub bez.'})}
   ${FLD('Adres webhooka do powiadomień SMS (opcjonalnie)','webhook',d.webhook,{full:true,hint:'Jeśli skonfigurujesz usługę wysyłającą SMS-y (instrukcja w README: narzedzia/sms-worker.js), wklej tu jej adres. Każde zapytanie z formularza trafi wtedy SMS-em na Twój telefon.'})}
   ${FLD('Link do wizytówki w Mapach Google','gmbUrl',d.gmbUrl,{full:true})}${FLD('Link „Napisz opinię” w Google','reviewUrl',d.reviewUrl,{full:true})}</div></div>
