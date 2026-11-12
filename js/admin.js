@@ -1,5 +1,5 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122046';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122107';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
 const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['inq','Zapytania'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
@@ -8,7 +8,7 @@ async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveM
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122046';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122107';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';

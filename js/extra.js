@@ -1,5 +1,5 @@
 /* RadTom: formularz zapytań, lista zapytania, dobór drzwi do otworu, „otwarte teraz”, poradniki. */
-import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok} from './core.js?v=11122046';
+import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok,call} from './core.js?v=11122107';
 
 export const safeUrl=u=>/^(https?:\/\/|\/|\.\/|[\w-]+[\w./-]*\.pdf)/i.test(String(u||'').trim())?String(u).trim():'';
 
@@ -116,4 +116,74 @@ export function renderGuides(){
  const g=(S.guides||[]).filter(x=>x.a&&x.b),box=$('#guides');if(!box)return;
  box.hidden=!g.length;
  $('#guidesList').innerHTML=g.map(q=>`<details class="fq"><summary>${esc(tok(q.a))}</summary><p>${esc(tok(q.b))}</p></details>`).join('');
+}
+
+
+/* === Kalkulator wymiarów drzwi i zasady montażu === */
+const mm=v=>{const n=parseFloat(String(v).replace(',','.'));return isFinite(n)?Math.round(n):NaN};
+const okR=n=>n>=300&&n<=4000;
+export function calcSizes(o){
+ // o: {two, L, L1, L2, H, mode:'leaf'|'open', fix:'anchor'|'screw', W, Ho}
+ let T,H,L1=o.L1||0;
+ if(o.mode==='open'){
+  const W=o.W,Ho=o.Ho;
+  if(o.fix==='screw'){T=W+10;H=Ho-5}else{T=W;H=Ho-10}
+ }else{T=o.two?(o.L1+o.L2):o.L;H=o.H}
+ const r={T,H,nom:[T,H],anchor:[T,H+10],screw:[T-10,H+5]};
+ if(o.two){r.pass=[T-78,H-35];r.fr=[T-10,H-3];r.out=[T+60,H+34];if(L1)r.active=L1-87}
+ else{r.pass=[T-88,H-35];r.fr=[T-20,H-3];r.out=[T+50,H+34]}
+ return r;
+}
+const GAPS=[['Góra','2 mm (+0 / −1,5)'],['Dół','8 mm (+0 / −4)'],['Od strony zamka','5 mm (± 1)'],['Od strony zawiasów','5 mm (± 1)']];
+const MSTEPS=['Montaż powinien wykonać wykwalifikowany montażysta. Przed montażem sprawdź, czy otwór zgadza się z wymiarami podanymi na tabliczce przy ościeżnicy.','Wykonanie ściany i jej nośność, zwłaszcza w miejscach kotwienia, są po stronie inwestora.','Ościeżnicę mocuje się śrubami do metalu Ø10 × 120 mm albo kotwami wklejanymi w otwór na cement szybkowiążący. Podstawa ościeżnicy ma być równo z poziomem posadzki wykończonej.','Szczelinę między ościeżnicą a ścianą wypełnia się zaprawą cementową, także po stronie bez zawiasów. Przed dalszymi pracami zaprawa musi wyschnąć.','Zawiasów nie wolno smarować środkami łatwopalnymi. Sprężynę zawiasu napina się dołączonym kluczem i blokuje bolcem. Dobrze ustawiona sprężyna domyka skrzydło stopniowo przy 45°, 90° i 180°. Regulację w pionie wykonuje się podkładkami pod łożyskami.','Drzwi dwuskrzydłowe: ogranicznik podłogowy ustawia się tak, by otwór trafiał w rygiel skrzydła biernego, a regulator kolejności zamykania mocuje się na ościeżnicy przed osadzeniem jej w ścianie.','Serwis: co 5 000 otwarć lub co 6 miesięcy smaruje się zawiasy, czyści i odtłuszcza zamek i jego gniazdo oraz sprawdza, czy rygiel w pełni wchodzi w gniazdo. Przy dwuskrzydłowych sprawdza się też ramię regulatora oraz otwory na rygle.'];
+export function renderCalc(){
+ const box=$('#calcBox');if(!box||box.dataset.done)return;box.dataset.done='1';
+ const st={two:false,mode:'leaf',fix:'anchor'};
+ const inp=(id,lab,ph)=>`<label>${lab}<input id="${id}" inputmode="numeric" placeholder="${ph}" autocomplete="off"></label>`;
+ box.innerHTML=`<div class="cc-card">
+  <div class="cc-seg" id="ccType"><button type="button" class="on" data-v="1">Jednoskrzydłowe</button><button type="button" data-v="2">Dwuskrzydłowe</button></div>
+  <div class="cc-seg" id="ccMode"><button type="button" class="on" data-v="leaf">Znam wymiar skrzydła</button><button type="button" data-v="open">Mam otwór w murze</button></div>
+  <div class="cc-seg sm" id="ccFix" hidden><button type="button" class="on" data-v="anchor">Mocowanie na kotwy</button><button type="button" data-v="screw">Mocowanie na śruby</button></div>
+  <div class="cc-in" id="ccIn"></div>
+  <div class="cc-out" id="ccOut"></div>
+  <div class="cc-cta" id="ccCta"></div>
+  <p class="cc-note">Wzory dotyczą standardowych drzwi z ościeżnicą narożnikową. Podane wymiary obowiązują z tolerancją +3 / 0 mm. Ostateczne wymiary potwierdzimy przy zamówieniu.</p>
+ </div>
+ <div class="cc-card cc-mount"><h3>Zasady montażu</h3>
+  <table class="cc-gaps"><caption>Wymagane szczeliny montażowe</caption>${GAPS.map(([a,b])=>`<tr><th>${a}</th><td>${b}</td></tr>`).join('')}</table>
+  <ol>${MSTEPS.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+ </div>`;
+ const drawIn=()=>{
+  $('#ccFix').hidden=st.mode!=='open';
+  $('#ccIn').innerHTML=st.mode==='open'
+   ?inp('ccW','Szerokość otworu w murze (mm)','np. 1000')+inp('ccHo','Wysokość otworu w murze (mm)','np. 2050')
+   :(st.two?inp('ccL1','Skrzydło czynne, szerokość (mm)','np. 900')+inp('ccL2','Skrzydło bierne, szerokość (mm)','np. 600'):inp('ccL','Szerokość skrzydła (mm)','np. 900'))+inp('ccH','Wysokość skrzydła (mm)','np. 2000');
+  $$('#ccIn input').forEach(i=>i.oninput=calc);calc();
+ };
+ const row=(a,v,hl)=>`<tr class="${hl?'hl':''}"><th>${a}</th><td>${v}</td></tr>`;
+ const wh=a=>`${a[0]} × ${a[1]} mm`;
+ function calc(){
+  const g=id=>{const e=$('#'+id);return e?mm(e.value):NaN};
+  const out=$('#ccOut'),cta=$('#ccCta');cta.innerHTML='';
+  let o={two:st.two,mode:st.mode,fix:st.fix};
+  if(st.mode==='open'){o.W=g('ccW');o.Ho=g('ccHo');if(!okR(o.W)||!okR(o.Ho)){out.innerHTML='<p class="cc-hint">Wpisz szerokość i wysokość otworu w milimetrach, a podamy wymiar skrzydła, który do niego pasuje.</p>';return}}
+  else if(st.two){o.L1=g('ccL1');o.L2=g('ccL2');o.H=g('ccH');if(!okR(o.L1)||!okR(o.L2)||!okR(o.H)){out.innerHTML='<p class="cc-hint">Wpisz szerokość obu skrzydeł i wysokość w milimetrach, a policzymy otwór w murze, światło przejścia i wymiar ościeżnicy.</p>';return}}
+  else{o.L=g('ccL');o.H=g('ccH');if(!okR(o.L)||!okR(o.H)){out.innerHTML='<p class="cc-hint">Wpisz szerokość i wysokość skrzydła w milimetrach, a policzymy otwór w murze, światło przejścia i wymiar ościeżnicy.</p>';return}}
+  const r=calcSizes(o);
+  let h='<table>';
+  if(st.mode==='open')h+=row('Potrzebny wymiar skrzydła',st.two?`łącznie ${r.T} × ${r.H} mm (suma skrzydła czynnego i biernego)`:wh(r.nom),1);
+  else h+=row('Wymiar nominalny skrzydła',st.two?`${o.L1} + ${o.L2} × ${r.H} mm (łącznie ${r.T} mm)`:wh(r.nom),1);
+  h+=row('Otwór w murze, mocowanie na kotwy',wh(r.anchor))+row('Otwór w murze, mocowanie na śruby',wh(r.screw));
+  if(st.two&&r.active)h+=row('Światło przejścia skrzydła czynnego',r.active+' mm');
+  h+=row('Światło przejścia',wh(r.pass))+row('Światło ościeżnicy (wewnętrzne)',wh(r.fr))+row('Zewnętrzny wymiar ościeżnicy',wh(r.out))+'</table>';
+  out.innerHTML=h;
+  const what=st.two?`dwuskrzydłowe, skrzydła ${o.L1?o.L1+' + '+o.L2:'łącznie '+r.T} × ${r.H} mm`:`jednoskrzydłowe, skrzydło ${r.T} × ${r.H} mm`;
+  const msg=`Zapytanie o drzwi przeciwpożarowe ${what}`+(st.mode==='open'?` (otwór w murze ${o.W} × ${o.Ho} mm, mocowanie na ${st.fix==='screw'?'śruby':'kotwy'})`:'')+'. Proszę o klasę odporności, cenę i termin.';
+  cta.innerHTML=`<button type="button" class="btn gold" id="ccAsk">Zapytaj o drzwi na ten wymiar</button>${call('line')}`;
+  $('#ccAsk').onclick=()=>openInquiry(msg);
+ }
+ $$('#ccType button').forEach(b=>b.onclick=()=>{st.two=b.dataset.v==='2';$$('#ccType button').forEach(x=>x.classList.toggle('on',x===b));drawIn()});
+ $$('#ccMode button').forEach(b=>b.onclick=()=>{st.mode=b.dataset.v;$$('#ccMode button').forEach(x=>x.classList.toggle('on',x===b));drawIn()});
+ $$('#ccFix button').forEach(b=>b.onclick=()=>{st.fix=b.dataset.v;$$('#ccFix button').forEach(x=>x.classList.toggle('on',x===b));calc()});
+ drawIn();
 }

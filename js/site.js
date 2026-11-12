@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122046';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=11122046';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122046';
+import {reveal,embers,initLife} from './life.js?v=11122107';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc} from './extra.js?v=11122107';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122107';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -78,7 +78,7 @@ function renderLife(){
  const row=words.map(w=>`<span>${esc(w)}</span>`).join('');
  $('#band').innerHTML=`<div class="track">${row}${row}</div>`;
  $('#fab').innerHTML=S.phone?`<a class="fab" href="${tel(S.phone)}" data-call aria-label="Zadzwoń: ${esc(S.phone)}"><svg width="26" height="26" viewBox="0 0 24 24" fill="#12213a"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span>${esc(S.phone)}</span></a>`:'';
- renderGuides();paintList();
+ renderGuides();renderCalc();paintList();
  if(!window.__nowT){window.__nowT=setInterval(()=>{const b=$('#nowB');if(!b)return;const n=openNow(S.hours);if(n){b.textContent=n.label;b.classList.toggle('open',n.open)}},60000)}
  embers();reveal();initLife();
 }
@@ -158,7 +158,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122046');
+ const m=await import('./admin.js?v=11122107');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});
