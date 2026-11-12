@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=1111d';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=1111d';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=1111d';
+import {reveal,embers,initLife} from './life.js?v=11122040';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides} from './extra.js?v=11122040';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122040';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -46,7 +46,7 @@ export function renderSite(){
  const paras=tok(S.aboutText).split(/\n\s*\n/).map(t=>`<p>${esc(t)}</p>`).join('');
  $('#about').innerHTML=`<div><div class="eyebrow">O firmie</div><h2>${esc(tok(S.aboutTitle))}</h2>${paras}
   <div class="timeline"><div class="tl"><b>${esc(S.since)}</b><span>Początek sprzedaży drzwi przeciwpożarowych${S.oldName?' jako '+esc(S.oldName):''}</span></div><div class="tl"><b>${YEAR}</b><span>${esc(S.brand)}: ta sama firma i to samo doświadczenie</span></div></div></div>
-  <div class="aimg">${IMG.about?`<img src="${IMG.about}" alt="${esc(S.brand)}" loading="lazy">`:`<div class="aph">${SVGDOOR}</div>`}</div>`;
+  <div class="aimg">${IMG.about?`<img src="${IMG.about}" alt="${esc(S.brand)}" loading="lazy">`:`<div class="aph"><div class="apf"><b>${YEAR-(+S.since||2006)}</b><span>lat doświadczenia<br>w drzwiach przeciwpożarowych</span><ul><li>EI30 · EI60 · EI120</li><li>jedno- i dwuskrzydłowe</li><li>wymiary skrzydła i montażu</li><li>doradztwo i zamówienie telefoniczne</li></ul></div></div>`}</div>`;
  $('#feats').innerHTML=(S.feats||[]).map((f,i)=>`<div class="feat"><i>0${i+1}</i><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
  $('#steps').innerHTML=(S.steps||[]).map(f=>`<div class="step"><h3>${esc(tok(f.a))}</h3><p>${esc(tok(f.b))}</p></div>`).join('');
  renderGallery();renderReviews();renderLife();
@@ -99,7 +99,7 @@ function renderCatalog(){
  $$('#filters .chip').forEach(b=>b.onclick=()=>{filter=b.dataset.c;renderCatalog()});
  renderFit(renderCatalog);
  const list=P.filter(p=>(!filter||p.category===filter)&&fitsOpening(p)).sort((a,b)=>(a.order||0)-(b.order||0));
- $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||PH}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
+ $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||artFor(p)}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
   <div class="cb"><div class="cat">${esc(p.category||'')}</div><h3>${esc(p.name)}</h3><p>${esc(p.short||'')}</p>${dimsOf(p)}
   <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}<button class="btn sm line addl" data-addlist="${esc(p.id)}"></button></div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
  reveal();
@@ -131,7 +131,7 @@ async function openProduct(id,push=true){
  const vs=p.variants||[],named=vs.some(v=>v.name),subj=encodeURIComponent('Zapytanie: '+p.name);
  const page=IDX?.produkty?.find(x=>x.id===id);
  m.innerHTML=`<div class="mbox" role="dialog" aria-modal="true"><button class="mx" aria-label="Zamknij">×</button>
-  <div class="gal"><div class="main"><img id="mainImg" src="${p.thumb||PH}" alt="${esc(p.name)}"></div><div class="thumbs" id="thumbs"></div></div>
+  <div class="gal"><div class="main"><img id="mainImg" src="${p.thumb||artFor(p)}" alt="${esc(p.name)}"></div><div class="thumbs" id="thumbs"></div></div>
   <div class="mi"><div class="cat">${esc(p.category||'')}</div><h2>${esc(p.name)}</h2>
    <div class="price">${p.price?esc(p.price):'Cena: zapytaj telefonicznie'}</div>
    <div class="desc">${esc(p.desc||p.short||'')}</div>
@@ -158,7 +158,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=1111d');
+ const m=await import('./admin.js?v=11122040');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});

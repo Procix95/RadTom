@@ -1,5 +1,5 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=1111d';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122040';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
 const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['inq','Zapytania'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
@@ -8,7 +8,7 @@ async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveM
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=1111d';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122040';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';
@@ -54,7 +54,7 @@ async function viewProducts(warn=''){
  let list=[];try{list=(await DB.products(true)).sort((a,b)=>(a.order||0)-(b.order||0))}catch(e){m.innerHTML=warn+'<div class="a-warn">Nie udało się pobrać produktów: '+esc(errMsg(e))+'</div>';return}
  listCache=list;
  m.innerHTML=warn+`<div class="a-head"><h2>Produkty <small>(${list.length})</small></h2><button class="a-btn pri" data-act="newp">+ Dodaj produkt</button></div>`+
- (list.length?`<div class="a-list">${list.map((p,i)=>`<div class="a-row"><img src="${p.thumb||PH}" alt=""><div class="a-ri"><b>${esc(p.name)}</b><span>${esc(p.category||'bez kategorii')}${p.visible?'':' · <em>ukryty</em>'}</span></div><div class="a-ra"><button data-act="up" data-id="${p.id}" ${i?'':'disabled'}>↑</button><button data-act="dn" data-id="${p.id}" ${i<list.length-1?'':'disabled'}>↓</button><button data-act="vis" data-id="${p.id}">${p.visible?'Ukryj':'Pokaż'}</button><button data-act="edit" data-id="${p.id}">Edytuj</button><button class="del" data-act="del" data-id="${p.id}">Usuń</button></div></div>`).join('')}</div>`:`<div class="a-empty"><p>Nie ma jeszcze produktów, dlatego na stronie nie ma czego pokazać.</p><button class="a-btn pri" data-act="newp">+ Dodaj pierwszy produkt</button> <button class="a-btn" data-act="seed">Wczytaj gotowy katalog (${SEED.length} produktów)</button><div class="a-hint">Rodziny drzwi z klasami odporności. Wymiary, ceny i zdjęcia dopiszesz przy każdym produkcie.</div></div>`);
+ (list.length?`<div class="a-list">${list.map((p,i)=>`<div class="a-row"><img src="${p.thumb||artFor(p)}" alt=""><div class="a-ri"><b>${esc(p.name)}</b><span>${esc(p.category||'bez kategorii')}${p.visible?'':' · <em>ukryty</em>'}</span></div><div class="a-ra"><button data-act="up" data-id="${p.id}" ${i?'':'disabled'}>↑</button><button data-act="dn" data-id="${p.id}" ${i<list.length-1?'':'disabled'}>↓</button><button data-act="vis" data-id="${p.id}">${p.visible?'Ukryj':'Pokaż'}</button><button data-act="edit" data-id="${p.id}">Edytuj</button><button class="del" data-act="del" data-id="${p.id}">Usuń</button></div></div>`).join('')}</div>`:`<div class="a-empty"><p>Nie ma jeszcze produktów, dlatego na stronie nie ma czego pokazać.</p><button class="a-btn pri" data-act="newp">+ Dodaj pierwszy produkt</button> <button class="a-btn" data-act="seed">Wczytaj gotowy katalog (${SEED.length} produktów)</button><div class="a-hint">Rodziny drzwi z klasami odporności. Wymiary, ceny i zdjęcia dopiszesz przy każdym produkcie.</div></div>`);
  const steps=[[!!S.phone,'Numer telefonu do zamówień','site'],[!!S.address,'Adres firmy (pokazuje mapę)','site'],[!!S.hours,'Godziny otwarcia','site'],[list.some(p=>p.visible),'Przynajmniej jeden widoczny produkt','prod'],[list.some(p=>p.thumb),'Zdjęcie przy produktach','prod'],[!!IMG.hero,'Zdjęcie w nagłówku strony','img'],[(S.gallery||[]).length>0,'Realizacje (zdjęcia dostaw)','gal']];
  if(steps.some(s=>!s[0]))m.insertAdjacentHTML('afterbegin',`<div class="a-card"><h3>Start: co jeszcze uzupełnić (${steps.filter(s=>s[0]).length}/${steps.length})</h3><ul class="a-ck">${steps.map(([ok,t,k])=>`<li class="${ok?'ok':'no'}">${ok?'✓':'!'} ${esc(t)}${ok||k==='prod'?'':` <button class="a-btn" style="padding:3px 10px;margin-left:8px" data-tab="${k}">Uzupełnij</button>`}</li>`).join('')}</ul></div>`);
 }

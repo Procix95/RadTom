@@ -1,5 +1,5 @@
 /* RadTom: wspólny kod strony i panelu (dane, Firebase, narzędzia). */
-import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=1111d';
+import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=11122040';
 export {SITE_URL};
 export const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -15,7 +15,7 @@ export const DEF={
  aboutTitle:'Zmieniła się nazwa. Doświadczenie zostało.',
  aboutText:'Drzwi przeciwpożarowe sprzedajemy od {lat} lat. Przez ten czas działaliśmy pod nazwą {old}. Dziś firma działa jako {brand}, ale tworzą ją ci sami ludzie, z tą samą wiedzą i tym samym podejściem: dobrze dobrane drzwi, rzetelna informacja o parametrach i uczciwa rozmowa z klientem.\n\nWiemy, na co zwrócić uwagę przy wyborze drzwi do konkretnego otworu i konkretnego zastosowania, i chętnie dzielimy się tą wiedzą.',
  categories:["Wewnętrzne przeciwpożarowe | Drzwi przeciwpożarowe wewnętrzne, także do komórek lokatorskich, w klasach odporności ogniowej EI30 i EI60. Jedno- i dwuskrzydłowe.","Dymoszczelne | Drzwi kierunkowe dymoszczelne w klasach S30 i S60, do dróg ewakuacyjnych i stref wymagających ochrony przed dymem.","Akustyczne | Drzwi przeciwpożarowe o podwyższonych właściwościach akustycznych: EI60 do komórek lokatorskich i EI2 60 do wnętrz, z izolacyjnością 30 dB.","Zewnętrzne | Drzwi zewnętrzne kierunkowe: bez odporności ogniowej oraz przeciwpożarowe EI60 i EI120. Jedno- i dwuskrzydłowe.","Antywłamaniowe | Drzwi w klasach odporności na włamanie RC2 i RC3, z ryglowaniem bolcami i izolacją termiczną i akustyczną.","Akcesoria | Wyposażenie dodatkowe do drzwi: klamki, uszczelki, samozamykacze, dźwignie antypaniczne, zamki i regulatory kolejności zamykania."],
- stats:[{a:'{lat}',b:'lat na rynku drzwi przeciwpożarowych'},{a:'{old}',b:'nasza poprzednia nazwa, ta sama firma'},{a:'mm',b:'pełne wymiary skrzydła i montażu'},{a:'1 telefon',b:'i zamówienie przyjęte'}],
+ stats:[{a:'{lat}',b:'lat na rynku drzwi przeciwpożarowych'},{a:'EI30–EI120',b:'klasy odporności ogniowej w ofercie'},{a:'RC2–RC3',b:'drzwi antywłamaniowe'},{a:'1 telefon',b:'i zamówienie przyjęte'}],
  feats:[{a:'Doświadczenie, które widać',b:'Ponad dwie dekady w branży to setki dobranych drzwi i znajomość problemów, które pojawiają się dopiero na budowie.'},{a:'Dopasowanie do otworu',b:'Przy każdym modelu podajemy wymiary skrzydła i montażowe, więc od razu wiesz, czy drzwi pasują.'},{a:'Zamówienie przez telefon',b:'Bez formularzy i czekania. Dzwonisz, ustalamy szczegóły i przyjmujemy zamówienie.'}],
  steps:[{a:'Zadzwoń lub napisz',b:'Opisz, gdzie drzwi mają być zamontowane i jakie mają spełniać wymagania.'},{a:'Dobieramy drzwi',b:'Proponujemy model pasujący do wymagań i wymiarów otworu.'},{a:'Potwierdzamy szczegóły',b:'Uzgadniamy wymiary, wykonanie, kolor i warunki zamówienia.'},{a:'Realizujemy zamówienie',b:'Przyjmujemy zamówienie i informujemy o terminie realizacji.'}],
  classes:[{a:'EI',b:'Szczelność i izolacyjność ogniowa. Drzwi przez określony czas nie przepuszczają ognia i gorących gazów (E) oraz ograniczają nagrzewanie się strony odległej od ognia (I).'},{a:'30 · 60 · 120',b:'Liczba po symbolu to czas w minutach, przez który drzwi zachowują deklarowane właściwości w badaniu ogniowym. EI60 oznacza 60 minut.'},{a:'S',b:'Dymoszczelność. Drzwi ograniczają przenikanie dymu, co jest ważne na drogach ewakuacyjnych i w strefach, które mają być chronione przed zadymieniem.'},{a:'RC2 · RC3',b:'Klasy odporności na włamanie. Im wyższa liczba, tym trudniej sforsować drzwi w próbie włamania.'},{a:'Kierunkowe',b:'Drzwi kierunkowe zostały przebadane przy pożarze z określonej strony. Przy zamawianiu ważne jest, z której strony mają być zamontowane.'}],
@@ -31,6 +31,46 @@ export const catDesc=c=>String(c).split('|').slice(1).join('|').trim();
 export const tok=s=>String(s??'').replace(/\{lat\}/g,YEAR-(+S.since||YEAR)).replace(/\{old\}/g,S.oldName||'').replace(/\{brand\}/g,S.brand||'');
 export const call=(cls,txt)=>S.phone?`<a class="btn ${cls}" href="${tel(S.phone)}" data-call>${txt||'Zadzwoń: '+esc(S.phone)}</a>`:'';
 export const PH='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b2f4f"/><stop offset="1" stop-color="#0c1829"/></linearGradient></defs><rect width="400" height="460" fill="url(#g)"/><rect x="128" y="60" width="144" height="340" fill="#12213a" stroke="#d4b176" stroke-width="3"/><rect x="146" y="82" width="108" height="140" fill="none" stroke="#d4b176" stroke-opacity=".5"/><rect x="146" y="240" width="108" height="140" fill="none" stroke="#d4b176" stroke-opacity=".5"/><circle cx="250" cy="232" r="6" fill="#d4b176"/></svg>`);
+// Ilustracje poglądowe produktów (gdy brak zdjęcia): rysunek zależy od rodzaju drzwi i klasy.
+const _artC={};
+export const artFor=p=>{
+ const k=(p.id||'')+'|'+(p.name||'');if(_artC[k])return _artC[k];
+ const sp=(p.specs||[]).map(x=>x.v||'').join(' ');
+ const t=((p.name||'')+' '+(p.category||'')+' '+sp).toLowerCase();
+ const fire=(((p.name||'')+' '+sp).match(/EI2?\s?(30|60|120)/i)||[])[0]||'';
+ const fl=fire?fire.toUpperCase().replace(/^EI(30|60|120)$/,'EI$1').replace(/\s+/g,' '):'';
+ const sm=(((p.name||'')).match(/\bS\s?(30|60)\b/)||[])[0]||'';
+ const rc=(((p.name||'')).match(/RC\s?[23]/i)||[])[0]||'';
+ const label=(fl||sm||rc.toUpperCase());
+ const B='#d4b176',N='#12213a';
+ let g='';
+ const acc=/akcesor/.test(t);
+ if(acc){
+  if(/klamk/.test(t)) g=`<g fill="none" stroke="${B}" stroke-width="3"><circle cx="150" cy="230" r="46" fill="${N}"/><circle cx="150" cy="230" r="30" stroke-opacity=".5" stroke-width="1.5"/><path d="M150 230h150a14 14 0 0 1 0 28h-60" stroke-linecap="round"/><circle cx="150" cy="230" r="7" fill="${B}" stroke="none"/></g>`;
+  else if(/uszczelk/.test(t)) g=`<g fill="none" stroke="${B}" stroke-width="3" stroke-linecap="round"><rect x="90" y="150" width="220" height="150" rx="6" stroke-opacity=".35" stroke-dasharray="2 8"/><path d="M110 225c0-26 30-26 30 0s30 26 30 0 30-26 30 0 30 26 30 0 30-26 30 0" /><path d="M110 245h180" stroke-opacity=".5" stroke-width="1.5"/></g>`;
+  else g=`<g fill="none" stroke="${B}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="96" y="150" width="208" height="38" rx="5" fill="${N}"/><path d="M140 188l70 56 52-24" /><circle cx="140" cy="188" r="7" fill="${B}" stroke="none"/><circle cx="210" cy="244" r="7" fill="${N}"/><rect x="250" y="206" width="40" height="30" rx="4" stroke-opacity=".5"/></g>`;
+ }else{
+  const x=120,y=82,w=160,h=300;
+  const wood=/drewnopodob/.test(t),ext=/zewn/.test(t),ak=/akust/.test(t);
+  let leaf=`<rect x="${x-10}" y="${y-8}" width="${w+20}" height="${h+8}" fill="none" stroke="${B}" stroke-opacity="${ext?.7:.35}" stroke-width="${ext?5:2}"/>`;
+  leaf+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${N}" stroke="${B}" stroke-width="2.5"/>`;
+  if(wood){for(let i=1;i<9;i++)leaf+=`<path d="M${x+i*w/9} ${y+8}v${h-16}" stroke="${B}" stroke-opacity="${i%2?.28:.14}"/>`}
+  else if(ext){leaf+=`<path d="M${x+14} ${y+h*.5}h${w-28}M${x+14} ${y+h*.5+8}h${w-28}" stroke="${B}" stroke-opacity=".3"/><rect x="${x+16}" y="${y+16}" width="${w-32}" height="${h*.34}" fill="none" stroke="${B}" stroke-opacity=".4"/><rect x="${x+16}" y="${y+h*.58}" width="${w-32}" height="${h*.34}" fill="none" stroke="${B}" stroke-opacity=".4"/>`}
+  else{leaf+=`<rect x="${x+18}" y="${y+18}" width="${w-36}" height="${h*.4}" fill="none" stroke="${B}" stroke-opacity=".45"/><rect x="${x+18}" y="${y+h*.5}" width="${w-36}" height="${h*.42}" fill="none" stroke="${B}" stroke-opacity=".45"/>`}
+  if(sm)leaf+=`<rect x="${x+6}" y="${y+6}" width="${w-12}" height="${h-12}" fill="none" stroke="${B}" stroke-opacity=".5" stroke-dasharray="3 5"/>`;
+  [.14,.5,.86].forEach(f=>leaf+=`<rect x="${x-5}" y="${y+h*f-12}" width="8" height="24" rx="2" fill="${B}"/>`);
+  leaf+=`<g fill="${B}"><rect x="${x+w-46}" y="${y+h*.52-4}" width="34" height="8" rx="4"/><circle cx="${x+w-16}" cy="${y+h*.52}" r="8"/></g>`;
+  if(rc)[.3,.5,.7].forEach(f=>leaf+=`<circle cx="${x+w-4}" cy="${y+h*f}" r="4" fill="${B}"/>`);
+  if(label){const lw=Math.max(76,label.length*26);leaf+=`<rect x="${x+w/2-lw/2}" y="${y+h*.2-26}" width="${lw}" height="52" rx="4" fill="${N}" stroke="${B}"/><text x="${x+w/2}" y="${y+h*.2+12}" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="${B}">${label}</text>`}
+  if(ak)leaf+=`<g fill="none" stroke="${B}" stroke-width="2" stroke-linecap="round"><path d="M${x+w+22} ${y+h*.4}q14 22 0 44" /><path d="M${x+w+34} ${y+h*.34}q24 28 0 56" stroke-opacity=".6"/><path d="M${x+w+46} ${y+h*.28}q34 34 0 68" stroke-opacity=".3"/></g>`;
+  leaf+=`<path d="M${x-30} ${y+h}H${x+w+30}" stroke="${B}" stroke-opacity=".5" stroke-width="3"/>`;
+  // wymiarowanie
+  leaf+=`<g stroke="${B}" stroke-opacity=".5" fill="none"><path d="M${x} ${y-30}H${x+w}M${x} ${y-36}v12M${x+w} ${y-36}v12"/><path d="M${x-40} ${y}V${y+h}M${x-46} ${y}h12M${x-46} ${y+h}h12"/></g>`;
+  g=leaf;
+ }
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d3354"/><stop offset="1" stop-color="#0a1626"/></linearGradient><pattern id="p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#d4b176" stroke-opacity=".07"/></pattern></defs><rect width="400" height="460" fill="url(#g)"/><rect width="400" height="460" fill="url(#p)"/>${g}<text x="200" y="440" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" letter-spacing="3" fill="#d4b176" fill-opacity=".45">ILUSTRACJA POGLĄDOWA</text></svg>`;
+ return _artC[k]='data:image/svg+xml,'+encodeURIComponent(svg);
+};
 export const doorIcon=`<svg width="30" height="30" viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="5" fill="none" stroke="#d4b176" stroke-width="1.5"/><rect x="10" y="6" width="12" height="20" fill="none" stroke="#d4b176" stroke-width="2"/><circle cx="19" cy="17" r="1.4" fill="#d4b176"/></svg>`;
 export const toast=(m,t)=>{let e=$('#toast');if(!e){e=document.createElement('div');e.id='toast';document.body.appendChild(e)}e.textContent=m;e.className='on'+(t==='err'?' err':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',3800)};
 export const busy=b=>document.body.classList.toggle('busy',b);
