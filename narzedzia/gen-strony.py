@@ -10,7 +10,7 @@ Użycie (w katalogu głównym repozytorium):
 
 Skrypt używa tylko biblioteki standardowej Pythona (3.8+). Adres strony bierze z js/config.js (SITE_URL).
 """
-import base64, datetime, html, json, pathlib, re, shutil, sys, unicodedata
+import base64, datetime, html, json, pathlib, re, shutil, sys, unicodedata, urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "narzedzia" / "oferta.json"
@@ -73,10 +73,14 @@ def main():
     imgdir = ROOT / "images" / "produkty"; shutil.rmtree(imgdir, ignore_errors=True); imgdir.mkdir(parents=True, exist_ok=True)
     (ROOT / "images" / "placeholder-drzwi.svg").write_text(PLACEHOLDER, encoding="utf-8")
     for p in prods:
-        m = re.match(r"data:image/\w+;base64,(.*)", p.get("thumb") or "", re.S)
-        p["img"] = None
+        th = p.get("thumb") or ""
+        m = re.match(r"data:image/\w+;base64,(.*)", th, re.S)
+        ms = re.match(r"data:image/svg\+xml,(.*)", th, re.S)
+        p["img"] = None; p["img_svg"] = False
         if m:
             (imgdir / f"{p['slug']}.jpg").write_bytes(base64.b64decode(m.group(1))); p["img"] = f"images/produkty/{p['slug']}.jpg"
+        elif ms:  # ilustracja poglądowa (SVG) wygenerowana przez stronę
+            (imgdir / f"{p['slug']}.svg").write_text(urllib.parse.unquote(ms.group(1)), encoding="utf-8"); p["img"] = f"images/produkty/{p['slug']}.svg"; p["img_svg"] = True
 
     def call_btn(cls="gold", txt=None):
         return f'<a class="btn {cls}" href="{tel(phone)}">{esc(txt or "Zadzwoń: " + phone)}</a>' if phone else ""
@@ -96,7 +100,7 @@ def main():
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#12213a">
 {lds}
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2312213a'/%3E%3Crect x='10' y='5' width='12' height='22' fill='none' stroke='%23d4b176' stroke-width='2'/%3E%3Ccircle cx='19' cy='17' r='1.4' fill='%23d4b176'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="{rel}css/site.css?v=11122152">
+<link rel="stylesheet" href="{rel}css/site.css?v=11141720">
 </head><body>
 <header class="hd"><div class="wrap"><a class="logo" href="{rel or './'}">{DOOR}<span><b>{esc(brand.upper())}</b><small>{subtitle}</small></span></a>
 <div class="hd-r"><a href="{rel}#oferta">Oferta</a><a href="{rel}#kontakt">Kontakt</a>{call_btn('gold sm', 'Zadzwoń')}</div></div></header>
@@ -151,11 +155,11 @@ def main():
         url = f"{URL}/produkt/{p['slug']}/"
         prod_ld = {"@context": "https://schema.org", "@type": "Product", "name": p["name"], "description": clip(p.get("desc") or p.get("short"), 500),
                    "category": p.get("category", ""), "brand": {"@type": "Brand", "name": brand}, "url": url}
-        if p["img"]: prod_ld["image"] = [f"{URL}/{p['img']}"]
+        if p["img"] and not p.get("img_svg"): prod_ld["image"] = [f"{URL}/{p['img']}"]
         trail = [("Strona główna", URL + "/")] + ([(c["name"], f"{URL}/kategoria/{c['slug']}/")] if c else []) + [(p["name"], url)]
         out = ROOT / "produkt" / p["slug"]; out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(shell(f"{p['name']} | Drzwi przeciwpożarowe {brand}", clip(p.get("desc") or p.get("short") or p["name"]) or p["name"],
-                                              f"produkt/{p['slug']}/", 2, body, [prod_ld, breadcrumbs(trail)], p["img"]), encoding="utf-8")
+                                              f"produkt/{p['slug']}/", 2, body, [prod_ld, breadcrumbs(trail)], None if p.get("img_svg") else p["img"]), encoding="utf-8")
 
     # --- strony kategorii ---
     for c in cats:
@@ -172,7 +176,7 @@ def main():
             {"@type": "ListItem", "position": i + 1, "url": f"{URL}/produkt/{p['slug']}/", "name": p["name"]} for i, p in enumerate(items)]}
         out = ROOT / "kategoria" / c["slug"]; out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(shell(f"{h1} – oferta | {brand}", clip(intro), f"kategoria/{c['slug']}/", 2, body, [lst, breadcrumbs(trail)],
-                                              items[0]["img"] if items and items[0]["img"] else None), encoding="utf-8")
+                                              items[0]["img"] if items and items[0]["img"] and not items[0].get("img_svg") else None), encoding="utf-8")
 
     # --- sitemap.xml ---
     urls = [(f"{URL}/", "1.0", "weekly"), (f"{URL}/polityka-prywatnosci.html", "0.3", "yearly")] + \

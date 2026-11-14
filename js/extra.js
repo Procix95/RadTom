@@ -1,5 +1,5 @@
 /* RadTom: formularz zapytań, lista zapytania, dobór drzwi do otworu, „otwarte teraz”, poradniki. */
-import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok,call} from './core.js?v=11122152';
+import {$,$$,esc,tel,S,ST,DB,makeDB,toast,tok,call,artFor,YEAR} from './core.js?v=11141720';
 
 export const safeUrl=u=>/^(https?:\/\/|\/|\.\/|[\w-]+[\w./-]*\.pdf)/i.test(String(u||'').trim())?String(u).trim():'';
 
@@ -215,4 +215,62 @@ export function renderQuiz(api){
   }
  };
  view();
+}
+
+
+/* ---------- porównywarka modeli (do 3 sztuk, tylko w pamięci strony) ---------- */
+const cmp=new Set();
+export const inCmp=id=>cmp.has(id);
+export function toggleCmp(p){
+ if(cmp.has(p.id))cmp.delete(p.id);else{if(cmp.size>=3){toast('Porównać można do trzech modeli naraz');return false}cmp.add(p.id)}
+ paintCmp();return cmp.has(p.id);
+}
+export function paintCmp(){
+ let b=$('#cmpbar');if(!b){b=document.createElement('div');b.id='cmpbar';document.body.appendChild(b)}
+ const n=cmp.size;b.hidden=!n;
+ b.innerHTML=n?`<span>Porównanie: <b>${n}</b>/3${n<2?' · wybierz jeszcze jeden model':''}</span><button type="button" class="btn gold sm" id="cmpGo" ${n<2?'disabled':''}>Porównaj</button><button type="button" class="btn ghost sm" id="cmpX">Wyczyść</button>`:'';
+ if(n){$('#cmpGo').onclick=openCompare;$('#cmpX').onclick=()=>{cmp.clear();paintCmp()}}
+ $$('[data-cmp]').forEach(x=>{const on=cmp.has(x.dataset.cmp);x.classList.toggle('on',on);x.textContent=on?'✓ W porównaniu':'Porównaj'});
+}
+export function openCompare(){
+ const L=[...cmp].map(id=>ST.P.find(p=>p.id===id)).filter(Boolean);if(L.length<2)return;
+ let ov=$('#cmpov');if(!ov){ov=document.createElement('div');ov.id='cmpov';document.body.appendChild(ov)}
+ const v0=p=>(p.variants||[])[0]||{},d=(a,b)=>a||b?`${a||'–'} × ${b||'–'} mm`:'–';
+ const keys=[...new Set(L.flatMap(p=>(p.specs||[]).map(x=>x.k)))];
+ const rows=[['Kategoria',p=>p.category||'–'],['Skrzydło (szer. × wys.)',p=>d(v0(p).leafW,v0(p).leafH)],['Wymiar montażowy',p=>d(v0(p).mountW,v0(p).mountH)],['Liczba wymiarów w ofercie',p=>(p.variants||[]).length||'–'],
+  ...keys.map(k=>[k,p=>((p.specs||[]).find(x=>x.k===k)||{}).v||'–']),['Cena',p=>p.price||'zapytaj telefonicznie']].filter(([,f])=>L.some(p=>!['–','',0].includes(f(p))));
+ ov.innerHTML=`<div class="cmpbox" role="dialog" aria-modal="true"><button class="mx" aria-label="Zamknij" type="button">×</button>
+  <div class="eyebrow">Porównanie</div><h2>Porównanie modeli</h2>
+  <div class="cmpscroll"><table class="cmpt"><thead><tr><th></th>${L.map(p=>`<th><img src="${p.thumb||artFor(p)}" alt=""><b>${esc(p.name)}</b></th>`).join('')}</tr></thead>
+  <tbody>${rows.map(([k,f])=>`<tr><th>${esc(k)}</th>${L.map(p=>`<td>${esc(f(p))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+  <div class="cmpact">${S.phone?call('gold','Zadzwoń i zamów: '+esc(S.phone)):''}<button class="btn line" id="cmpAsk" type="button">Zapytaj o te modele</button></div></div>`;
+ ov.classList.add('on');document.body.style.overflow='hidden';
+ const close=()=>{ov.classList.remove('on');document.body.style.overflow=''};
+ $('.mx',ov).onclick=close;ov.onclick=e=>{if(e.target===ov)close()};
+ $('#cmpAsk').onclick=()=>{close();L.forEach(p=>{if(!inList(p.id))toggleList(p)});openInquiry('Proszę o ofertę na porównywane modele.')};
+}
+document.addEventListener('keydown',e=>{const ov=$('#cmpov');if(e.key==='Escape'&&ov&&ov.classList.contains('on')){ov.classList.remove('on');document.body.style.overflow=''}});
+
+/* ---------- karta produktu do wydruku / zapisu jako PDF ---------- */
+export function printCard(p,photo){
+ const w=window.open('','_blank');if(!w){toast('Przeglądarka zablokowała okno. Zezwól na wyskakujące okna dla tej strony.','err');return}
+ const vs=p.variants||[],named=vs.some(v=>v.name),yrs=YEAR-(+S.since||YEAR);
+ const t=`<!DOCTYPE html><html lang="pl"><head><meta charset="utf-8"><title>${esc(p.name)} – ${esc(S.brand)}</title><style>
+  *{box-sizing:border-box}body{font:14px/1.5 Georgia,'Times New Roman',serif;color:#1d2433;margin:0;padding:28px 34px;max-width:820px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #b9904f;padding-bottom:10px;margin-bottom:20px}
+  header b{font-size:26px;letter-spacing:.14em;color:#12213a}header span{font:12px Arial,sans-serif;color:#5a6576;text-align:right}
+  .top{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start}.top img{width:100%;border:1px solid #d9dde4;border-radius:3px}
+  .cat{font:600 11px Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8a6a35}h1{font-size:28px;margin:4px 0 8px;color:#12213a;line-height:1.15}
+  .price{font:600 14px Arial,sans-serif;margin:8px 0}h2{font:600 11px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#5a6576;margin:22px 0 6px}
+  table{width:100%;border-collapse:collapse;font:13px Arial,sans-serif}th,td{padding:6px 8px;border-bottom:1px solid #e1e4ea;text-align:left}th{font-weight:500;color:#5a6576}td{font-weight:600}
+  .kv th{width:42%}footer{margin-top:26px;border-top:1px solid #d9dde4;padding-top:10px;font:12px Arial,sans-serif;color:#5a6576;display:flex;justify-content:space-between;gap:20px}
+  .note{font:11px Arial,sans-serif;color:#7b8594;margin-top:14px}@media print{body{padding:0}}</style></head><body>
+  <header><b>${esc(String(S.brand).toUpperCase())}</b><span>Drzwi przeciwpożarowe${S.oldName?' · dawniej '+esc(S.oldName):''}<br>Od ${yrs} lat na rynku</span></header>
+  <div class="top"><img src="${photo||p.thumb||artFor(p)}" alt=""><div><div class="cat">${esc(p.category||'')}</div><h1>${esc(p.name)}</h1><div class="price">${p.price?esc(p.price):'Cena: zapytaj telefonicznie'}</div><p>${esc(p.desc||p.short||'')}</p></div></div>
+  ${vs.length?`<h2>Wymiary (mm)</h2><table><tr>${named?'<th>Wariant</th>':''}<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>${vs.some(v=>v.price)?'<th>Cena</th>':''}</tr>${vs.map(v=>`<tr>${named?`<td>${esc(v.name)}</td>`:''}<td>${esc(v.leafW||'–')}</td><td>${esc(v.leafH||'–')}</td><td>${esc(v.mountW||'–')}</td><td>${esc(v.mountH||'–')}</td>${vs.some(x=>x.price)?`<td>${esc(v.price||'–')}</td>`:''}</tr>`).join('')}</table>`:''}
+  ${(p.specs||[]).length?`<h2>Parametry</h2><table class="kv">${p.specs.map(x=>`<tr><th>${esc(x.k)}</th><td>${esc(x.v)}</td></tr>`).join('')}</table>`:''}
+  <p class="note">Wymiary i parametry mają charakter informacyjny. Przed zamówieniem potwierdzamy je telefonicznie dla Twojego otworu.</p>
+  <footer><span>${S.phone?'Tel. '+esc(S.phone)+'<br>':''}${S.email?esc(S.email):''}</span><span>${esc(S.address||'')}<br>${esc(location.origin+location.pathname)}</span></footer>
+  <script>setTimeout(function(){window.print()},350)<\/script></body></html>`;
+ w.document.open();w.document.write(t);w.document.close();
 }

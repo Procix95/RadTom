@@ -1,5 +1,5 @@
 /* RadTom: panel administratora. Ładowany dopiero po kliknięciu „Panel administratora”. */
-import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11122152';
+import {$,$$,esc,DEMO,DEF,S,IMG,PH,artFor,SEED,ST,toast,busy,resize,DB,makeDB,loadAuth,failed,SITE_URL} from './core.js?v=11141720';
 
 let user=null,isAdm=false,authReady=false,tab='prod',ed=null,draft=null,gd=null,listCache=[],reload=null,A=null,booted=false;
 const TABS=[['prod','Produkty'],['gal','Realizacje'],['rev','Opinie i baner'],['inq','Zapytania'],['site','Dane i teksty'],['img','Zdjęcia strony'],['stat','Statystyki'],['tools','Narzędzia i SEO']];
@@ -8,7 +8,7 @@ async function saveSettings(patch){const o={...DEF,...S,...patch};await DB.saveM
 
 export async function openAdmin(onClose){
  reload=onClose;
- if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11122152';document.head.appendChild(l)}
+ if(!$('#aCss')){const l=document.createElement('link');l.id='aCss';l.rel='stylesheet';l.href='css/admin.css?v=11141720';document.head.appendChild(l)}
  let box=$('#admin');if(!box){box=document.createElement('div');box.id='admin';document.body.appendChild(box);box.addEventListener('click',onClick)}
  box.classList.add('on');document.body.style.overflow='hidden';history.replaceState(null,'','#admin');
  box.innerHTML='<div class="a-login"><p>Ładowanie…</p></div>';
@@ -160,17 +160,18 @@ function viewSite(warn=''){
   ${FLD('Rok rozpoczęcia sprzedaży drzwi','since',d.since,{type:'number',hint:'Z tego liczone jest „od X lat” (rośnie samo co roku).'})}${FLD('Telefon główny (do zamówień)','phone',d.phone,{ph:'+48 000 000 000'})}
   ${FLD('Telefon dodatkowy','phone2',d.phone2)}${FLD('E-mail','email',d.email)}
   ${FLD('Podpis pod wiadomością od właściciela','ownerName',d.ownerName,{full:true})}${FLD('Wiadomość od właściciela (sekcja po „O firmie”; puste = bez sekcji)','ownerNote',d.ownerNote,{area:true,full:true,hint:'Pisz własnymi słowami. Pusta linia oddziela akapity.'})}${FLD('Pasek na samej górze strony','promo',d.promo,{full:true,hint:'Krótki komunikat nad menu, np. promocja albo informacja o terminie. Puste = bez paska.'})}${FLD('Adres (przycisk „Pokaż mapę”)','address',d.address,{full:true,hint:'Puste = bez mapy.'})}${FLD('Co pokazać na mapie Google (nazwa firmy z Map Google)','mapQuery',d.mapQuery,{full:true,hint:'Wpisz dokładnie tak, jak firma nazywa się w Mapach Google, wtedy pokaże się jej znacznik, a nie sam adres. Puste = pokaże adres.'})}${FLD('Godziny otwarcia (każdy dzień w nowej linii)','hours',d.hours,{area:true,hint:'Np. „Pon–Pt: 8:00–16:00” i w drugiej linii „Sob: 9:00–13:00”.'})}${FLD('Stopka: NIP / dane firmy','nip',d.nip)}${FLD('Stopka: podpis autora strony','credit',d.credit,{hint:'Pokazuje się pod prawami autorskimi. Puste = bez podpisu.'})}
-  ${FLD('Numer do SMS-ów od klientów (opcjonalnie)','smsPhone',d.smsPhone,{ph:'np. 48600000000',hint:'Po wysłaniu zapytania klient dostaje przycisk „Wyślij też SMS-em” (otwiera SMS na jego telefonie, z gotową treścią). Wpisz poprawny 9-cyfrowy numer, z 48 na początku lub bez.'})}
+  ${FLD('Numer do SMS-ów od klientów (opcjonalnie)','smsPhone',d.smsPhone,{ph:'np. 509516264',hint:'Po wysłaniu zapytania klient dostaje przycisk „Wyślij też SMS-em” (otwiera SMS na jego telefonie, z gotową treścią). Wpisz poprawny 9-cyfrowy numer, z 48 na początku lub bez.'})}
   ${FLD('Adres webhooka do powiadomień SMS (opcjonalnie)','webhook',d.webhook,{full:true,hint:'Jeśli skonfigurujesz usługę wysyłającą SMS-y (instrukcja w README: narzedzia/sms-worker.js), wklej tu jej adres. Każde zapytanie z formularza trafi wtedy SMS-em na Twój telefon.'})}
   ${FLD('Link do wizytówki w Mapach Google','gmbUrl',d.gmbUrl,{full:true})}${FLD('Link „Napisz opinię” w Google','reviewUrl',d.reviewUrl,{full:true})}</div></div>
  <div class="a-card"><h3>Strona główna</h3><div class="a-grid">${FLD('Nagłówek','heroTitle',d.heroTitle,{full:true})}${FLD('Opis pod nagłówkiem','heroSub',d.heroSub,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>O firmie</h3><div class="a-grid">${FLD('Tytuł','aboutTitle',d.aboutTitle,{full:true})}${FLD('Tekst (akapity oddziel pustą linią)','aboutText',d.aboutText,{area:true,full:true})}</div></div>
  <div class="a-card"><h3>Kategorie drzwi</h3><div class="a-grid">${FLD('Jedna kategoria w wierszu: Nazwa | krótki opis','categories',d.categories.join('\n'),{area:true,lines:true,full:true,hint:'Opis po kresce | trafia na stronę kategorii (ważne dla Google). Zmiana nazwy kategorii wymaga poprawienia jej w produktach.'})}</div></div>
- ${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}${pairs('classes','Poradnik: co oznaczają symbole (karty)')}${pairs('faq','Najczęstsze pytania')}${pairs('guides','Poradniki (rozwijane)')}</div>
+ <div class="a-card"><h3>Montaż drzwi (sekcja na stronie; puste = bez sekcji)</h3><div class="a-grid">${FLD('Tytuł sekcji','mountTitle',d.mountTitle,{full:true})}${FLD('Tekst o montażu (akapity oddziel pustą linią)','mountText',d.mountText,{area:true,full:true,hint:'Opisz własnymi słowami, jak wygląda montaż w RadTom. Pusty tekst ukrywa całą sekcję.'})}</div></div>
+ ${pairs('mountPoints','Montaż: co obejmuje usługa (lista punktów)')}${pairs('docs','Dokumenty do pobrania (nazwa i link do pliku PDF)')}${pairs('stats','Pasek z liczbami')}${pairs('feats','Dlaczego my (karty)')}${pairs('steps','Jak zamówić (kroki)')}${pairs('classes','Poradnik: co oznaczają symbole (karty)')}${pairs('faq','Najczęstsze pytania')}${pairs('guides','Poradniki (rozwijane)')}</div>
  <div class="a-save"><button class="a-btn pri" data-act="savesite">Zapisz zmiany</button></div>`;
- bind($('#siteForm'),d);['stats','feats','steps','classes','faq','guides'].forEach(drawPairs);
+ bind($('#siteForm'),d);['stats','feats','steps','classes','faq','guides','mountPoints','docs'].forEach(drawPairs);
 }
-function drawPairs(k){const b=$('#pl-'+k);if(!b)return;b.innerHTML=draft[k].map((r,i)=>`<div class="a-sr"><label>${k==='stats'?'Liczba / hasło':k==='classes'?'Symbol':k==='faq'?'Pytanie':'Tytuł'}<input data-l="${k}" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>${k==='stats'?'Opis':k==='faq'?'Odpowiedź':'Tekst'}<input data-l="${k}" data-i="${i}" data-f="b" value="${esc(r.b)}"></label><button class="a-x" data-act="delpair" data-key="${k}" data-i="${i}">✕</button></div>`).join('')}
+function drawPairs(k){const b=$('#pl-'+k);if(!b)return;b.innerHTML=draft[k].map((r,i)=>`<div class="a-sr"><label>${k==='stats'?'Liczba / hasło':k==='classes'?'Symbol':k==='faq'?'Pytanie':k==='docs'?'Nazwa dokumentu':'Tytuł'}<input data-l="${k}" data-i="${i}" data-f="a" value="${esc(r.a)}"></label><label>${k==='stats'?'Opis':k==='faq'?'Odpowiedź':k==='docs'?'Link do pliku (https://… lub dokumenty/plik.pdf)':'Tekst'}<input data-l="${k}" data-i="${i}" data-f="b" value="${esc(r.b)}"></label><button class="a-x" data-act="delpair" data-key="${k}" data-i="${i}">✕</button></div>`).join('')}
 
 /* ---------- zdjęcia strony ---------- */
 function viewImages(warn=''){

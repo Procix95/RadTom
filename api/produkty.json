@@ -1,0 +1,631 @@
+{
+ "firma": {
+  "nazwa": "RadTom",
+  "dawna_nazwa": "AGART",
+  "od_roku": 2006,
+  "telefon": "",
+  "email": "radtom72@gmail.com",
+  "adres": "Głuponie 103, 64-316 Kuślin",
+  "strona": "https://procix95.github.io/RadTom/"
+ },
+ "kategorie": [
+  {
+   "nazwa": "Wewnętrzne przeciwpożarowe",
+   "slug": "wewnetrzne-przeciwpozarowe",
+   "opis": "Drzwi przeciwpożarowe wewnętrzne, także do komórek lokatorskich, w klasach odporności ogniowej EI30 i EI60. Jedno- i dwuskrzydłowe.",
+   "url": "kategoria/wewnetrzne-przeciwpozarowe/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/wewnetrzne-przeciwpozarowe/"
+  },
+  {
+   "nazwa": "Dymoszczelne",
+   "slug": "dymoszczelne",
+   "opis": "Drzwi kierunkowe dymoszczelne w klasach S30 i S60, do dróg ewakuacyjnych i stref wymagających ochrony przed dymem.",
+   "url": "kategoria/dymoszczelne/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/dymoszczelne/"
+  },
+  {
+   "nazwa": "Akustyczne",
+   "slug": "akustyczne",
+   "opis": "Drzwi przeciwpożarowe o podwyższonych właściwościach akustycznych: EI60 do komórek lokatorskich i EI2 60 do wnętrz, z izolacyjnością 30 dB.",
+   "url": "kategoria/akustyczne/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/akustyczne/"
+  },
+  {
+   "nazwa": "Dwuskrzydłowe",
+   "slug": "dwuskrzydlowe",
+   "opis": "Drzwi dwuskrzydłowe do szerokich otworów: przeciwpożarowe EI30, EI60, EI120 i dymoszczelne S60, z regulatorem kolejności zamykania skrzydeł.",
+   "url": "kategoria/dwuskrzydlowe/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/dwuskrzydlowe/"
+  },
+  {
+   "nazwa": "Zewnętrzne",
+   "slug": "zewnetrzne",
+   "opis": "Drzwi zewnętrzne kierunkowe: bez odporności ogniowej oraz przeciwpożarowe EI60 i EI120. Jedno- i dwuskrzydłowe.",
+   "url": "kategoria/zewnetrzne/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/zewnetrzne/"
+  },
+  {
+   "nazwa": "Antywłamaniowe",
+   "slug": "antywlamaniowe",
+   "opis": "Drzwi w klasach odporności na włamanie RC2 i RC3, z ryglowaniem bolcami i izolacją termiczną i akustyczną.",
+   "url": "kategoria/antywlamaniowe/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/antywlamaniowe/"
+  },
+  {
+   "nazwa": "Akcesoria",
+   "slug": "akcesoria",
+   "opis": "Wyposażenie dodatkowe do drzwi: klamki, uszczelki, samozamykacze, dźwignie antypaniczne, zamki i regulatory kolejności zamykania.",
+   "url": "kategoria/akcesoria/",
+   "adres": "https://procix95.github.io/RadTom/kategoria/akcesoria/"
+  }
+ ],
+ "produkty": [
+  {
+   "id": "d1",
+   "slug": "drzwi-przeciwpozarowe-ei30-do-komorek-lokatorskich",
+   "nazwa": "Drzwi przeciwpożarowe EI30 do komórek lokatorskich",
+   "kategoria": "Wewnętrzne przeciwpożarowe",
+   "opis_krotki": "Drzwi o odporności ogniowej 30 minut do komórek lokatorskich i pomieszczeń technicznych. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi przeciwpożarowe w klasie EI30, przeznaczone do komórek lokatorskich. Dostępne w wersji jedno- i dwuskrzydłowej. Standardowe wykończenie to blacha ze stali galwanizowanej. Do wyboru dodatkowe wyposażenie: klamki, uszczelki, samozamykacze, regulator kolejności zamykania skrzydeł (przy dwuskrzydłowych) i zamki.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI30"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Wykończenie standardowe",
+     "wartosc": "blacha ze stali galwanizowanej"
+    },
+    {
+     "nazwa": "Grubość skrzydła",
+     "wartosc": "ok. 53 mm"
+    },
+    {
+     "nazwa": "Ościeżnica",
+     "wartosc": "stalowa, narożnikowa, galwanizowana, z uszczelką pęczniejącą"
+    },
+    {
+     "nazwa": "Wypełnienie skrzydła",
+     "wartosc": "wełna mineralna"
+    },
+    {
+     "nazwa": "Standardowy kolor",
+     "wartosc": "RAL 7035 (jasnoszary)"
+    },
+    {
+     "nazwa": "Zawiasy",
+     "wartosc": "2 homologowane, w tym 1 ze sprężyną do samodomykania"
+    },
+    {
+     "nazwa": "Zamek",
+     "wartosc": "zasuwowo-zapadkowy"
+    }
+   ],
+   "url": "produkt/drzwi-przeciwpozarowe-ei30-do-komorek-lokatorskich/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei30-do-komorek-lokatorskich/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-przeciwpozarowe-ei30-do-komorek-lokatorskich.svg"
+  },
+  {
+   "id": "d2",
+   "slug": "drzwi-przeciwpozarowe-ei60-do-komorek-lokatorskich",
+   "nazwa": "Drzwi przeciwpożarowe EI60 do komórek lokatorskich",
+   "kategoria": "Wewnętrzne przeciwpożarowe",
+   "opis_krotki": "Drzwi o odporności ogniowej 60 minut do komórek lokatorskich i stref pożarowych. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi przeciwpożarowe w klasie EI60, przeznaczone do komórek lokatorskich. Dostępne jako jedno- i dwuskrzydłowe. Standardowe wykończenie to blacha ze stali galwanizowanej. Możliwe wyposażenie dodatkowe: klamki, uszczelki, samozamykacze i zamki.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Wykończenie standardowe",
+     "wartosc": "blacha ze stali galwanizowanej"
+    },
+    {
+     "nazwa": "Ościeżnica",
+     "wartosc": "stalowa, narożnikowa, galwanizowana, z uszczelką pęczniejącą"
+    },
+    {
+     "nazwa": "Wypełnienie skrzydła",
+     "wartosc": "wełna mineralna"
+    },
+    {
+     "nazwa": "Standardowy kolor",
+     "wartosc": "RAL 7035 (jasnoszary)"
+    },
+    {
+     "nazwa": "Zawiasy",
+     "wartosc": "2 homologowane, w tym 1 ze sprężyną do samodomykania"
+    },
+    {
+     "nazwa": "Zamek",
+     "wartosc": "zasuwowo-zapadkowy"
+    },
+    {
+     "nazwa": "Zabezpieczenie",
+     "wartosc": "2 bolce przeciwwyważeniowe"
+    }
+   ],
+   "url": "produkt/drzwi-przeciwpozarowe-ei60-do-komorek-lokatorskich/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei60-do-komorek-lokatorskich/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-przeciwpozarowe-ei60-do-komorek-lokatorskich.svg"
+  },
+  {
+   "id": "d3",
+   "slug": "drzwi-do-komorek-lokatorskich-bez-odpornosci-ogniowej",
+   "nazwa": "Drzwi do komórek lokatorskich bez odporności ogniowej",
+   "kategoria": "Wewnętrzne przeciwpożarowe",
+   "opis_krotki": "Uniwersalne drzwi do komórek lokatorskich, bez wymagań ogniowych. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi do komórek lokatorskich w wersji bez odporności ogniowej, dla pomieszczeń, w których takie wymagania nie obowiązują. Dostępne jako jedno- i dwuskrzydłowe, standardowo z blachy stalowej galwanizowanej.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "brak"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Wykończenie standardowe",
+     "wartosc": "blacha ze stali galwanizowanej"
+    }
+   ],
+   "url": "produkt/drzwi-do-komorek-lokatorskich-bez-odpornosci-ogniowej/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-do-komorek-lokatorskich-bez-odpornosci-ogniowej/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-do-komorek-lokatorskich-bez-odpornosci-ogniowej.svg"
+  },
+  {
+   "id": "d4",
+   "slug": "drzwi-kierunkowe-dymoszczelne-s30",
+   "nazwa": "Drzwi kierunkowe dymoszczelne S30",
+   "kategoria": "Dymoszczelne",
+   "opis_krotki": "Drzwi kierunkowe z klasą dymoszczelności S30. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi kierunkowe dymoszczelne w klasie S30, do komórek lokatorskich i innych miejsc, gdzie trzeba ograniczyć przenikanie dymu. Dostępne jako jedno- i dwuskrzydłowe.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Dymoszczelność",
+     "wartosc": "S30"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Grubość skrzydła",
+     "wartosc": "53 mm"
+    },
+    {
+     "nazwa": "Wypełnienie skrzydła",
+     "wartosc": "wełna mineralna 150 kg/m³"
+    }
+   ],
+   "url": "produkt/drzwi-kierunkowe-dymoszczelne-s30/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-kierunkowe-dymoszczelne-s30/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-kierunkowe-dymoszczelne-s30.svg"
+  },
+  {
+   "id": "d5",
+   "slug": "drzwi-kierunkowe-dymoszczelne-s60",
+   "nazwa": "Drzwi kierunkowe dymoszczelne S60",
+   "kategoria": "Dymoszczelne",
+   "opis_krotki": "Drzwi kierunkowe z klasą dymoszczelności S60. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi kierunkowe dymoszczelne w klasie S60, do komórek lokatorskich i innych miejsc, gdzie trzeba ograniczyć przenikanie dymu. Dostępne jako jedno- i dwuskrzydłowe.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Dymoszczelność",
+     "wartosc": "S60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    }
+   ],
+   "url": "produkt/drzwi-kierunkowe-dymoszczelne-s60/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-kierunkowe-dymoszczelne-s60/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-kierunkowe-dymoszczelne-s60.svg"
+  },
+  {
+   "id": "d6",
+   "slug": "drzwi-przeciwpozarowe-ei60-o-podwyzszonych-wlasciwosciach-akustycznych",
+   "nazwa": "Drzwi przeciwpożarowe EI60 o podwyższonych właściwościach akustycznych",
+   "kategoria": "Akustyczne",
+   "opis_krotki": "Drzwi do komórek lokatorskich: odporność ogniowa 60 minut i lepsza izolacja akustyczna.",
+   "opis": "Drzwi przeciwpożarowe w klasie EI60 do komórek lokatorskich, wykonane tak, by lepiej tłumić dźwięk niż wersja podstawowa. Dostępne jako jedno- i dwuskrzydłowe.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    }
+   ],
+   "url": "produkt/drzwi-przeciwpozarowe-ei60-o-podwyzszonych-wlasciwosciach-akustycznych/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei60-o-podwyzszonych-wlasciwosciach-akustycznych/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-przeciwpozarowe-ei60-o-podwyzszonych-wlasciwosciach-akustycznych.svg"
+  },
+  {
+   "id": "d7",
+   "slug": "drzwi-wewnetrzne-kierunkowe-ei2-60-o-podwyzszonych-wlasciwosciach-akustycznych",
+   "nazwa": "Drzwi wewnętrzne kierunkowe EI2 60 o podwyższonych właściwościach akustycznych",
+   "kategoria": "Akustyczne",
+   "opis_krotki": "Wewnętrzne drzwi kierunkowe, EI2 60, z izolacyjnością akustyczną 30 dB.",
+   "opis": "Wewnętrzne drzwi kierunkowe przeciwpożarowe w klasie EI2 60 o podwyższonych właściwościach akustycznych (30 dB). Dostępne jako jedno- i dwuskrzydłowe.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI2 60"
+    },
+    {
+     "nazwa": "Izolacyjność akustyczna",
+     "wartosc": "30 dB"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    }
+   ],
+   "url": "produkt/drzwi-wewnetrzne-kierunkowe-ei2-60-o-podwyzszonych-wlasciwosciach-akustycznych/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-wewnetrzne-kierunkowe-ei2-60-o-podwyzszonych-wlasciwosciach-akustycznych/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-wewnetrzne-kierunkowe-ei2-60-o-podwyzszonych-wlasciwosciach-akustycznych.svg"
+  },
+  {
+   "id": "d8",
+   "slug": "drzwi-zewnetrzne-kierunkowe-bez-odpornosci-ogniowej",
+   "nazwa": "Drzwi zewnętrzne kierunkowe bez odporności ogniowej",
+   "kategoria": "Zewnętrzne",
+   "opis_krotki": "Drzwi zewnętrzne kierunkowe, jedno- lub dwuskrzydłowe, standardowo w kolorze RAL 7035.",
+   "opis": "Drzwi zewnętrzne kierunkowe w wersji bez odporności ogniowej. Dostępne jako jedno- i dwuskrzydłowe. Wykończenie podstawowe: RAL 7035.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "brak"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Kolor podstawowy",
+     "wartosc": "RAL 7035"
+    }
+   ],
+   "url": "produkt/drzwi-zewnetrzne-kierunkowe-bez-odpornosci-ogniowej/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-kierunkowe-bez-odpornosci-ogniowej/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-zewnetrzne-kierunkowe-bez-odpornosci-ogniowej.svg"
+  },
+  {
+   "id": "d9",
+   "slug": "drzwi-zewnetrzne-przeciwpozarowe-ei60",
+   "nazwa": "Drzwi zewnętrzne przeciwpożarowe EI60",
+   "kategoria": "Zewnętrzne",
+   "opis_krotki": "Drzwi zewnętrzne kierunkowe o odporności ogniowej 60 minut. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi zewnętrzne kierunkowe przeciwpożarowe w klasie EI60. Dostępne jako jedno- i dwuskrzydłowe, w podstawowym kolorze RAL 7035.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Kolor podstawowy",
+     "wartosc": "RAL 7035"
+    }
+   ],
+   "url": "produkt/drzwi-zewnetrzne-przeciwpozarowe-ei60/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-przeciwpozarowe-ei60/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-zewnetrzne-przeciwpozarowe-ei60.svg"
+  },
+  {
+   "id": "d10",
+   "slug": "drzwi-zewnetrzne-przeciwpozarowe-ei120",
+   "nazwa": "Drzwi zewnętrzne przeciwpożarowe EI120",
+   "kategoria": "Zewnętrzne",
+   "opis_krotki": "Drzwi zewnętrzne kierunkowe o odporności ogniowej 120 minut. Jedno- lub dwuskrzydłowe.",
+   "opis": "Drzwi zewnętrzne kierunkowe przeciwpożarowe w klasie EI120. Dostępne jako jedno- i dwuskrzydłowe, w podstawowym kolorze RAL 7035.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI120"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "jedno- lub dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Kolor podstawowy",
+     "wartosc": "RAL 7035"
+    }
+   ],
+   "url": "produkt/drzwi-zewnetrzne-przeciwpozarowe-ei120/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-przeciwpozarowe-ei120/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-zewnetrzne-przeciwpozarowe-ei120.svg"
+  },
+  {
+   "id": "d11",
+   "slug": "drzwi-przeciwpozarowe-z-blachy-powlekanej-kolor-drewnopodobny",
+   "nazwa": "Drzwi przeciwpożarowe z blachy powlekanej, kolor drewnopodobny",
+   "kategoria": "Wewnętrzne przeciwpożarowe",
+   "opis_krotki": "Drzwi przeciwpożarowe z blachy powlekanej w kolorze imitującym drewno.",
+   "opis": "Drzwi przeciwpożarowe wykonane z blachy powlekanej, wykończone w kolorze drewnopodobnym, dla wnętrz, w których drzwi mają wyglądać jak zwykłe drzwi drewniane. Klasę odporności ogniowej podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Wykończenie",
+     "wartosc": "blacha powlekana, kolor drewnopodobny"
+    }
+   ],
+   "url": "produkt/drzwi-przeciwpozarowe-z-blachy-powlekanej-kolor-drewnopodobny/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-z-blachy-powlekanej-kolor-drewnopodobny/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-przeciwpozarowe-z-blachy-powlekanej-kolor-drewnopodobny.svg"
+  },
+  {
+   "id": "d12",
+   "slug": "drzwi-antywlamaniowe-rc2",
+   "nazwa": "Drzwi antywłamaniowe RC2",
+   "kategoria": "Antywłamaniowe",
+   "opis_krotki": "Drzwi w klasie odporności na włamanie RC2, z ryglowaniem bolcami.",
+   "opis": "Drzwi antywłamaniowe w klasie RC2. Solidne skrzydło zapewnia izolację termiczną i akustyczną, a zamknięcie ryglują bolce w górnej, dolnej i środkowej części drzwi.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Klasa antywłamaniowa",
+     "wartosc": "RC2"
+    }
+   ],
+   "url": "produkt/drzwi-antywlamaniowe-rc2/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-antywlamaniowe-rc2/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-antywlamaniowe-rc2.svg"
+  },
+  {
+   "id": "d13",
+   "slug": "drzwi-antywlamaniowe-rc3",
+   "nazwa": "Drzwi antywłamaniowe RC3",
+   "kategoria": "Antywłamaniowe",
+   "opis_krotki": "Drzwi w klasie odporności na włamanie RC3, z ryglowaniem bolcami.",
+   "opis": "Drzwi antywłamaniowe w klasie RC3. Solidne skrzydło zapewnia izolację termiczną i akustyczną, a zamknięcie ryglują bolce w górnej, dolnej i środkowej części drzwi.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Klasa antywłamaniowa",
+     "wartosc": "RC3"
+    }
+   ],
+   "url": "produkt/drzwi-antywlamaniowe-rc3/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-antywlamaniowe-rc3/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-antywlamaniowe-rc3.svg"
+  },
+  {
+   "id": "d14",
+   "slug": "klamki-do-drzwi-przeciwpozarowych",
+   "nazwa": "Klamki do drzwi przeciwpożarowych",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Klamki dobierane do drzwi przeciwpożarowych, dostępne jako wyposażenie dodatkowe.",
+   "opis": "Klamki dobierane do drzwi przeciwpożarowych, dostępne jako wyposażenie dodatkowe. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/klamki-do-drzwi-przeciwpozarowych/",
+   "adres": "https://procix95.github.io/RadTom/produkt/klamki-do-drzwi-przeciwpozarowych/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/klamki-do-drzwi-przeciwpozarowych.svg"
+  },
+  {
+   "id": "d15",
+   "slug": "uszczelki-do-drzwi-przeciwpozarowych",
+   "nazwa": "Uszczelki do drzwi przeciwpożarowych",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Uszczelki jako wyposażenie dodatkowe drzwi przeciwpożarowych i dymoszczelnych.",
+   "opis": "Uszczelki jako wyposażenie dodatkowe drzwi przeciwpożarowych i dymoszczelnych. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/uszczelki-do-drzwi-przeciwpozarowych/",
+   "adres": "https://procix95.github.io/RadTom/produkt/uszczelki-do-drzwi-przeciwpozarowych/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/uszczelki-do-drzwi-przeciwpozarowych.svg"
+  },
+  {
+   "id": "d16",
+   "slug": "samozamykacze",
+   "nazwa": "Samozamykacze",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Samozamykacze, które domykają drzwi po przejściu, dostępne jako wyposażenie dodatkowe.",
+   "opis": "Samozamykacze, które domykają drzwi po przejściu, dostępne jako wyposażenie dodatkowe. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/samozamykacze/",
+   "adres": "https://procix95.github.io/RadTom/produkt/samozamykacze/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/samozamykacze.svg"
+  },
+  {
+   "id": "d17",
+   "slug": "dzwignie-antypaniczne",
+   "nazwa": "Dźwignie antypaniczne",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Dźwignie antypaniczne do drzwi na drogach ewakuacyjnych, umożliwiające szybkie otwarcie drzwi od wewnątrz.",
+   "opis": "Dźwignie antypaniczne do drzwi na drogach ewakuacyjnych, umożliwiające szybkie otwarcie drzwi od wewnątrz. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/dzwignie-antypaniczne/",
+   "adres": "https://procix95.github.io/RadTom/produkt/dzwignie-antypaniczne/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/dzwignie-antypaniczne.svg"
+  },
+  {
+   "id": "d18",
+   "slug": "zamki-do-drzwi",
+   "nazwa": "Zamki do drzwi",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Zamki dobierane do rodzaju drzwi, dostępne jako wyposażenie dodatkowe.",
+   "opis": "Zamki dobierane do rodzaju drzwi, dostępne jako wyposażenie dodatkowe. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/zamki-do-drzwi/",
+   "adres": "https://procix95.github.io/RadTom/produkt/zamki-do-drzwi/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/zamki-do-drzwi.svg"
+  },
+  {
+   "id": "d19",
+   "slug": "regulator-kolejnosci-zamykania-skrzydel",
+   "nazwa": "Regulator kolejności zamykania skrzydeł",
+   "kategoria": "Akcesoria",
+   "opis_krotki": "Regulator kolejności zamykania skrzydeł w drzwiach dwuskrzydłowych: zapewnia, że skrzydła domykają się w prawidłowej kolejności.",
+   "opis": "Regulator kolejności zamykania skrzydeł w drzwiach dwuskrzydłowych: zapewnia, że skrzydła domykają się w prawidłowej kolejności. Szczegóły i dostępne warianty podamy przy zamówieniu.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [],
+   "url": "produkt/regulator-kolejnosci-zamykania-skrzydel/",
+   "adres": "https://procix95.github.io/RadTom/produkt/regulator-kolejnosci-zamykania-skrzydel/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/regulator-kolejnosci-zamykania-skrzydel.svg"
+  },
+  {
+   "id": "d20",
+   "slug": "drzwi-dwuskrzydlowe-przeciwpozarowe-ei30",
+   "nazwa": "Drzwi dwuskrzydłowe przeciwpożarowe EI30",
+   "kategoria": "Dwuskrzydłowe",
+   "opis_krotki": "Dwuskrzydłowe drzwi o odporności ogniowej 30 minut do pomieszczeń technicznych i komórek lokatorskich.",
+   "opis": "Drzwi przeciwpożarowe w klasie EI30 w wersji dwuskrzydłowej, do szerszych otworów. Standardowe wykończenie to blacha ze stali galwanizowanej. Do wyboru dodatkowe wyposażenie: klamki, uszczelki, samozamykacze, zamki oraz regulator kolejności zamykania skrzydeł.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI30"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Wykończenie standardowe",
+     "wartosc": "blacha ze stali galwanizowanej"
+    },
+    {
+     "nazwa": "Wyposażenie dodatkowe",
+     "wartosc": "regulator kolejności zamykania skrzydeł"
+    }
+   ],
+   "url": "produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei30/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei30/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-dwuskrzydlowe-przeciwpozarowe-ei30.svg"
+  },
+  {
+   "id": "d21",
+   "slug": "drzwi-dwuskrzydlowe-przeciwpozarowe-ei60",
+   "nazwa": "Drzwi dwuskrzydłowe przeciwpożarowe EI60",
+   "kategoria": "Dwuskrzydłowe",
+   "opis_krotki": "Dwuskrzydłowe drzwi o odporności ogniowej 60 minut do stref pożarowych i komórek lokatorskich.",
+   "opis": "Drzwi przeciwpożarowe w klasie EI60 w wersji dwuskrzydłowej. Standardowe wykończenie to blacha ze stali galwanizowanej. Możliwe wyposażenie dodatkowe: klamki, uszczelki, samozamykacze, zamki i regulator kolejności zamykania skrzydeł.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Wykończenie standardowe",
+     "wartosc": "blacha ze stali galwanizowanej"
+    },
+    {
+     "nazwa": "Wyposażenie dodatkowe",
+     "wartosc": "regulator kolejności zamykania skrzydeł"
+    }
+   ],
+   "url": "produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei60/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei60/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-dwuskrzydlowe-przeciwpozarowe-ei60.svg"
+  },
+  {
+   "id": "d22",
+   "slug": "drzwi-zewnetrzne-dwuskrzydlowe-przeciwpozarowe-ei120",
+   "nazwa": "Drzwi zewnętrzne dwuskrzydłowe przeciwpożarowe EI120",
+   "kategoria": "Dwuskrzydłowe",
+   "opis_krotki": "Dwuskrzydłowe drzwi zewnętrzne kierunkowe o odporności ogniowej 120 minut.",
+   "opis": "Drzwi zewnętrzne kierunkowe przeciwpożarowe w klasie EI120, w wersji dwuskrzydłowej, w podstawowym kolorze RAL 7035.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Odporność ogniowa",
+     "wartosc": "EI120"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "dwuskrzydłowe"
+    },
+    {
+     "nazwa": "Kolor podstawowy",
+     "wartosc": "RAL 7035"
+    }
+   ],
+   "url": "produkt/drzwi-zewnetrzne-dwuskrzydlowe-przeciwpozarowe-ei120/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-dwuskrzydlowe-przeciwpozarowe-ei120/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-zewnetrzne-dwuskrzydlowe-przeciwpozarowe-ei120.svg"
+  },
+  {
+   "id": "d23",
+   "slug": "drzwi-dwuskrzydlowe-dymoszczelne-s60",
+   "nazwa": "Drzwi dwuskrzydłowe dymoszczelne S60",
+   "kategoria": "Dwuskrzydłowe",
+   "opis_krotki": "Dwuskrzydłowe drzwi kierunkowe z klasą dymoszczelności S60 do dróg ewakuacyjnych.",
+   "opis": "Drzwi kierunkowe z klasą dymoszczelności S60 w wersji dwuskrzydłowej, do szerokich przejść na drogach ewakuacyjnych i w strefach wymagających ochrony przed dymem.",
+   "cena": "",
+   "warianty": [],
+   "parametry": [
+    {
+     "nazwa": "Dymoszczelność",
+     "wartosc": "S60"
+    },
+    {
+     "nazwa": "Skrzydła",
+     "wartosc": "dwuskrzydłowe"
+    }
+   ],
+   "url": "produkt/drzwi-dwuskrzydlowe-dymoszczelne-s60/",
+   "adres": "https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-dymoszczelne-s60/",
+   "zdjecie": "https://procix95.github.io/RadTom/images/produkty/drzwi-dwuskrzydlowe-dymoszczelne-s60.svg"
+  }
+ ]
+}

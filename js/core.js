@@ -1,5 +1,5 @@
 /* RadTom: wspólny kod strony i panelu (dane, Firebase, narzędzia). */
-import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=11122152';
+import {FIREBASE_CONFIG,SITE_URL} from './config.js?v=11141720';
 export {SITE_URL};
 export const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 export const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -9,7 +9,7 @@ export const DEMO=!FIREBASE_CONFIG.apiKey;
 
 export const DEF={
  brand:'RadTom',oldName:'AGART',since:2006,
- phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',ownerName:'Tomasz Jaskuła',ownerNote:'Drzwi przeciwpożarowe sprzedajemy od 20 lat. Wiem, że wybór drzwi do konkretnego otworu bywa kłopotliwy, i dlatego zamiast gotowych formułek wolę po prostu porozmawiać.\n\nPowiedz, gdzie drzwi mają być zamontowane i jaki masz otwór, a pomogę dobrać klasę odporności oraz wymiar. Zadzwoń albo zostaw numer, oddzwonię.',promo:'Dobierzemy drzwi do Twojego otworu: zadzwoń albo policz wymiary online.',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',smsPhone:'',webhook:'',gmbUrl:'',reviewUrl:'',notice:'',
+ phone:'',phone2:'',email:'radtom72@gmail.com',address:'Głuponie 103, 64-316 Kuślin',ownerName:'Tomasz Jaskuła',ownerNote:'Drzwi przeciwpożarowe sprzedajemy od 20 lat. Wiem, że wybór drzwi do konkretnego otworu bywa kłopotliwy, i dlatego zamiast gotowych formułek wolę po prostu porozmawiać.\n\nPowiedz, gdzie drzwi mają być zamontowane i jaki masz otwór, a pomogę dobrać klasę odporności oraz wymiar. Zadzwoń albo zostaw numer, oddzwonię.',promo:'Dobierzemy drzwi do Twojego otworu: zadzwoń albo policz wymiary online.',mapQuery:'RadTom mieszalnia farb samochodowych, Głuponie, 64-316 Kuślin',hours:'Poniedziałek – piątek, 8:00 – 16:00',nip:'',credit:'Strona wykonana przez Radosław Jaskuła (Procix94)',smsPhone:'509516264',webhook:'',gmbUrl:'',reviewUrl:'',notice:'',
  heroTitle:'Drzwi przeciwpożarowe od ludzi, którzy sprzedają je od {lat} lat',
  heroSub:'Drzwi o odporności ogniowej EI30, EI60 i EI120 do zakładów, magazynów, biur i obiektów użyteczności publicznej. Doradzimy, dobierzemy do wymiarów otworu i przyjmiemy zamówienie jednym telefonem.',
  aboutTitle:'Zmieniła się nazwa. Doświadczenie zostało.',
@@ -21,6 +21,7 @@ export const DEF={
  classes:[{a:'EI',b:'Szczelność i izolacyjność ogniowa. Drzwi przez określony czas nie przepuszczają ognia i gorących gazów (E) oraz ograniczają nagrzewanie się strony odległej od ognia (I).'},{a:'30 · 60 · 120',b:'Liczba po symbolu to czas w minutach, przez który drzwi zachowują deklarowane właściwości w badaniu ogniowym. EI60 oznacza 60 minut.'},{a:'S',b:'Dymoszczelność. Drzwi ograniczają przenikanie dymu, co jest ważne na drogach ewakuacyjnych i w strefach, które mają być chronione przed zadymieniem.'},{a:'RC2 · RC3',b:'Klasy odporności na włamanie. Im wyższa liczba, tym trudniej sforsować drzwi w próbie włamania.'},{a:'Kierunkowe',b:'Drzwi kierunkowe zostały przebadane przy pożarze z określonej strony. Przy zamawianiu ważne jest, z której strony mają być zamontowane.'}],
  guides:[{"a":"Jak zmierzyć otwór pod drzwi","b":"Zmierz szerokość i wysokość otworu w kilku miejscach (u góry, w środku i na dole) i weź najmniejszą wartość. Podaj wymiary w milimetrach, stronę otwierania (lewe lub prawe) i grubość ściany. Przy wątpliwościach zadzwoń, pomożemy ustalić wymiar montażowy."},{"a":"EI30, EI60 czy EI120: którą klasę wybrać","b":"Wymaganą klasę odporności ogniowej określa projekt budynku i przepisy przeciwpożarowe, zwykle ustala ją projektant lub rzeczoznawca do spraw ochrony przeciwpożarowej. Jeśli masz tę informację, podaj ją przy zamówieniu, a dobierzemy odpowiedni model."},{"a":"Drzwi kierunkowe: z której strony montować","b":"Drzwi kierunkowe zostały przebadane przy pożarze z określonej strony. Przy zamawianiu podaj, z której strony pomieszczenia mają być zamontowane, żeby dobrać właściwe wykonanie."},{"a":"Samozamykacz i wyposażenie drzwi","b":"Drzwi przeciwpożarowe powinny się domykać po każdym przejściu, dlatego zwykle wyposaża się je w samozamykacz. W drzwiach dwuskrzydłowych potrzebny jest też regulator kolejności zamykania skrzydeł, a na drogach ewakuacyjnych stosuje się dźwignie antypaniczne. Konkretne wymagania wynikają z projektu."}],
  faq:[{a:'Jak zamówić drzwi?',b:'Zadzwoń lub napisz. Ustalimy model, wymiary i wykonanie, a zamówienie przyjmiemy telefonicznie, bez formularzy.'},{a:'Jakie wymiary mam podać?',b:'Szerokość i wysokość otworu oraz stronę otwierania. Resztę dobierzemy, a przy każdym modelu podajemy wymiary skrzydła i wymiary montażowe.'},{a:'Co to jest {old}?',b:'Pod nazwą {old} sprzedajemy drzwi od {lat} lat. Dziś ta sama firma działa jako {brand}, z tym samym doświadczeniem.'},{a:'Jakie dokumenty mają drzwi?',b:'Zapytaj o dokumenty dla wybranego modelu przy składaniu zamówienia.'},{a:'Jak długo czeka się na realizację?',b:'Termin zależy od modelu i wykonania. Podajemy go przy przyjmowaniu zamówienia.'}],
+ mountTitle:'Montaż drzwi',mountText:'',mountPoints:[],docs:[],
  reviews:[],gallery:[]
 };
 export const S={...DEF};
@@ -190,7 +191,7 @@ export function makeDB(){return dbReady||(dbReady=(async()=>{await initFirebase(
 /* ---------- wczytanie ustawień i produktów do pamięci ---------- */
 export async function loadData(all=false){
  await makeDB();
- try{const s=await DB.settings();Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,DEF,s.main||{});IMG.hero=s.images?.hero||'';IMG.about=s.images?.about||''}catch(e){console.error(e)}
+ try{const s=await DB.settings();Object.keys(S).forEach(k=>delete S[k]);Object.assign(S,DEF,s.main||{});if(!String(S.smsPhone||'').trim())S.smsPhone=DEF.smsPhone;if(!Array.isArray(S.mountPoints))S.mountPoints=[];if(!Array.isArray(S.docs))S.docs=[];IMG.hero=s.images?.hero||'';IMG.about=s.images?.about||''}catch(e){console.error(e)}
  try{ST.P=await DB.products(all)}catch(e){console.error(e);ST.P=[]}
  if(!DEMO&&!all&&!ST.P.length)ST.P=structuredClone(SEED); // pusta baza: pokaż katalog startowy, dopóki nie dodasz własnych produktów
 }

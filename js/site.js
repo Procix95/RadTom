@@ -1,7 +1,7 @@
 /* RadTom: strona publiczna (render, katalog, okno produktu, statystyki). */
-import {reveal,embers,initLife} from './life.js?v=11122152';
-import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc,renderQuiz} from './extra.js?v=11122152';
-import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11122152';
+import {reveal,embers,initLife} from './life.js?v=11141720';
+import {safeUrl,toggleList,paintList,openInquiry,renderFit,fitsOpening,fitResult,fitActive,openNow,renderGuides,renderCalc,renderQuiz,toggleCmp,paintCmp,printCard} from './extra.js?v=11141720';
+import {toast,$,$$,esc,tel,YEAR,DEMO,S,IMG,ST,PH,artFor,catName,catDesc,tok,call,doorIcon,SITE_URL,loadData,makeDB,DB,getPhoto} from './core.js?v=11141720';
 
 let filter='',curP=null,IDX=null;
 const day=()=>new Date().toISOString().slice(0,10);
@@ -83,9 +83,22 @@ function renderLife(){
  const cb=$('#ctab');if(cb){cb.innerHTML=`<div class="ctab-in"><div><div class="eyebrow">Doradzimy</div><h2>Nie wiesz, jakie drzwi wybrać?</h2><p>Opisz, gdzie drzwi mają być zamontowane i jaki masz otwór. Dobierzemy klasę odporności i wymiar.</p></div><div class="ctab-b">${call('gold lg')}<button class="btn ghost lg" id="ctabAsk" type="button">Napisz zapytanie</button><a class="btn ghost lg" href="#wymiary">Policz otwór</a></div></div>`;const q=$('#ctabAsk');if(q)q.onclick=()=>openInquiry()}
  renderQuiz({cats:()=>[...$$('#filters .chip')].map(b=>b.dataset.c).filter(Boolean),pick:c=>{filter=c;renderCatalog();const f=$('#filters');if(f)f.scrollIntoView({behavior:'smooth',block:'start'})}});
  const ow=$('#owner');if(ow){const nt=(S.ownerNote||'').trim();$('#wlasciciel').hidden=!nt;ow.innerHTML=nt?`<figure class="own"><div class="own-q">“</div><blockquote>${nt.split(/\n\s*\n/).map(t=>`<p>${esc(tok(t))}</p>`).join('')}</blockquote><figcaption><b>${esc(S.ownerName||'')}</b><span>${esc(S.brand)}${S.oldName?' (dawniej '+esc(S.oldName)+')':''}</span>${S.phone?`<a class="btn gold sm" href="${tel(S.phone)}" data-call>Porozmawiajmy: ${esc(S.phone)}</a>`:''}</figcaption></figure>`:''}
- renderGuides();renderCalc();paintList();
+ renderMount();renderDocs();renderGuides();renderCalc();paintList();
  if(!window.__nowT){window.__nowT=setInterval(()=>{const b=$('#nowB');if(!b)return;const n=openNow(S.hours);if(n){b.textContent=n.label;b.classList.toggle('open',n.open)}},60000)}
  embers();reveal();initLife();
+}
+function renderMount(){
+ const sec=$('#montaz'),box=$('#mount');if(!sec||!box)return;
+ const txt=(S.mountText||'').trim(),pts=(S.mountPoints||[]).filter(x=>x.a);
+ sec.hidden=!txt;if(!txt){box.innerHTML='';return}
+ const paras=tok(txt).split(/\n\s*\n/).map(t=>`<p>${esc(t)}</p>`).join('');
+ box.innerHTML=`<div class="mnt"><div><div class="eyebrow">Montaż</div><h2>${esc(S.mountTitle||'Montaż drzwi')}</h2>${paras}<div class="mnt-cta"><button class="btn gold" id="mntAsk" type="button">Zapytaj o montaż</button>${S.phone?`<a class="btn line" href="${tel(S.phone)}" data-call>Zadzwoń: ${esc(S.phone)}</a>`:''}</div></div>${pts.length?`<ul class="mnt-list">${pts.map(x=>`<li><b>${esc(tok(x.a))}</b>${x.b?`<span>${esc(tok(x.b))}</span>`:''}</li>`).join('')}</ul>`:''}</div>`;
+ $('#mntAsk').onclick=()=>openInquiry('Chcę zapytać o montaż drzwi. Podaję szczegóły: ');
+}
+function renderDocs(){
+ const sec=$('#dokumenty'),box=$('#docsec');if(!sec||!box)return;
+ const l=(S.docs||[]).filter(d=>d.a&&safeUrl(d.b));sec.hidden=!l.length;
+ box.innerHTML=l.map(d=>`<a class="docl" href="${esc(safeUrl(d.b))}" target="_blank" rel="noopener"><i>PDF</i><span>${esc(tok(d.a))}</span></a>`).join('');
 }
 function jsonLd(){
  let ld=$('#ld');if(!ld){ld=document.createElement('script');ld.id='ld';ld.type='application/ld+json';document.head.appendChild(ld)}
@@ -107,10 +120,10 @@ function renderCatalog(){
  const list=P.filter(p=>(!filter||p.category===filter)&&fitsOpening(p)).sort((a,b)=>(a.order||0)-(b.order||0));
  $('#grid').innerHTML=list.length?list.map(p=>`<article class="card" data-id="${esc(p.id)}"><div class="ph"><img src="${p.thumb||artFor(p)}" alt="${esc(p.name)}" loading="lazy">${p.badge?`<span class="bdg">${esc(p.badge)}</span>`:''}</div>
   <div class="cb"><div class="cat">${esc(p.category||'')}</div><h3>${esc(p.name)}</h3><p>${esc(p.short||'')}</p>${dimsOf(p)}
-  <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}<button class="btn sm line addl" data-addlist="${esc(p.id)}"></button></div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
+  <div class="ca"><button class="btn sm line" data-open="${esc(p.id)}">Szczegóły</button>${S.phone?`<a class="btn sm gold" href="${tel(S.phone)}">Zamów</a>`:''}<button class="btn sm line addl" data-addlist="${esc(p.id)}"></button><button type="button" class="btn sm line cmpb" data-cmp="${esc(p.id)}">Porównaj</button></div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1">${DEMO?'':'Katalog jest w przygotowaniu. '}${S.phone?`Zadzwoń: <b>${esc(S.phone)}</b>, a doradzimy i dobierzemy drzwi.`:'Skontaktuj się z nami, a doradzimy i dobierzemy drzwi.'}</div>`;
  reveal();
  if(fitActive())fitResult(list.length);
- $$('#grid .card').forEach(c=>c.onclick=e=>{if(e.target.closest('a'))return;const a=e.target.closest('[data-addlist]');if(a){const p=ST.P.find(x=>x.id===a.dataset.addlist);if(p)toast(toggleList(p)?'Dodano do listy zapytania':'Usunięto z listy');return}openProduct(c.dataset.id)});
+ $$('#grid .card').forEach(c=>c.onclick=e=>{if(e.target.closest('a'))return;const cb=e.target.closest('[data-cmp]');if(cb){const p=ST.P.find(x=>x.id===cb.dataset.cmp);if(p)toggleCmp(p);return}const a=e.target.closest('[data-addlist]');if(a){const p=ST.P.find(x=>x.id===a.dataset.addlist);if(p)toast(toggleList(p)?'Dodano do listy zapytania':'Usunięto z listy');return}openProduct(c.dataset.id)});
  paintList();
  const cl=$('#catlinks');
  if(IDX&&IDX.kategorie?.length){cl.hidden=false;cl.innerHTML='<span>Strony kategorii:</span>'+IDX.kategorie.map(k=>`<a class="chip" href="${esc(k.url)}">${esc(k.nazwa)}</a>`).join('')}else cl.hidden=true;
@@ -144,11 +157,12 @@ async function openProduct(id,push=true){
    ${vs.length?`<h4>Wymiary (mm)</h4><table class="t"><tr>${named?'<th>Wariant</th>':''}<th>Skrzydło szer.</th><th>Skrzydło wys.</th><th>Montaż szer.</th><th>Montaż wys.</th>${vs.some(v=>v.price)?'<th>Cena</th>':''}</tr>${vs.map(v=>`<tr>${named?`<td>${esc(v.name)}</td>`:''}<td>${esc(v.leafW||'–')}</td><td>${esc(v.leafH||'–')}</td><td>${esc(v.mountW||'–')}</td><td>${esc(v.mountH||'–')}</td>${vs.some(x=>x.price)?`<td>${esc(v.price||'–')}</td>`:''}</tr>`).join('')}</table>`:''}
    ${(p.specs||[]).length?`<h4>Parametry</h4><table class="t kv">${p.specs.map(s=>`<tr><th>${esc(s.k)}</th><td>${esc(s.v)}</td></tr>`).join('')}</table>`:''}
    ${(p.docs||[]).filter(d=>safeUrl(d.url)).length?`<h4>Do pobrania</h4><div class="docs">${p.docs.filter(d=>safeUrl(d.url)).map(d=>`<a href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener">${esc(d.name||'Dokument')}</a>`).join('')}</div>`:''}
-   <div class="mcta">${call('gold','Zadzwoń i zamów: '+esc(S.phone))}<button class="btn line addl" data-addlist="${esc(p.id)}"></button><button class="btn line" id="askProd">Zapytaj o ten model</button>${S.email?`<a class="btn line" href="mailto:${esc(S.email)}?subject=${subj}">Wyślij zapytanie e-mail</a>`:''}${page?`<a class="btn line" href="${esc(page.url)}">Pełna strona produktu</a>`:''}</div></div></div>`;
+   <div class="mcta">${call('gold','Zadzwoń i zamów: '+esc(S.phone))}<button class="btn line addl" data-addlist="${esc(p.id)}"></button><button class="btn line" id="askProd">Zapytaj o ten model</button><button class="btn line" id="prnProd" type="button">Drukuj kartę / zapisz PDF</button>${S.email?`<a class="btn line" href="mailto:${esc(S.email)}?subject=${subj}">Wyślij zapytanie e-mail</a>`:''}${page?`<a class="btn line" href="${esc(page.url)}">Pełna strona produktu</a>`:''}</div></div></div>`;
  m.classList.add('on');document.body.style.overflow='hidden';
  $('.mx',m).onclick=closeModal;m.onclick=e=>{if(e.target===m)closeModal()};
  paintList();$('[data-addlist]',m).onclick=()=>toggleList(p);
  $('#askProd',m).onclick=()=>{closeModal();if(!inListIds(p.id))toggleList(p);openInquiry()};
+ $('#prnProd',m).onclick=()=>printCard(p,(m.querySelector('#mainImg')||{}).src);
  if((p.photoIds||[]).length){
   const imgs=(await Promise.all(p.photoIds.map(getPhoto))).filter(Boolean);
   if(imgs.length&&curP===id){
@@ -164,7 +178,7 @@ $('#nav').onclick=e=>{if(e.target.closest('a'))$('#nav').classList.remove('open'
 
 /* ---------- panel administratora (ładowany dopiero po kliknięciu) ---------- */
 async function openAdmin(){
- const m=await import('./admin.js?v=11122152');
+ const m=await import('./admin.js?v=11141720');
  m.openAdmin(async()=>{await loadData();renderSite()});
 }
 window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin()});

@@ -1,0 +1,42 @@
+# RadTom (dawniej AGART)
+
+> Sprzedaż drzwi przeciwpożarowych (jedno- i dwuskrzydłowych, przeszklonych, dymoszczelnych) od 20 lat. Przy każdym modelu podane są wymiary skrzydła i wymiary montażowe. Zamówienia telefoniczne.
+
+- E-mail: radtom72@gmail.com
+- Adres: Głuponie 103, 64-316 Kuślin
+- Strona: https://procix95.github.io/RadTom/
+- Dane maszynowe: https://procix95.github.io/RadTom/api/produkty.json
+
+## Kategorie
+- [Wewnętrzne przeciwpożarowe](https://procix95.github.io/RadTom/kategoria/wewnetrzne-przeciwpozarowe/): Drzwi przeciwpożarowe wewnętrzne, także do komórek lokatorskich, w klasach odporności ogniowej EI30 i EI60. Jedno- i dwuskrzydłowe.
+- [Dymoszczelne](https://procix95.github.io/RadTom/kategoria/dymoszczelne/): Drzwi kierunkowe dymoszczelne w klasach S30 i S60, do dróg ewakuacyjnych i stref wymagających ochrony przed dymem.
+- [Akustyczne](https://procix95.github.io/RadTom/kategoria/akustyczne/): Drzwi przeciwpożarowe o podwyższonych właściwościach akustycznych: EI60 do komórek lokatorskich i EI2 60 do wnętrz, z izolacyjnością 30 dB.
+- [Dwuskrzydłowe](https://procix95.github.io/RadTom/kategoria/dwuskrzydlowe/): Drzwi dwuskrzydłowe do szerokich otworów: przeciwpożarowe EI30, EI60, EI120 i dymoszczelne S60, z regulatorem kolejności zamykania skrzydeł.
+- [Zewnętrzne](https://procix95.github.io/RadTom/kategoria/zewnetrzne/): Drzwi zewnętrzne kierunkowe: bez odporności ogniowej oraz przeciwpożarowe EI60 i EI120. Jedno- i dwuskrzydłowe.
+- [Antywłamaniowe](https://procix95.github.io/RadTom/kategoria/antywlamaniowe/): Drzwi w klasach odporności na włamanie RC2 i RC3, z ryglowaniem bolcami i izolacją termiczną i akustyczną.
+- [Akcesoria](https://procix95.github.io/RadTom/kategoria/akcesoria/): Wyposażenie dodatkowe do drzwi: klamki, uszczelki, samozamykacze, dźwignie antypaniczne, zamki i regulatory kolejności zamykania.
+
+## Produkty
+- [Drzwi przeciwpożarowe EI30 do komórek lokatorskich](https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei30-do-komorek-lokatorskich/): Drzwi o odporności ogniowej 30 minut do komórek lokatorskich i pomieszczeń technicznych. Jedno- lub dwuskrzydłowe.
+- [Drzwi przeciwpożarowe EI60 do komórek lokatorskich](https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei60-do-komorek-lokatorskich/): Drzwi o odporności ogniowej 60 minut do komórek lokatorskich i stref pożarowych. Jedno- lub dwuskrzydłowe.
+- [Drzwi do komórek lokatorskich bez odporności ogniowej](https://procix95.github.io/RadTom/produkt/drzwi-do-komorek-lokatorskich-bez-odpornosci-ogniowej/): Uniwersalne drzwi do komórek lokatorskich, bez wymagań ogniowych. Jedno- lub dwuskrzydłowe.
+- [Drzwi kierunkowe dymoszczelne S30](https://procix95.github.io/RadTom/produkt/drzwi-kierunkowe-dymoszczelne-s30/): Drzwi kierunkowe z klasą dymoszczelności S30. Jedno- lub dwuskrzydłowe.
+- [Drzwi kierunkowe dymoszczelne S60](https://procix95.github.io/RadTom/produkt/drzwi-kierunkowe-dymoszczelne-s60/): Drzwi kierunkowe z klasą dymoszczelności S60. Jedno- lub dwuskrzydłowe.
+- [Drzwi przeciwpożarowe EI60 o podwyższonych właściwościach akustycznych](https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-ei60-o-podwyzszonych-wlasciwosciach-akustycznych/): Drzwi do komórek lokatorskich: odporność ogniowa 60 minut i lepsza izolacja akustyczna.
+- [Drzwi wewnętrzne kierunkowe EI2 60 o podwyższonych właściwościach akustycznych](https://procix95.github.io/RadTom/produkt/drzwi-wewnetrzne-kierunkowe-ei2-60-o-podwyzszonych-wlasciwosciach-akustycznych/): Wewnętrzne drzwi kierunkowe, EI2 60, z izolacyjnością akustyczną 30 dB.
+- [Drzwi zewnętrzne kierunkowe bez odporności ogniowej](https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-kierunkowe-bez-odpornosci-ogniowej/): Drzwi zewnętrzne kierunkowe, jedno- lub dwuskrzydłowe, standardowo w kolorze RAL 7035.
+- [Drzwi zewnętrzne przeciwpożarowe EI60](https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-przeciwpozarowe-ei60/): Drzwi zewnętrzne kierunkowe o odporności ogniowej 60 minut. Jedno- lub dwuskrzydłowe.
+- [Drzwi zewnętrzne przeciwpożarowe EI120](https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-przeciwpozarowe-ei120/): Drzwi zewnętrzne kierunkowe o odporności ogniowej 120 minut. Jedno- lub dwuskrzydłowe.
+- [Drzwi przeciwpożarowe z blachy powlekanej, kolor drewnopodobny](https://procix95.github.io/RadTom/produkt/drzwi-przeciwpozarowe-z-blachy-powlekanej-kolor-drewnopodobny/): Drzwi przeciwpożarowe z blachy powlekanej w kolorze imitującym drewno.
+- [Drzwi antywłamaniowe RC2](https://procix95.github.io/RadTom/produkt/drzwi-antywlamaniowe-rc2/): Drzwi w klasie odporności na włamanie RC2, z ryglowaniem bolcami.
+- [Drzwi antywłamaniowe RC3](https://procix95.github.io/RadTom/produkt/drzwi-antywlamaniowe-rc3/): Drzwi w klasie odporności na włamanie RC3, z ryglowaniem bolcami.
+- [Klamki do drzwi przeciwpożarowych](https://procix95.github.io/RadTom/produkt/klamki-do-drzwi-przeciwpozarowych/): Klamki dobierane do drzwi przeciwpożarowych, dostępne jako wyposażenie dodatkowe.
+- [Uszczelki do drzwi przeciwpożarowych](https://procix95.github.io/RadTom/produkt/uszczelki-do-drzwi-przeciwpozarowych/): Uszczelki jako wyposażenie dodatkowe drzwi przeciwpożarowych i dymoszczelnych.
+- [Samozamykacze](https://procix95.github.io/RadTom/produkt/samozamykacze/): Samozamykacze, które domykają drzwi po przejściu, dostępne jako wyposażenie dodatkowe.
+- [Dźwignie antypaniczne](https://procix95.github.io/RadTom/produkt/dzwignie-antypaniczne/): Dźwignie antypaniczne do drzwi na drogach ewakuacyjnych, umożliwiające szybkie otwarcie drzwi od wewnątrz.
+- [Zamki do drzwi](https://procix95.github.io/RadTom/produkt/zamki-do-drzwi/): Zamki dobierane do rodzaju drzwi, dostępne jako wyposażenie dodatkowe.
+- [Regulator kolejności zamykania skrzydeł](https://procix95.github.io/RadTom/produkt/regulator-kolejnosci-zamykania-skrzydel/): Regulator kolejności zamykania skrzydeł w drzwiach dwuskrzydłowych: zapewnia, że skrzydła domykają się w prawidłowej kolejności.
+- [Drzwi dwuskrzydłowe przeciwpożarowe EI30](https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei30/): Dwuskrzydłowe drzwi o odporności ogniowej 30 minut do pomieszczeń technicznych i komórek lokatorskich.
+- [Drzwi dwuskrzydłowe przeciwpożarowe EI60](https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-przeciwpozarowe-ei60/): Dwuskrzydłowe drzwi o odporności ogniowej 60 minut do stref pożarowych i komórek lokatorskich.
+- [Drzwi zewnętrzne dwuskrzydłowe przeciwpożarowe EI120](https://procix95.github.io/RadTom/produkt/drzwi-zewnetrzne-dwuskrzydlowe-przeciwpozarowe-ei120/): Dwuskrzydłowe drzwi zewnętrzne kierunkowe o odporności ogniowej 120 minut.
+- [Drzwi dwuskrzydłowe dymoszczelne S60](https://procix95.github.io/RadTom/produkt/drzwi-dwuskrzydlowe-dymoszczelne-s60/): Dwuskrzydłowe drzwi kierunkowe z klasą dymoszczelności S60 do dróg ewakuacyjnych.
